@@ -5,7 +5,18 @@
   "author": "t4top",
   "license": "Apache-2.0",
   "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/wallets",
+    "packages/ui",
+    "packages/example"
+  ],
   "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present",
     "format": "prettier --write ."
   },
   "repository": {

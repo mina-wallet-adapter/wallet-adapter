@@ -1,0 +1,11 @@
+{
+  "name": "mina-wallet-adapter-example",
+  "version": "0.1.0",
+  "author": "t4top",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/aztemi/mina-wallet-adapter",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  }
+}
