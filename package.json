@@ -1,0 +1,25 @@
+{
+  "name": "mina-wallet-adapter",
+  "version": "0.1.0",
+  "description": "Modular wallet adapters and components for Mina Protocol zkApps",
+  "author": "t4top",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aztemi/mina-wallet-adapter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aztemi/mina-wallet-adapter/issues"
+  },
+  "homepage": "https://github.com/aztemi/mina-wallet-adapter#readme",
+  "keywords": [
+    "mina",
+    "wallet",
+    "adapter",
+    "zkApp"
+  ]
+}
