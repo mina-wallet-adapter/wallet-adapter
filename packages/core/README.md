@@ -1,0 +1,1 @@
+# `mina-wallet-adapter-core`
