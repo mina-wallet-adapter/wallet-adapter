@@ -9,7 +9,7 @@
     "packages/core",
     "packages/wallets",
     "packages/ui",
-    "packages/example"
+    "packages/starter/*"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",

@@ -1,1 +1,0 @@
-# `mina-wallet-adapter-example`
