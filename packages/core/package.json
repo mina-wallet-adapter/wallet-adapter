@@ -4,12 +4,36 @@
   "author": "t4top",
   "license": "Apache-2.0",
   "repository": "https://github.com/aztemi/mina-wallet-adapter",
-  "type": "module",
-  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "clean": "shx rm -rf dist"
+  },
+  "devDependencies": {
+    "@wallet-standard/base": "^1.0.1",
+    "mina-signer": "^2.1.1",
+    "shx": "^0.3.4",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "eventemitter3": "^5.0.1",
+    "mina-wallet-standard": "^0.1.0"
   }
 }
