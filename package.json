@@ -1,0 +1,39 @@
+{
+  "name": "mina-wallet-adapter",
+  "version": "0.1.0",
+  "description": "Modular wallet adapters and components for Mina Protocol zkApps",
+  "author": "t4top",
+  "license": "Apache-2.0",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/wallets",
+    "packages/ui",
+    "packages/starter/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aztemi/mina-wallet-adapter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aztemi/mina-wallet-adapter/issues"
+  },
+  "homepage": "https://github.com/aztemi/mina-wallet-adapter#readme",
+  "keywords": [
+    "mina",
+    "wallet",
+    "adapter",
+    "zkApp"
+  ],
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  }
+}

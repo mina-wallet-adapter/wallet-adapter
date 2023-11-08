@@ -1,2 +1,3 @@
-# mina-wallet-adapter
-Modular wallet adapters and components for Mina Protocol zkApps
+# Mina Wallet Adapter
+
+Modular wallet adapters and components for Mina Protocol zkApps.
