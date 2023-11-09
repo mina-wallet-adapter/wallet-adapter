@@ -1,5 +1,5 @@
 {
-  "name": "mina-wallet-adapter-wallets",
+  "name": "mina-wallet-adapter-auro",
   "version": "0.1.0",
   "author": "t4top",
   "license": "Apache-2.0",
@@ -25,13 +25,15 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "clean": "shx rm -rf dist"
   },
-  "peerDependencies": {
-    "o1js": "^0.14.0"
-  },
   "devDependencies": {
-    "o1js": "^0.14.0",
+    "@aurowallet/mina-provider": "^0.2.7",
+    "@wallet-standard/base": "^1.0.1",
+    "mina-signer": "^2.1.1",
     "shx": "^0.3.4",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "mina-wallet-standard": "^0.1.0"
   }
 }
