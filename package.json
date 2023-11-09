@@ -5,11 +5,20 @@
   "author": "t4top",
   "license": "Apache-2.0",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
   "workspaces": [
     "packages/core",
+    "packages/wallets/adapters/*",
     "packages/wallets",
     "packages/ui",
-    "packages/starter/*"
+    "packages/starter/**/*"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
