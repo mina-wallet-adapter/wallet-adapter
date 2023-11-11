@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { WalletProvider, WalletMultiButton } from 'mina-wallet-adapter-ui-svelte';
+	import { WalletProvider, WalletMultiButton, walletStore } from 'mina-wallet-adapter-ui-svelte';
 	import type { WalletAdapter } from 'mina-wallet-adapter-core';
 
 	let value: number = 2;
@@ -13,11 +13,13 @@
 		wallets = [new AuroWalletAdapter()];
 	});
 
-	function submit() {}
+	function submit() {
+		alert('This feature is WIP.');
+	}
 </script>
 
 <main>
-	<h1>Squared - Demo zkApp</h1>
+	<h1>Square - Demo zkApp</h1>
 	<p>
 		Demo of
 		<a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank">
@@ -31,11 +33,15 @@
 		</span>
 	{/if}
 	<div>
-		<p>What is the square of <strong>{value}</strong>?</p>
-		<input type="number" min="0" bind:value={square} />
-		<button class="wallet-adapter-button wallet-adapter-button-trigger" on:click={submit}>
-			Submit
-		</button>
+		{#if $walletStore?.connected}
+			<p>What is the square of <strong>{value}</strong>?</p>
+			<input type="number" min="0" bind:value={square} />
+			<button class="wallet-adapter-button wallet-adapter-button-trigger" on:click={submit}>
+				Submit
+			</button>
+		{:else}
+			<p class="warning">You are not connected yet.</p>
+		{/if}
 	</div>
 </main>
 
@@ -50,6 +56,12 @@
 		position: absolute;
 		right: 2rem;
 		top: 2rem;
+	}
+	p {
+		font-size: 1.2rem;
+	}
+	.warning {
+		color: #eb2e2e;
 	}
 	div {
 		display: flex;
