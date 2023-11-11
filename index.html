@@ -5,24 +5,24 @@
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link href="./_app/immutable/assets/2.b7fbcad6.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.cbd34710.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.1a003866.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.5cd7614c.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.6fb6d9f8.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.f4219693.js">
+		<link href="./_app/immutable/assets/2.bb9f5607.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.b51473bf.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.55cf6ca1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.a96f8062.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.a0f47653.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.d58cba60.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.c005b57e.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.9686c20e.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.b8a8a002.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.8ff84973.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.aaa4dea3.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.3e941acb.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <main class="svelte-1x39pzk"><h1 data-svelte-h="svelte-o1r58z">Squared - Demo zkApp</h1> <p data-svelte-h="svelte-jb61ik">Demo of
-		<a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank">mina-wallet-adapter</a> for implementing zkApps in Svelte.</p>  <div class="svelte-1x39pzk"><p class="svelte-1x39pzk">What is the square of <strong>2</strong>?</p> <input type="number" min="0" class="svelte-1x39pzk"> <button class="wallet-adapter-button wallet-adapter-button-trigger" data-svelte-h="svelte-1h83afp">Submit</button></div> </main> 
+		<div style="display: contents">  <main class="svelte-1c3q1k1"><h1 data-svelte-h="svelte-1g21345">Square - Demo zkApp</h1> <p class="svelte-1c3q1k1" data-svelte-h="svelte-jb61ik">Demo of
+		<a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank">mina-wallet-adapter</a> for implementing zkApps in Svelte.</p>  <div class="svelte-1c3q1k1"><p class="warning svelte-1c3q1k1" data-svelte-h="svelte-1u7x5zy">You are not connected yet.</p></div> </main> 
 			
 			<script>
 				{
-					__sveltekit_1lq6bsh = {
+					__sveltekit_1dzfhqt = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -32,8 +32,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.cbd34710.js"),
-						import("./_app/immutable/entry/app.f4219693.js")
+						import("./_app/immutable/entry/start.b51473bf.js"),
+						import("./_app/immutable/entry/app.d58cba60.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],
