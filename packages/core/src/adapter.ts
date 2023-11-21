@@ -27,6 +27,7 @@ export interface WalletAdapterProps<Name extends string = string> {
   disconnect(): Promise<void>;
   signMessage(message: string): Promise<Signed<string>>;
   signTransaction(transaction: SignableData): Promise<SignedAny>;
+  sendTransaction(transaction: SignedAny): Promise<string | undefined>;
   signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
 }
 
@@ -59,6 +60,7 @@ export abstract class MinaWalletAdapter<Name extends string = string>
   abstract disconnect(): Promise<void>;
   abstract signMessage(message: string): Promise<Signed<string>>;
   abstract signTransaction(transaction: SignableData): Promise<SignedAny>;
+  abstract sendTransaction(transaction: SignedAny): Promise<string | undefined>;
   abstract signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
 
   protected scopePollingDetectionStrategy(detect: () => boolean): void {

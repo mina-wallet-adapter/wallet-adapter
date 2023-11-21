@@ -151,7 +151,11 @@ export class AuroWalletAdapter extends MinaWalletAdapter {
   }
 
   async signTransaction(transaction: SignableData): Promise<SignedAny> {
-    throw new WalletNotSupportedMethod();
+    throw new WalletNotSupportedMethod("'signTransaction' is not supported. Use 'signAndSendTransaction' instead.");
+  }
+
+  async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
+    throw new WalletNotSupportedMethod("'sendTransaction' is not supported. Use 'signAndSendTransaction' instead.");
   }
 
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
