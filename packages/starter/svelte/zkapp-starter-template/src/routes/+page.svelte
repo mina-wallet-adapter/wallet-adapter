@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { WalletProvider, WalletMultiButton, walletStore } from 'mina-wallet-adapter-ui-svelte';
-	import type { WalletAdapter } from 'mina-wallet-adapter-core';
+	import {
+		type AdapterOption,
+		AdapterId,
+		WalletProvider,
+		WalletMultiButton,
+		walletStore
+	} from 'mina-wallet-adapter-ui-svelte';
 
+	let adapters: AdapterOption[] = [AdapterId.AURO];
 	let value: number = 2;
 	let square: number;
-	let wallets: WalletAdapter[] = [];
-	const localStorageKey = 'MinaWalletAdapter';
-
-	onMount(async () => {
-		const { AuroWalletAdapter } = await import('mina-wallet-adapter-wallets');
-		wallets = [new AuroWalletAdapter()];
-	});
 
 	function submit() {
 		alert('This feature is WIP.');
@@ -26,12 +24,10 @@
 			mina-wallet-adapter
 		</a> for implementing zkApps in Svelte.
 	</p>
-	{#if wallets.length}
-		<WalletProvider {localStorageKey} {wallets} autoConnect={true} />
-		<span>
-			<WalletMultiButton />
-		</span>
-	{/if}
+	<WalletProvider {adapters} autoConnect={true} />
+	<span>
+		<WalletMultiButton />
+	</span>
 	<div>
 		{#if $walletStore?.connected}
 			<p>What is the square of <strong>{value}</strong>?</p>

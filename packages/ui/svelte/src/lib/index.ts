@@ -1,11 +1,8 @@
-// export * from "./localStorage.js";
-export * from "./walletStore.js";
+export { type AdapterOption, AdapterId } from "mina-wallet-adapter-wallets";
 
-// export { default as ConnectionProvider } from './ConnectionProvider.svelte';
+export * from "./walletStore.js";
 export { default as WalletButton } from "./WalletButton.svelte";
 export { default as WalletConnectButton } from "./WalletConnectButton.svelte";
 export { default as WalletModal } from "./WalletModal.svelte";
 export { default as WalletMultiButton } from "./WalletMultiButton.svelte";
 export { default as WalletProvider } from "./WalletProvider.svelte";
-
-// export * from './workSpace';
