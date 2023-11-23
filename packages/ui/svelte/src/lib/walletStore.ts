@@ -9,16 +9,18 @@ import type { SignableData } from "mina-signer/dist/node/mina-signer/src/TSTypes
 import { get, writable } from "svelte/store";
 import { getLocalStorage, setLocalStorage } from "./localStorage.js";
 
+const LOCALSTORAGE_KEY = "MinaLastConnectedWallet";
+
 interface Wallet {
   adapter: WalletAdapter;
   readyState: WalletReadyState;
 }
 
 type ErrorHandler = (error: WalletError) => void;
-type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "localStorageKey" | "onError"> & {
+type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "onError"> & {
   wallets: WalletAdapter[];
 };
-type WalletReturnConfig = Pick<WalletStore, "wallets" | "autoConnect" | "localStorageKey" | "onError">;
+type WalletReturnConfig = Pick<WalletStore, "wallets" | "autoConnect" | "onError">;
 
 type WalletStatus = Pick<WalletStore, "connected" | "publicKey">;
 
@@ -32,7 +34,6 @@ export interface WalletStore {
   connected: boolean;
   connecting: boolean;
   disconnecting: boolean;
-  localStorageKey: string;
   onError: ErrorHandler;
   publicKey: string | null;
   ready: WalletReadyState;
@@ -112,7 +113,6 @@ function createWalletStore() {
     connected: false,
     connecting: false,
     disconnecting: false,
-    localStorageKey: "walletAdapter",
     onError: (error: WalletError) => console.error(error),
     publicKey: null,
     ready: "Unsupported" as WalletReadyState,
@@ -146,11 +146,11 @@ function createWalletStore() {
   }
 
   function updateWalletName(name: WalletName | null) {
-    const { localStorageKey, walletsByName } = get(walletStore);
+    const { walletsByName } = get(walletStore);
 
     const adapter = walletsByName?.[name as WalletName] ?? null;
 
-    setLocalStorage(localStorageKey, name);
+    setLocalStorage(LOCALSTORAGE_KEY, name);
     updateWalletState(adapter);
   }
 
@@ -233,7 +233,6 @@ async function disconnect(): Promise<void> {
 export async function initialize({
   wallets,
   autoConnect = false,
-  localStorageKey = "walletAdapter",
   onError = (error: WalletError) => console.error(error)
 }: WalletPropsConfig): Promise<void> {
   const walletsByName = wallets.reduce<Record<WalletName, WalletAdapter>>((walletsByName, wallet) => {
@@ -251,11 +250,10 @@ export async function initialize({
     wallets: mapWallets,
     walletsByName,
     autoConnect,
-    localStorageKey,
     onError
   });
 
-  const walletName = getLocalStorage<WalletName>(localStorageKey);
+  const walletName = getLocalStorage<WalletName>(LOCALSTORAGE_KEY);
 
   if (walletName) await select(walletName);
 }

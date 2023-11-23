@@ -6,12 +6,11 @@
 
   export let adapters: AdapterOption[] = Object.values(AdapterId),
     autoConnect = false,
-    localStorageKey: string = "walletAdapter",
     onError = (error: WalletError) => console.error(error);
 
   let wallets: WalletAdapter[];
 
-  $: wallets && initialize({ wallets, autoConnect, localStorageKey, onError });
+  $: wallets && initialize({ wallets, autoConnect, onError });
 
   onMount(async () => {
     wallets = await loadAdapters(adapters);
