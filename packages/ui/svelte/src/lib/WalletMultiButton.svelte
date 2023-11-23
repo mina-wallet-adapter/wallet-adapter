@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { shortenAddress, copyToClipboard } from "mina-wallet-adapter-core";
   import { walletStore, type WalletStore } from "./walletStore.js";
   import WalletButton from "./WalletButton.svelte";
   import WalletConnectButton from "./WalletConnectButton.svelte";
@@ -19,7 +20,7 @@
 
   const copyAddress = async () => {
     if (!base58) return;
-    await navigator.clipboard.writeText(base58);
+    await copyToClipboard(base58);
     copied = true;
     setTimeout(() => (copied = false), 400);
   };
@@ -41,7 +42,7 @@
   function showAddressContent(store: WalletStore) {
     const base58 = store.publicKey;
     if (!store.wallet || !base58) return null;
-    return base58.slice(0, 6) + "..." + base58.slice(-6);
+    return shortenAddress(base58);
   }
 
   async function connectWallet(event: { detail: any }) {

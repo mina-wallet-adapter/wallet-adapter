@@ -3,13 +3,12 @@ import {
   WalletReadyState,
   WalletNotConnectedError,
   WalletNotReadyError,
-  WalletNotSelectedError
+  WalletNotSelectedError,
+  getLocalStorage,
+  setLocalStorage
 } from "mina-wallet-adapter-core";
 import type { SignableData } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import { get, writable } from "svelte/store";
-import { getLocalStorage, setLocalStorage } from "./localStorage.js";
-
-const LOCALSTORAGE_KEY = "MinaLastConnectedWallet";
 
 interface Wallet {
   adapter: WalletAdapter;
@@ -150,7 +149,7 @@ function createWalletStore() {
 
     const adapter = walletsByName?.[name as WalletName] ?? null;
 
-    setLocalStorage(LOCALSTORAGE_KEY, name);
+    setLocalStorage(name);
     updateWalletState(adapter);
   }
 
@@ -253,7 +252,7 @@ export async function initialize({
     onError
   });
 
-  const walletName = getLocalStorage<WalletName>(LOCALSTORAGE_KEY);
+  const walletName = getLocalStorage<WalletName>();
 
   if (walletName) await select(walletName);
 }
