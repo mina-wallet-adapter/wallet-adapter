@@ -9,6 +9,10 @@
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "cp:svelte": "shx cp stylesheet/*.css svelte/src/lib/",
+    "build": "npm run cp:svelte"
+  },
+  "devDependencies": {
+    "shx": "^0.3.4"
   }
 }

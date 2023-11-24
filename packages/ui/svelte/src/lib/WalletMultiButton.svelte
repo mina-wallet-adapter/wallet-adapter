@@ -5,7 +5,6 @@
   import WalletConnectButton from "./WalletConnectButton.svelte";
   import WalletModal from "./WalletModal.svelte";
   import { clickOutside } from "./clickOutside.js";
-  import "./styles.css";
 
   export let maxNumberOfWallets = 3;
 

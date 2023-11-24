@@ -18,6 +18,7 @@
     "packages/wallets/adapters/*",
     "packages/wallets",
     "packages/ui",
+    "packages/ui/*",
     "packages/starter/**/*"
   ],
   "scripts": {

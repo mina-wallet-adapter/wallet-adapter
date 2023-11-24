@@ -11,7 +11,8 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
-		}
+		},
+		"./dist/wallet-adapter.css": "./dist/wallet-adapter.css"
 	},
 	"files": [
 		"dist",
