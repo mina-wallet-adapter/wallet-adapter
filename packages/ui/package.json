@@ -9,10 +9,12 @@
     "access": "public"
   },
   "scripts": {
-    "cp:svelte": "shx cp stylesheet/*.css svelte/src/lib/",
-    "build": "npm run cp:svelte"
+    "build": "npm run build:stylus && npm run cp:svelte",
+    "build:stylus": "stylus stylesheet/ -c",
+    "cp:svelte": "shx cp stylesheet/*.css svelte/src/lib/"
   },
   "devDependencies": {
-    "shx": "^0.3.4"
+    "shx": "^0.3.4",
+    "stylus": "^0.55.0"
   }
 }

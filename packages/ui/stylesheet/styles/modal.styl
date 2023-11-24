@@ -1,0 +1,173 @@
+.modal-collapse-button
+  svg
+    align-self: center
+    fill: $color-text-disabled
+
+  &.modal-collapse-button-active svg
+    transform: rotate(180deg)
+    transition: transform ease-in 150ms
+
+.modal
+  z-index: $layer-modal
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  opacity: 0
+  transition: opacity linear 150ms
+  background-color: $color-shadow
+  overflow-y: auto
+
+  &.modal-fade-in
+    opacity: 1
+
+.modal-button-close
+  position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
+  top: 18px
+  right: 18px
+  padding: 12px
+  background-color: $color-bg-active
+  border: none
+  border-radius: 50%
+  cursor: pointer
+
+  svg
+    fill: $color-text-muted
+    transition: fill 200ms ease 0s
+
+  &:focus-visible
+    outline-color: $color-outline
+
+  &:hover svg
+    fill: $color-text-accent
+
+.modal-overlay
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  background-color: $color-shadow
+
+.modal-container
+  display: flex
+  align-items: center
+  justify-content: center
+  margin: 3rem
+  min-height: calc(100vh - 6rem) /* 100vh - 2 * margin */
+
+  @media (max-width: 480px)
+    margin: 1rem
+    min-height: calc(100vh - 2rem) /* 100vh - 2 * margin */
+
+.modal-wrapper
+  z-index: $layer-modal-wrapper
+  position: relative
+  box-sizing: border-box
+  display: flex
+  flex: 1
+  flex-direction: column
+  align-items: center
+  max-width: 400px
+  font-family: $font-family
+  background-color: $color-bg-primary
+  border-radius: 10px
+  box-shadow: 0px 8px 20px $color-shadow
+
+  .button
+    width: 100%
+
+.modal-title
+  font-weight: 500
+  font-size: $font-size-xl
+  line-height: 36px
+  margin: 0
+  padding: 64px 48px 48px 48px
+  text-align: center
+  color: $color-text
+
+  @media (max-width: 480px)
+    font-size: $font-size-l
+
+.modal-list
+  margin: 0 0 32px 0
+  padding: 0
+  width: 100%
+  list-style: none
+
+  li
+    padding: 0 10px
+
+  .button
+    font-weight: 400
+    border-radius: 4px
+    font-size: $font-size-xl
+    padding: 32px 24px
+    background-color: $color-bg-active
+
+    span
+      margin-left: auto
+      font-size: $font-size-m
+      opacity: 0.6
+
+    &:hover
+      color: $color-text-accent
+
+      span
+        color: $color-text
+
+  .button-end-icon,
+  .button-start-icon,
+  .button-end-icon img,
+  .button-start-icon img
+    width: 28px
+    height: 28px
+
+.modal-list-more
+  display: flex
+  align-self: flex-end
+  align-items: center
+  padding: 12px 24px 24px 12px
+  font-family: $font-family
+  color: $color-text
+  background-color: transparent
+  border: none
+  cursor: pointer
+
+  svg
+    transition: all 0.1s ease
+    fill: $color-text
+    margin-left: 0.5rem
+
+  span
+    font-size: $font-size-m
+
+.modal-list-more-icon-rotate
+  transform: rotate(180deg)
+
+.modal-middle
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  align-items: center
+  width: 100%
+  padding: 0 24px 24px 24px
+
+.modal-middle-button
+  display: block
+  margin-top: 48px
+  width: 100%
+  padding: 12px
+  font-size: $font-size-l
+  color: $color-text
+  background-color: $color-bg-accent
+  border: none
+  border-radius: 2px
+  cursor: pointer
+
+  &:hover
+    background-color: $color-bg-hover
