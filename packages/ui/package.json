@@ -9,9 +9,10 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npm run build:stylus && npm run cp:svelte",
+    "build": "npm run build:stylus && npm run cp:svelte && npm run cp:react",
     "build:stylus": "stylus stylesheet/ -c",
-    "cp:svelte": "shx cp stylesheet/*.css svelte/src/lib/"
+    "cp:svelte": "shx cp stylesheet/*.css svelte/src/lib/",
+    "cp:react": "shx mkdir react/public/ && shx cp stylesheet/*.css react/public/"
   },
   "devDependencies": {
     "shx": "^0.3.4",

@@ -15,13 +15,16 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs",
-    "types": "./dist/index.d.ts"
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/wallet-adapter.css": "./dist/wallet-adapter.css"
   },
   "scripts": {
     "dev": "tsup src/index.tsx --format esm,cjs --dts --watch --external react",
-    "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
+    "build": "tsup src/index.tsx --format esm,cjs --dts --publicDir --external react",
     "clean": "shx rm -rf dist"
   },
   "peerDependencies": {
