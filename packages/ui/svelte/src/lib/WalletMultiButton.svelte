@@ -84,15 +84,15 @@
         }}
       >
         <li role="menuitem">
-          <button class="wallet-adapter-dropdown-list-item" on:click={copyAddress}>
+          <button class="wallet-adapter-dropdown-list-button" on:click={copyAddress}>
             {copied ? "Copied" : "Copy address"}
           </button>
         </li>
         <li role="menuitem">
-          <button class="wallet-adapter-dropdown-list-item" on:click={openModal}> Connect a different wallet </button>
+          <button class="wallet-adapter-dropdown-list-button" on:click={openModal}> Connect a different wallet </button>
         </li>
         <li role="menuitem">
-          <button class="wallet-adapter-dropdown-list-item" on:click={disconnectWallet}> Disconnect </button>
+          <button class="wallet-adapter-dropdown-list-button" on:click={disconnectWallet}> Disconnect </button>
         </li>
       </ul>
     {/if}
