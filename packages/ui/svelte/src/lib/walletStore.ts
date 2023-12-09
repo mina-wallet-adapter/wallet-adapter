@@ -46,6 +46,7 @@ export interface WalletStore {
   select(walletName: WalletName): void;
   signMessage: WalletAdapterProps["signMessage"] | undefined;
   signTransaction: WalletAdapterProps["signTransaction"] | undefined;
+  sendTransaction: WalletAdapterProps["sendTransaction"] | undefined;
   signAndSendTransaction: WalletAdapterProps["signAndSendTransaction"] | undefined;
 }
 
@@ -123,6 +124,7 @@ function createWalletStore() {
     select,
     signMessage: undefined,
     signTransaction: undefined,
+    sendTransaction: undefined,
     signAndSendTransaction: undefined
   });
 
@@ -160,9 +162,10 @@ function createWalletStore() {
   }
 
   function updateAdapterFeatures(adapter: WalletAdapter) {
-    let signTransaction: WalletAdapter["signTransaction"] | undefined = undefined;
-    let signAndSendTransaction: WalletAdapter["signAndSendTransaction"] | undefined = undefined;
     let signMessage: WalletAdapter["signMessage"] | undefined = undefined;
+    let signTransaction: WalletAdapter["signTransaction"] | undefined = undefined;
+    let sendTransaction: WalletAdapter["sendTransaction"] | undefined = undefined;
+    let signAndSendTransaction: WalletAdapter["signAndSendTransaction"] | undefined = undefined;
 
     if (adapter) {
       // Sign an arbitrary message if the wallet supports it
@@ -183,6 +186,15 @@ function createWalletStore() {
         };
       }
 
+      // Send a signed transaction if the wallet supports it
+      if ("sendTransaction" in adapter) {
+        sendTransaction = async function (transaction: SignedAny) {
+          const { connected } = get(walletStore);
+          if (!connected) throw newError(new WalletNotConnectedError());
+          return await adapter.sendTransaction(transaction);
+        };
+      }
+
       // Sign and send a transaction if the wallet supports it
       if ("signAndSendTransaction" in adapter) {
         signAndSendTransaction = async function (transaction: SignableData) {
@@ -193,7 +205,13 @@ function createWalletStore() {
       }
     }
 
-    update((store: WalletStore) => ({ ...store, signTransaction, signAndSendTransaction, signMessage }));
+    update((store: WalletStore) => ({
+      ...store,
+      signMessage,
+      signTransaction,
+      sendTransaction,
+      signAndSendTransaction
+    }));
   }
 
   return {
