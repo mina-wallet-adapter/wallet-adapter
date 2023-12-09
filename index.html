@@ -5,24 +5,24 @@
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link href="./_app/immutable/assets/2.bb9f5607.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.b51473bf.js">
+		<link href="./_app/immutable/assets/2.aa3c1a55.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.7a60716c.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.55cf6ca1.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.a96f8062.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.f147fd39.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.a0f47653.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.d58cba60.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.df55b0fa.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.8ff84973.js">
 		<link rel="modulepreload" href="./_app/immutable/nodes/0.aaa4dea3.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.3e941acb.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.4a503508.js"><!-- HEAD_svelte-1bmosr0_START --><script data-svelte-h="svelte-1sjc3c5">window.global = window;</script><!-- HEAD_svelte-1bmosr0_END -->
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">  <main class="svelte-1c3q1k1"><h1 data-svelte-h="svelte-1g21345">Square - Demo zkApp</h1> <p class="svelte-1c3q1k1" data-svelte-h="svelte-jb61ik">Demo of
-		<a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank">mina-wallet-adapter</a> for implementing zkApps in Svelte.</p>  <div class="svelte-1c3q1k1"><p class="warning svelte-1c3q1k1" data-svelte-h="svelte-1u7x5zy">You are not connected yet.</p></div> </main> 
+		<a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank">mina-wallet-adapter</a> for implementing zkApps in Svelte.</p>  <span class="svelte-1c3q1k1"> <button class="wallet-adapter-button wallet-adapter-button-trigger" style="justify-content: space-between;" > Connect Wallet <span></span></button> </span> <div class="svelte-1c3q1k1"><p class="warning svelte-1c3q1k1" data-svelte-h="svelte-1u7x5zy">You are not connected yet.</p></div> </main> 
 			
 			<script>
 				{
-					__sveltekit_1dzfhqt = {
+					__sveltekit_ytsccd = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -32,8 +32,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.b51473bf.js"),
-						import("./_app/immutable/entry/app.d58cba60.js")
+						import("./_app/immutable/entry/start.7a60716c.js"),
+						import("./_app/immutable/entry/app.df55b0fa.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],
