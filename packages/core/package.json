@@ -8,8 +8,7 @@
     "access": "public"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "sideEffects": false,
   "main": "./dist/index.js",
