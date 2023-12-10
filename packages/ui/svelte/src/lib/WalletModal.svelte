@@ -78,7 +78,7 @@
       {#if walletsAvailable}
         <div class="wallet-adapter-modal-middle" />
         <ul class="wallet-adapter-modal-list">
-          {#each $walletStore.wallets.slice(0, numberOfWalletsShown) as { adapter: { name, icon, url }, readyState }}
+          {#each $walletStore.wallets.slice(0, numberOfWalletsShown) as { wallet: { name, icon, url }, readyState }}
             <li>
               <WalletButton on:click={() => connect(name)}>
                 {name}
@@ -150,7 +150,7 @@
 
         {#if showExtensionsAvailables}
           <ul class="wallet-adapter-modal-list" transition:slide={{ duration: 300 }}>
-            {#each $walletStore.wallets.slice(0, numberOfWalletsShown) as { adapter: { name, icon, url }, readyState }}
+            {#each $walletStore.wallets.slice(0, numberOfWalletsShown) as { wallet: { name, icon, url }, readyState }}
               <li>
                 <WalletButton on:click={() => connect(name)}>
                   {name}
