@@ -10,11 +10,6 @@ import {
 } from "mina-wallet-adapter-core";
 import { get, writable } from "svelte/store";
 
-interface WalletAndState {
-  wallet: WalletAdapter;
-  readyState: WalletReadyState;
-}
-
 type ErrorHandler = (error: WalletError) => void;
 type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "onError"> & {
   wallets: WalletAdapter[];
@@ -26,7 +21,7 @@ type WalletStatus = Pick<WalletStore, "connected" | "publicKey">;
 export interface WalletStore {
   // props
   autoConnect: boolean;
-  wallets: WalletAndState[];
+  wallets: WalletAdapter[];
 
   // state
   connecting: boolean;
@@ -56,7 +51,7 @@ export const walletStore = createWalletStore();
 function addAdapterEventListeners(adapter: WalletAdapter) {
   const { onError, wallets } = get(walletStore);
 
-  wallets.forEach(({ wallet }) => {
+  wallets.forEach(wallet => {
     wallet.on("readyStateChange", onReadyStateChange, wallet);
   });
   adapter.on("connect", onConnect);
@@ -225,7 +220,7 @@ function createWalletStore() {
         ...store,
         ...walletConfig
       })),
-    updateWallets: (wallets: WalletAndState[]) => update((store: WalletStore) => ({ ...store, ...wallets })),
+    updateWallets: (wallets: WalletAdapter[]) => update((store: WalletStore) => ({ ...store, wallets })),
     updateStatus: (walletStatus: WalletStatus) => update((store: WalletStore) => ({ ...store, ...walletStatus })),
     updateWallet: (walletName: WalletName) => updateWalletName(walletName),
     updateFeatures: (adapter: WalletAdapter) => updateAdapterFeatures(adapter)
@@ -257,14 +252,8 @@ export async function initialize({
     return walletsByName;
   }, {});
 
-  // Wrap adapters to conform to the `Wallet` interface
-  const mapWallets = wallets.map(wallet => ({
-    wallet,
-    readyState: wallet.readyState
-  }));
-
   walletStore.updateConfig({
-    wallets: mapWallets,
+    wallets,
     walletsByName,
     autoConnect,
     onError
@@ -303,15 +292,10 @@ function onReadyStateChange(this: WalletAdapter, readyState: WalletReadyState) {
   walletStore.setReady(wallet.readyState);
 
   // When the wallets change, start to listen for changes to their `readyState`
-  const walletIndex = wallets.findIndex(({ wallet }) => wallet.name === this.name);
-  if (walletIndex === -1) {
-    return;
-  } else {
-    walletStore.updateWallets([
-      ...wallets.slice(0, walletIndex),
-      { ...wallets[walletIndex], readyState },
-      ...wallets.slice(walletIndex + 1)
-    ]);
+  const walletIndex = wallets.findIndex(wallet => wallet.name === this.name);
+  if (walletIndex > -1) {
+    wallets[walletIndex].readyState = readyState;
+    walletStore.updateWallets(wallets);
   }
 }
 
@@ -319,7 +303,7 @@ function removeAdapterEventListeners(): void {
   const { wallet, onError, wallets } = get(walletStore);
   if (!wallet) return;
 
-  wallets.forEach(({ wallet }) => {
+  wallets.forEach(wallet => {
     wallet.off("readyStateChange", onReadyStateChange, wallet);
   });
   wallet.off("connect", onConnect);
