@@ -1,11 +1,31 @@
 # Develop Locally
 
-## 1. Dependencies
+0. Dependencies
 
-You will need NodeJs and NPM to build and test local copy of this monorepo.
+- Node 16 or newer
+- NPM
 
-Clone the repo with git clone https://github.com/aptos-labs/aptos-wallet-adapter.git
-On the root folder, run pnpm install and pnpm turbo run build
-On the root folder, run pnpm turbo run dev - that would spin up a local server (localhost:3000) with the nextjs demoapp
+1. Clone this git repository and change to the project directory
 
-_WIP ..._
+```bash
+git clone https://github.com/aztemi/mina-wallet-adapter.git
+cd mina-wallet-adapter
+```
+
+2. Install project dependencies
+
+```bash
+npm install
+```
+
+3. Build all packages in the project workspace
+
+```bash
+npm run build
+```
+
+4. Preview the demo app running below command. This will spin up a local server that can be accessed at [localhost:4173](http://localhost:4173).
+
+```bash
+npm run preview
+```
