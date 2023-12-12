@@ -14,21 +14,25 @@ export interface WalletAdapterEvents {
   accountChange(account: WalletAccount | null): void;
 }
 
-export interface WalletAdapterProps<Name extends string = string> {
-  name: WalletName<Name>;
-  url: string;
-  icon: string;
+export interface WalletAdapterContext {
+  name: WalletName | null;
   readyState: WalletReadyState;
   account: WalletAccount | null;
   connecting: boolean;
   connected: boolean;
-  autoConnect(): Promise<void>;
   connect(): Promise<void>;
   disconnect(): Promise<void>;
   signMessage(message: string): Promise<Signed<string>>;
   signTransaction(transaction: SignableData): Promise<SignedAny>;
   sendTransaction(transaction: SignedAny): Promise<string | undefined>;
   signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
+}
+
+export interface WalletAdapterProps<Name extends string = string> extends WalletAdapterContext {
+  name: WalletName<Name>;
+  url: string;
+  icon: string;
+  autoConnect(): Promise<void>;
 }
 
 export type WalletAdapter<Name extends string = string> = WalletAdapterProps<Name> & EventEmitter<WalletAdapterEvents>;

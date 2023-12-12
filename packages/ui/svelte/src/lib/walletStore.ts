@@ -1,5 +1,3 @@
-import type { WalletAdapterProps, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
-import type { SignableData, SignedAny } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import {
   WalletReadyState,
   WalletNotConnectedError,
@@ -9,6 +7,8 @@ import {
   setLocalStorage
 } from "mina-wallet-adapter-core";
 import { get, writable } from "svelte/store";
+import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
+import type { SignableData, SignedAny } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 
 type ErrorHandler = (error: WalletError) => void;
 type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "onError"> & {
@@ -16,34 +16,17 @@ type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "onError"> & {
 };
 type WalletReturnConfig = Pick<WalletStore, "wallets" | "autoConnect" | "onError">;
 
-type WalletStatus = Pick<WalletStore, "connected" | "publicKey">;
+type WalletStatus = Pick<WalletStore & WalletAdapterContext, "connected" | "publicKey">;
 
-export interface WalletStore {
-  // props
+export interface WalletStore extends WalletAdapterContext {
   autoConnect: boolean;
   wallets: WalletAdapter[];
-
-  // state
-  connecting: boolean;
-  connected: boolean;
   disconnecting: boolean;
-
-  // internal states
   publicKey: string | null;
-  readyState: WalletReadyState;
-  name: WalletName | null;
   wallet: WalletAdapter | null;
   walletsByName: Record<WalletName, WalletAdapter>;
-
-  // methods
-  onError: ErrorHandler;
-  connect(): Promise<void>;
-  disconnect(): Promise<void>;
   select(walletName: WalletName): void;
-  signMessage: WalletAdapterProps["signMessage"] | undefined;
-  signTransaction: WalletAdapterProps["signTransaction"] | undefined;
-  sendTransaction: WalletAdapterProps["sendTransaction"] | undefined;
-  signAndSendTransaction: WalletAdapterProps["signAndSendTransaction"] | undefined;
+  onError: ErrorHandler;
 }
 
 export const walletStore = createWalletStore();
@@ -103,24 +86,25 @@ async function connect(): Promise<void> {
 
 function createWalletStore() {
   const { subscribe, update } = writable<WalletStore>({
-    autoConnect: false,
-    wallets: [],
+    name: null,
+    walletsByName: {},
     wallet: null,
+    wallets: [],
+    autoConnect: false,
     connected: false,
     connecting: false,
     disconnecting: false,
-    onError: (error: WalletError) => console.error(error),
     publicKey: null,
+    account: null,
     readyState: "Unsupported" as WalletReadyState,
-    name: null,
-    walletsByName: {},
     connect,
     disconnect,
     select,
-    signMessage: undefined,
-    signTransaction: undefined,
-    sendTransaction: undefined,
-    signAndSendTransaction: undefined
+    signMessage: async () => undefined,
+    signTransaction: async () => undefined,
+    sendTransaction: async () => undefined,
+    signAndSendTransaction: async () => undefined,
+    onError: (error: WalletError) => console.error(error)
   });
 
   function updateWalletState(adapter: WalletAdapter | null) {

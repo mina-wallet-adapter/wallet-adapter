@@ -1,41 +1,20 @@
 import { createContext, useContext } from "react";
-import { WalletReadyState } from "mina-wallet-adapter-core";
-import type { WalletAdapterProps, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
-
-interface Wallet {
-  adapter: WalletAdapter;
-  readyState: WalletReadyState;
-}
+import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
 
 type ErrorHandler = (error: WalletError) => void;
 
-export interface WalletContextState {
-  // props
+export interface WalletContextState extends WalletAdapterContext {
   autoConnect: boolean;
-  wallets: Wallet[];
-
-  // wallet state
-  connecting: boolean;
-  connected: boolean;
+  wallets: WalletAdapter[];
   disconnecting: boolean;
-  onError: ErrorHandler;
   publicKey: string | null;
-  ready: WalletReadyState;
-  name: WalletName | null;
-  adapter: WalletAdapter | null;
+  wallet: WalletAdapter | null;
   walletsByName: Record<WalletName, WalletAdapter>;
-
-  // wallet methods
-  connect(): Promise<void>;
-  disconnect(): Promise<void>;
   select(walletName: WalletName): void;
-  signMessage: WalletAdapterProps["signMessage"] | undefined;
-  signTransaction: WalletAdapterProps["signTransaction"] | undefined;
-  sendTransaction: WalletAdapterProps["sendTransaction"] | undefined;
-  signAndSendTransaction: WalletAdapterProps["signAndSendTransaction"] | undefined;
+  onError: ErrorHandler;
 }
 
-const DEFAULT_CONTEXT: Partial<WalletContextState> = {
+const DEFAULT_CONTEXT: Partial<WalletContextState & WalletAdapterContext> = {
   autoConnect: false,
   connecting: false,
   connected: false,
