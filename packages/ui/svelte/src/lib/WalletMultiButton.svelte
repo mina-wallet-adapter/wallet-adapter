@@ -8,14 +8,12 @@
 
   export let maxNumberOfWallets = 3;
 
+  let copied = false;
+  let modalVisible = false;
+  let dropDrownVisible = false;
+
   $: ({ publicKey, wallet, disconnect, connect, select } = $walletStore);
-
-  let dropDrownVisible = false,
-    modalVisible = false,
-    copied = false;
-
   $: base58 = publicKey;
-  $: content = showAddressContent($walletStore);
 
   const copyAddress = async () => {
     if (!base58) return;
@@ -36,12 +34,6 @@
     if (e.key == "Escape") {
       closeDropdown();
     }
-  }
-
-  function showAddressContent(store: WalletStore) {
-    const base58 = store.publicKey;
-    if (!store.wallet || !base58) return null;
-    return shortenAddress(base58);
   }
 
   async function connectWallet(event: { detail: any }) {
@@ -70,7 +62,7 @@
       <svelte:fragment slot="start-icon">
         <img src={wallet.icon} alt={`${wallet.name} icon`} />
       </svelte:fragment>
-      {content}
+      {shortenAddress(base58)}
     </WalletButton>
     {#if dropDrownVisible}
       <ul
