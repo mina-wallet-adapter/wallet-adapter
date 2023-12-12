@@ -30,7 +30,7 @@ export interface WalletStore {
 
   // internal states
   publicKey: string | null;
-  ready: WalletReadyState;
+  readyState: WalletReadyState;
   name: WalletName | null;
   wallet: WalletAdapter | null;
   walletsByName: Record<WalletName, WalletAdapter>;
@@ -75,12 +75,12 @@ async function autoConnect() {
 }
 
 async function connect(): Promise<void> {
-  const { connected, connecting, disconnecting, ready, wallet } = get(walletStore);
+  const { connected, connecting, disconnecting, readyState, wallet } = get(walletStore);
   if (connected || connecting || disconnecting) return;
 
   if (!wallet) throw newError(new WalletNotSelectedError());
 
-  if (!(ready === WalletReadyState.Installed || ready === WalletReadyState.Loadable)) {
+  if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
     walletStore.resetWallet();
 
     if (typeof window !== "undefined") {
@@ -111,7 +111,7 @@ function createWalletStore() {
     disconnecting: false,
     onError: (error: WalletError) => console.error(error),
     publicKey: null,
-    ready: "Unsupported" as WalletReadyState,
+    readyState: "Unsupported" as WalletReadyState,
     name: null,
     walletsByName: {},
     connect,
@@ -129,7 +129,7 @@ function createWalletStore() {
       ...store,
       name: adapter?.name || null,
       wallet: adapter,
-      ready: adapter?.readyState || ("Unsupported" as WalletReadyState),
+      readyState: adapter?.readyState || ("Unsupported" as WalletReadyState),
       publicKey: adapter?.publicKey || null,
       connected: adapter?.connected || false
     }));
@@ -213,7 +213,7 @@ function createWalletStore() {
     resetWallet: () => updateWalletName(null),
     setConnecting: (connecting: boolean) => update((store: WalletStore) => ({ ...store, connecting })),
     setDisconnecting: (disconnecting: boolean) => update((store: WalletStore) => ({ ...store, disconnecting })),
-    setReady: (ready: WalletReadyState) => update((store: WalletStore) => ({ ...store, ready })),
+    setReadyState: (readyState: WalletReadyState) => update((store: WalletStore) => ({ ...store, readyState })),
     subscribe,
     updateConfig: (walletConfig: WalletReturnConfig & { walletsByName: Record<WalletName, WalletAdapter> }) =>
       update((store: WalletStore) => ({
@@ -289,7 +289,7 @@ function onReadyStateChange(this: WalletAdapter, readyState: WalletReadyState) {
   const { wallet, wallets } = get(walletStore);
   if (!wallet) return;
 
-  walletStore.setReady(wallet.readyState);
+  walletStore.setReadyState(wallet.readyState);
 
   // When the wallets change, start to listen for changes to their `readyState`
   const walletIndex = wallets.findIndex(wallet => wallet.name === this.name);
@@ -321,12 +321,12 @@ async function select(walletName: WalletName): Promise<void> {
 }
 
 function shouldAutoConnect(): boolean {
-  const { wallet, autoConnect, ready, connected, connecting } = get(walletStore);
+  const { wallet, autoConnect, readyState, connected, connecting } = get(walletStore);
 
   return !(
     !autoConnect ||
     !wallet ||
-    !(ready === WalletReadyState.Installed || ready === WalletReadyState.Loadable) ||
+    !(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable) ||
     connected ||
     connecting
   );
