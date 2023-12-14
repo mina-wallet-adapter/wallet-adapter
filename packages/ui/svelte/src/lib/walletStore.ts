@@ -96,7 +96,7 @@ function createWalletStore() {
     disconnecting: false,
     publicKey: null,
     account: null,
-    readyState: "Unsupported" as WalletReadyState,
+    readyState: WalletReadyState.Unsupported,
     connect,
     disconnect,
     select,
@@ -113,7 +113,7 @@ function createWalletStore() {
       ...store,
       name: adapter?.name || null,
       wallet: adapter,
-      readyState: adapter?.readyState || ("Unsupported" as WalletReadyState),
+      readyState: adapter?.readyState || WalletReadyState.Unsupported,
       publicKey: adapter?.publicKey || null,
       connected: adapter?.connected || false
     }));
