@@ -22,8 +22,8 @@ export interface WalletAdapterContext {
   connected: boolean;
   connect(): Promise<void>;
   disconnect(): Promise<void>;
-  signMessage(message: string): Promise<Signed<string>>;
-  signTransaction(transaction: SignableData): Promise<SignedAny>;
+  signMessage(message: string): Promise<Signed<string> | undefined>;
+  signTransaction(transaction: SignableData): Promise<SignedAny | undefined>;
   sendTransaction(transaction: SignedAny): Promise<string | undefined>;
   signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
 }
@@ -32,6 +32,7 @@ export interface WalletAdapterProps<Name extends string = string> extends Wallet
   name: WalletName<Name>;
   url: string;
   icon: string;
+  publicKey: string | null;
   autoConnect(): Promise<void>;
 }
 

@@ -9,9 +9,7 @@ export interface WalletContextState extends WalletAdapterContext {
   disconnecting: boolean;
   publicKey: string | null;
   wallet: WalletAdapter | null;
-  walletsByName: Record<WalletName, WalletAdapter>;
   select(walletName: WalletName): void;
-  onError: ErrorHandler;
 }
 
 const DEFAULT_CONTEXT: Partial<WalletContextState & WalletAdapterContext> = {
