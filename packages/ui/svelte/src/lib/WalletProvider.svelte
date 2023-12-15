@@ -6,7 +6,7 @@
 
   export let adapters: AdapterOption[] = Object.values(AdapterId),
     autoConnect = false,
-    onError = (error: WalletError) => console.error(error);
+    onError = (error: WalletError) => {};
 
   let wallets: WalletAdapter[];
 

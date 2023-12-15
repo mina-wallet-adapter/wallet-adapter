@@ -104,7 +104,7 @@ function createWalletStore() {
     signTransaction: async () => undefined,
     sendTransaction: async () => undefined,
     signAndSendTransaction: async () => undefined,
-    onError: (error: WalletError) => console.error(error)
+    onError: () => {}
   });
 
   function updateWalletState(adapter: WalletAdapter | null) {
@@ -226,11 +226,7 @@ async function disconnect(): Promise<void> {
   }
 }
 
-export async function initialize({
-  wallets,
-  autoConnect = false,
-  onError = (error: WalletError) => console.error(error)
-}: WalletPropsConfig): Promise<void> {
+export async function initialize({ wallets, autoConnect = false, onError }: WalletPropsConfig): Promise<void> {
   const walletsByName = wallets.reduce<Record<WalletName, WalletAdapter>>((walletsByName, wallet) => {
     walletsByName[wallet.name] = wallet;
     return walletsByName;
