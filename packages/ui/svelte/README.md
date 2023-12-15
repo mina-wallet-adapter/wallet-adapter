@@ -4,7 +4,7 @@ A set of modular UI components, store and utilities for integrating wallet adapt
 
 ## Demo
 
-- [Starter Kit](./../../starter/svelte/zkapp-starter-template/)
+- [Starter Project](./../../starter/svelte/svelte-kit-example/)
 - [Demo zkApp](https://aztemi.github.io/mina-wallet-adapter/)
 
 ## How to build
