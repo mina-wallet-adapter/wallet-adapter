@@ -23,7 +23,7 @@ export interface WalletProviderProps {
   children: ReactNode;
   adapters?: AdapterOption[];
   autoConnect?: boolean;
-  onError?: (error: any) => void;
+  onError?: (error: WalletError) => void;
 }
 
 export function WalletProvider({
@@ -62,7 +62,7 @@ export function WalletProvider({
       const walletName = getLocalStorage<WalletName>();
       if (walletName) select(walletName);
     }
-  }, wallets);
+  }, [wallets]);
 
   async function select(walletName: WalletName): Promise<void> {
     if (name === walletName) return;
