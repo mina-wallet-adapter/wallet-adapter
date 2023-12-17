@@ -1,7 +1,5 @@
 import { createContext, useContext } from "react";
-import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
-
-type ErrorHandler = (error: WalletError) => void;
+import type { WalletAdapterContext, WalletAdapter, WalletName } from "mina-wallet-adapter-core";
 
 export interface WalletContextState extends WalletAdapterContext {
   autoConnect: boolean;
@@ -9,7 +7,7 @@ export interface WalletContextState extends WalletAdapterContext {
   disconnecting: boolean;
   publicKey: string | null;
   wallet: WalletAdapter | null;
-  select(walletName: WalletName): void;
+  select(walletName: WalletName | null): void;
 }
 
 const DEFAULT_CONTEXT: Partial<WalletContextState & WalletAdapterContext> = {

@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import {
   WalletReadyState,
   getLocalStorage,
@@ -15,8 +15,7 @@ const initialState = {
   connected: false,
   connecting: false,
   disconnecting: false,
-  publicKey: null as string | null,
-  readyState: WalletReadyState.Unsupported
+  publicKey: null as string | null
 };
 
 export interface WalletProviderProps {
@@ -32,17 +31,17 @@ export function WalletProvider({
   autoConnect = false,
   onError = (error: WalletError) => {}
 }: WalletProviderProps) {
-  const [{ name, connected, connecting, disconnecting, publicKey, readyState }, setState] = useState(initialState);
-  const resetState = () => setState(state => ({ ...state, ...initialState }));
+  const [{ name, connected, connecting, disconnecting, publicKey }, setState] = useState(initialState);
 
-  const [wallet, setWallet] = useState<WalletAdapter | null>(null);
-  const resetWallet = () => {
-    resetState();
-    setLocalStorage(null);
-    setWallet(null);
-  };
+  const [walletName, setWalletName] = useLocalStorage<WalletName<string> | null>();
 
   const [wallets, setWallets] = useState<WalletAdapter[]>([]);
+
+  const wallet = useMemo(() => wallets.find(w => w.name === walletName) || null, [wallets, walletName]);
+
+  const readyState = useMemo(() => (wallet ? wallet.readyState : WalletReadyState.Unsupported), [wallet]);
+
+  // Update wallets list when list of adapters changes. Avoid race condition using a local active flag
   useEffect(() => {
     let active = true;
     load();
@@ -57,24 +56,10 @@ export function WalletProvider({
     }
   }, [adapters]);
 
+  // If autoConnect is enabled, select the wallet saved in localStorage when list of wallets changes
   useEffect(() => {
-    if (autoConnect) {
-      const walletName = getLocalStorage<WalletName>();
-      if (walletName) select(walletName);
-    }
+    if (autoConnect && walletName) select(walletName);
   }, [wallets]);
-
-  async function select(walletName: WalletName): Promise<void> {
-    if (name === walletName) return;
-    if (wallet) await disconnect();
-
-    setLocalStorage(walletName);
-    setWallet(getWallet(walletName));
-  }
-
-  function getWallet(walletName: WalletName) {
-    return wallets.find(w => w.name === walletName) || null;
-  }
 
   // Setup and teardown event listeners when the wallet changes
   useEffect(() => {
@@ -88,8 +73,7 @@ export function WalletProvider({
           connecting: false,
           disconnecting: false,
           name: wallet.name,
-          publicKey: wallet.publicKey,
-          readyState: wallet.readyState
+          publicKey: wallet.publicKey
         };
       });
     };
@@ -102,6 +86,8 @@ export function WalletProvider({
     wallet.on("disconnect", onDisconnect);
     wallet.on("error", onError);
 
+    if (autoConnect) connect();
+
     return () => {
       wallet.off("connect", onConnect);
       wallet.off("disconnect", onDisconnect);
@@ -111,9 +97,56 @@ export function WalletProvider({
     };
   }, [wallet]);
 
+  // When the adapters change, start to listen for changes to their readyStates
+  useEffect(() => {
+    function onReadyStateChange(this: WalletAdapter, readyState: WalletReadyState) {
+      setWallets(prevWallets => {
+        const walletIndex = prevWallets.findIndex(wallet => wallet.name === this.name);
+
+        if (walletIndex > -1) {
+          wallets[walletIndex].readyState = readyState;
+          return wallets;
+        } else {
+          return prevWallets;
+        }
+      });
+    }
+    wallets.forEach(wallet => wallet.on("readyStateChange", onReadyStateChange, wallet));
+    return () => {
+      wallets.forEach(wallet => wallet.off("readyStateChange", onReadyStateChange, wallet));
+    };
+  }, [wallet, wallets]);
+
+  // Wrap localStorage handling in a use hook
+  function useLocalStorage<T>(): [T, Dispatch<SetStateAction<T>>] {
+    const [value, setValue] = useState<T>(getLocalStorage() as T);
+
+    const setValueAndStore = useCallback((newValue: SetStateAction<T>) => {
+      setLocalStorage(newValue);
+      setValue(newValue);
+    }, []);
+
+    return [value, setValueAndStore];
+  }
+
+  function resetState() {
+    setState(state => ({ ...state, ...initialState }));
+  }
+
+  function resetWallet() {
+    resetState();
+    setWalletName(null);
+  }
+
+  async function select(selected: WalletName | null): Promise<void> {
+    if (name === selected) return;
+    if (wallet && wallet.name !== selected) await disconnect();
+
+    setWalletName(selected);
+  }
+
   async function connect(): Promise<void> {
     if (connected || connecting || disconnecting) return;
-
     if (!wallet) return throwError(new WalletNotSelectedError());
 
     if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
@@ -139,7 +172,6 @@ export function WalletProvider({
 
   async function disconnect(): Promise<void> {
     if (disconnecting) return;
-
     if (!wallet) return resetWallet();
 
     try {
