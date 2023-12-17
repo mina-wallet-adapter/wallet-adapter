@@ -1,3 +1,7 @@
 .App {
   text-align: center;
 }
+
+button {
+  margin: 1rem;
+}

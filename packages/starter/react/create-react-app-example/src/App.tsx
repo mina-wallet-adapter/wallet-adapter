@@ -1,20 +1,23 @@
-import React, { FC, ReactNode, useCallback } from "react";
-import type { WalletError, WalletName } from "mina-wallet-adapter-core";
-import { type AdapterOption, AdapterId, WalletProvider, useWallet } from "mina-wallet-adapter-ui-react";
+import { ReactNode, useCallback } from "react";
+import { AdapterId, WalletProvider, useWallet } from "mina-wallet-adapter-ui-react";
+import type { WalletName } from "mina-wallet-adapter-core";
+import type { AdapterOption, WalletError } from "mina-wallet-adapter-ui-react";
 
 import "./App.css";
 
-const App: FC = () => {
+function App() {
   return (
-    <Context>
+    <AppContext>
       <Content />
-    </Context>
+    </AppContext>
   );
-};
+}
 
 export default App;
 
-const Context: FC<{ children: ReactNode }> = ({ children }) => {
+type AppContextProp = { children: ReactNode };
+
+function AppContext({ children }: AppContextProp) {
   const adapters: AdapterOption[] = [AdapterId.AURO];
 
   function onError(error: WalletError) {
@@ -22,37 +25,50 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   return (
-    <WalletProvider adapters={adapters} autoConnect onError={onError}>
+    <WalletProvider adapters={adapters} autoConnect={false} onError={onError}>
       {children}
     </WalletProvider>
   );
-};
+}
 
-const Content: FC = () => {
+function Content() {
   const AuroWalletName = "Auro" as WalletName<"Auro">;
-  const { connected, select } = useWallet();
+  const { connected, select, disconnect, publicKey, connect } = useWallet();
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, walletName: WalletName) => {
+  const handleSelect = useCallback(
+    (walletName: WalletName) => {
       if (select) select(walletName);
     },
     [select]
   );
+  const handleConnect = useCallback(() => {
+    if (connect) connect();
+  }, [connect]);
+
+  const handleDisconnect = useCallback(() => {
+    if (disconnect) disconnect();
+  }, [disconnect]);
 
   return (
     <div className="App">
-      <h1>Square - Demo zkApp</h1>
+      <h1>Demo zkApp using React</h1>
       <p>
         Demo of{" "}
         <a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank" rel="noreferrer">
-          mina-wallet-adapter for implementing zkApps in Svelte.
-        </a>
+          mina-wallet-adapter
+        </a>{" "}
+        for implementing zkApps in React.
       </p>
       <div>
-        <button onClick={event => handleClick(event, AuroWalletName)} disabled={connected}>
+        <button onClick={() => handleSelect(AuroWalletName)}>Select AuroWallet</button>
+        <button onClick={handleConnect} disabled={connected}>
           Connect
         </button>
+        <button onClick={handleDisconnect} disabled={!connected}>
+          Disconnect
+        </button>
       </div>
+      <div>{publicKey}</div>
     </div>
   );
-};
+}
