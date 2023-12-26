@@ -6,7 +6,7 @@ import {
   WalletNotSelectedError,
   WalletNotReadyError
 } from "mina-wallet-adapter-core";
-import type { WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
+import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
 import { type AdapterOption, AdapterId, loadAdapters } from "mina-wallet-adapter-wallets";
 import { WalletContext } from "./usewallet";
 
@@ -15,6 +15,7 @@ const initialState = {
   connected: false,
   connecting: false,
   disconnecting: false,
+  account: null as WalletAdapterContext["account"],
   publicKey: null as string | null
 };
 
@@ -31,7 +32,7 @@ export function WalletProvider({
   autoConnect = false,
   onError = (error: WalletError) => {}
 }: WalletProviderProps) {
-  const [{ name, connected, connecting, disconnecting, publicKey }, setState] = useState(initialState);
+  const [{ name, connected, connecting, disconnecting, account, publicKey }, setState] = useState(initialState);
 
   const [walletName, setWalletName] = useLocalStorage<WalletName<string> | null>();
 
@@ -73,6 +74,7 @@ export function WalletProvider({
           connecting: false,
           disconnecting: false,
           name: wallet.name,
+          account: wallet.account,
           publicKey: wallet.publicKey
         };
       });
@@ -192,12 +194,12 @@ export function WalletProvider({
     <WalletContext.Provider
       value={{
         name,
-        account: null,
+        account,
+        publicKey,
         readyState,
         connected,
         connecting,
         disconnecting,
-        publicKey,
         wallet,
         wallets,
         connect,

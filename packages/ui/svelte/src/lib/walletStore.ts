@@ -16,7 +16,7 @@ type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "onError"> & {
 };
 type WalletReturnConfig = Pick<WalletStore, "wallets" | "autoConnect" | "onError">;
 
-type WalletStatus = Pick<WalletStore & WalletAdapterContext, "connected" | "publicKey">;
+type WalletStatus = Pick<WalletStore & WalletAdapterContext, "connected" | "account" | "publicKey">;
 
 export interface WalletStore extends WalletAdapterContext {
   autoConnect: boolean;
@@ -94,8 +94,8 @@ function createWalletStore() {
     connected: false,
     connecting: false,
     disconnecting: false,
-    publicKey: null,
     account: null,
+    publicKey: null,
     readyState: WalletReadyState.Unsupported,
     connect,
     disconnect,
@@ -114,6 +114,7 @@ function createWalletStore() {
       name: adapter?.name || null,
       wallet: adapter,
       readyState: adapter?.readyState || WalletReadyState.Unsupported,
+      account: adapter?.account || null,
       publicKey: adapter?.publicKey || null,
       connected: adapter?.connected || false
     }));
@@ -256,6 +257,7 @@ function onConnect() {
 
   walletStore.updateFeatures(wallet);
   walletStore.updateStatus({
+    account: wallet.account,
     publicKey: wallet.publicKey,
     connected: wallet.connected
   });
