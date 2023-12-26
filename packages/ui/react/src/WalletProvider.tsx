@@ -194,7 +194,6 @@ export function WalletProvider({
         name,
         account: null,
         readyState,
-        autoConnect,
         connected,
         connecting,
         disconnecting,

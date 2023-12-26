@@ -2,7 +2,6 @@ import { createContext, useContext } from "react";
 import type { WalletAdapterContext, WalletAdapter, WalletName } from "mina-wallet-adapter-core";
 
 export interface WalletContextState extends WalletAdapterContext {
-  autoConnect: boolean;
   wallets: WalletAdapter[];
   disconnecting: boolean;
   publicKey: string | null;
@@ -11,7 +10,6 @@ export interface WalletContextState extends WalletAdapterContext {
 }
 
 const DEFAULT_CONTEXT: Partial<WalletContextState & WalletAdapterContext> = {
-  autoConnect: false,
   connecting: false,
   connected: false,
   disconnecting: false,
