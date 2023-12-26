@@ -4,8 +4,10 @@ import {
   getLocalStorage,
   setLocalStorage,
   WalletNotSelectedError,
+  WalletNotConnectedError,
   WalletNotReadyError
 } from "mina-wallet-adapter-core";
+import type { SignableData, SignedAny } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
 import { type AdapterOption, AdapterId, loadAdapters } from "mina-wallet-adapter-wallets";
 import { WalletContext } from "./usewallet";
@@ -179,15 +181,58 @@ export function WalletProvider({
     try {
       setState(state => ({ ...state, disconnecting: true }));
       await wallet.disconnect();
+    } catch (error: unknown) {
+      throwError(error);
     } finally {
       resetWallet();
       setState(state => ({ ...state, disconnecting: false }));
     }
   }
 
+  async function signMessage(message: string) {
+    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+
+    try {
+      return await wallet.signMessage(message);
+    } catch (error: unknown) {
+      return throwError(error);
+    }
+  }
+
+  async function signTransaction(transaction: SignableData) {
+    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+
+    try {
+      return await wallet.signTransaction(transaction);
+    } catch (error: unknown) {
+      return throwError(error);
+    }
+  }
+
+  async function sendTransaction(transaction: SignedAny) {
+    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+
+    try {
+      return await wallet.sendTransaction(transaction);
+    } catch (error: unknown) {
+      return throwError(error);
+    }
+  }
+
+  async function signAndSendTransaction(transaction: SignableData) {
+    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+
+    try {
+      return await wallet.signAndSendTransaction(transaction);
+    } catch (error: unknown) {
+      return throwError(error);
+    }
+  }
+
   function throwError(error: WalletError | any) {
     if (onError) onError(error);
     else throw error;
+    return undefined;
   }
 
   return (
@@ -205,10 +250,10 @@ export function WalletProvider({
         connect,
         disconnect,
         select,
-        signMessage: async () => undefined,
-        signTransaction: async () => undefined,
-        sendTransaction: async () => undefined,
-        signAndSendTransaction: async () => undefined
+        signMessage,
+        signTransaction,
+        sendTransaction,
+        signAndSendTransaction
       }}
     >
       {children}
