@@ -5,3 +5,5 @@ export { type AdapterOption, AdapterId } from "mina-wallet-adapter-wallets";
 
 export * from "./usewallet";
 export * from "./WalletProvider";
+export * from "./WalletButton";
+export * from "./WalletConnectButton";
