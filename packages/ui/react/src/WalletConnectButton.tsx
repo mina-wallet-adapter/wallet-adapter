@@ -1,6 +1,6 @@
 import React from "react";
 import type { MouseEvent } from "react";
-import { useWallet } from "./usewallet";
+import { useWallet } from "./useWallet";
 import { WalletButton } from "./WalletButton";
 
 type WalletConnectButtonProps = {
