@@ -142,14 +142,17 @@ export function WalletProvider({
     setWalletName(null);
   }
 
-  async function select(selected: WalletName | null): Promise<void> {
-    if (name === selected) return;
-    if (wallet && wallet.name !== selected) await disconnect();
+  const select = useCallback(
+    async (selected: WalletName | null): Promise<void> => {
+      if (name === selected) return;
+      if (wallet && wallet.name !== selected) await disconnect();
 
-    setWalletName(selected);
-  }
+      setWalletName(selected);
+    },
+    [name, wallet]
+  );
 
-  async function connect(): Promise<void> {
+  const connect = useCallback(async (): Promise<void> => {
     if (connected || connecting || disconnecting) return;
     if (!wallet) return throwError(new WalletNotSelectedError());
 
@@ -172,9 +175,9 @@ export function WalletProvider({
     } finally {
       setState(state => ({ ...state, connecting: false }));
     }
-  }
+  }, [connected, connecting, disconnecting, readyState, wallet]);
 
-  async function disconnect(): Promise<void> {
+  const disconnect = useCallback(async (): Promise<void> => {
     if (disconnecting) return;
     if (!wallet) return resetWallet();
 
@@ -187,47 +190,59 @@ export function WalletProvider({
       resetWallet();
       setState(state => ({ ...state, disconnecting: false }));
     }
-  }
+  }, [disconnecting, wallet]);
 
-  async function signMessage(message: string) {
-    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+  const signMessage = useCallback(
+    async (message: string) => {
+      if (!connected || !wallet) return throwError(new WalletNotConnectedError());
 
-    try {
-      return await wallet.signMessage(message);
-    } catch (error: unknown) {
-      return throwError(error);
-    }
-  }
+      try {
+        return await wallet.signMessage(message);
+      } catch (error: unknown) {
+        return throwError(error);
+      }
+    },
+    [connected, wallet]
+  );
 
-  async function signTransaction(transaction: SignableData) {
-    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+  const signTransaction = useCallback(
+    async (transaction: SignableData) => {
+      if (!connected || !wallet) return throwError(new WalletNotConnectedError());
 
-    try {
-      return await wallet.signTransaction(transaction);
-    } catch (error: unknown) {
-      return throwError(error);
-    }
-  }
+      try {
+        return await wallet.signTransaction(transaction);
+      } catch (error: unknown) {
+        return throwError(error);
+      }
+    },
+    [connected, wallet]
+  );
 
-  async function sendTransaction(transaction: SignedAny) {
-    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+  const sendTransaction = useCallback(
+    async (transaction: SignedAny) => {
+      if (!connected || !wallet) return throwError(new WalletNotConnectedError());
 
-    try {
-      return await wallet.sendTransaction(transaction);
-    } catch (error: unknown) {
-      return throwError(error);
-    }
-  }
+      try {
+        return await wallet.sendTransaction(transaction);
+      } catch (error: unknown) {
+        return throwError(error);
+      }
+    },
+    [connected, wallet]
+  );
 
-  async function signAndSendTransaction(transaction: SignableData) {
-    if (!connected || !wallet) return throwError(new WalletNotConnectedError());
+  const signAndSendTransaction = useCallback(
+    async (transaction: SignableData) => {
+      if (!connected || !wallet) return throwError(new WalletNotConnectedError());
 
-    try {
-      return await wallet.signAndSendTransaction(transaction);
-    } catch (error: unknown) {
-      return throwError(error);
-    }
-  }
+      try {
+        return await wallet.signAndSendTransaction(transaction);
+      } catch (error: unknown) {
+        return throwError(error);
+      }
+    },
+    [connected, wallet]
+  );
 
   function throwError(error: WalletError | any) {
     if (onError) onError(error);
