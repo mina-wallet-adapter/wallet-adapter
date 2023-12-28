@@ -7,3 +7,4 @@ export * from "./useWallet";
 export * from "./WalletProvider";
 export * from "./WalletButton";
 export * from "./WalletConnectButton";
+export * from "./WalletMenu";
