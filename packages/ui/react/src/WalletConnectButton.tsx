@@ -1,5 +1,6 @@
 import React from "react";
 import type { MouseEvent } from "react";
+import { shortenAddress } from "mina-wallet-adapter-core";
 import { useWallet } from "./useWallet";
 import { WalletButton } from "./WalletButton";
 
@@ -9,7 +10,7 @@ type WalletConnectButtonProps = {
 };
 
 export function WalletConnectButton(props: WalletConnectButtonProps) {
-  const { connected, connecting, connect, wallet } = useWallet();
+  const { connected, connecting, connect, wallet, account } = useWallet();
 
   function handleClick() {
     connect().catch(() => {});
@@ -19,7 +20,7 @@ export function WalletConnectButton(props: WalletConnectButtonProps) {
     let content = "Connect Wallet";
     if (wallet) content = "Connect";
     if (connecting) content = "Connecting ...";
-    if (connected) content = "Connected";
+    if (connected) content = account ? shortenAddress(account.address) : "Connected";
 
     return content;
   }
