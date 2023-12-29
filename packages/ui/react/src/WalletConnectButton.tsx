@@ -1,19 +1,21 @@
-import React from "react";
-import type { MouseEvent } from "react";
+import React, { useState } from "react";
 import { shortenAddress } from "mina-wallet-adapter-core";
 import { useWallet } from "./useWallet";
 import { WalletButton } from "./WalletButton";
+import { WalletMenu } from "./WalletMenu";
 
 type WalletConnectButtonProps = {
   disabled?: boolean;
-  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  openModal: () => void;
 };
 
-export function WalletConnectButton(props: WalletConnectButtonProps) {
-  const { connected, connecting, connect, wallet, account } = useWallet();
+export function WalletConnectButton({ disabled, openModal }: WalletConnectButtonProps) {
+  const [openMenu, setOpenMenu] = useState(false);
+  const { connected, connecting, wallet, account } = useWallet();
 
   function handleClick() {
-    connect().catch(() => {});
+    if (connected) setOpenMenu(true);
+    else openModal();
   }
 
   function getText() {
@@ -26,13 +28,22 @@ export function WalletConnectButton(props: WalletConnectButtonProps) {
   }
 
   return (
-    <WalletButton
-      className="wallet-adapter-button-trigger"
-      disabled={props.disabled || connecting}
-      startIcon={wallet ? <img src={wallet?.icon} alt={`${wallet?.name} icon`} /> : undefined}
-      onClick={props.onClick || handleClick}
-    >
-      {getText()}
-    </WalletButton>
+    <div className="wallet-adapter-dropdown">
+      <WalletButton
+        className="wallet-adapter-button-trigger"
+        disabled={disabled || connecting}
+        startIcon={wallet ? <img src={wallet?.icon} alt={`${wallet?.name} icon`} /> : undefined}
+        onClick={handleClick}
+      >
+        {getText()}
+      </WalletButton>
+      {openMenu && (
+        <WalletMenu
+          nodeSelector=".wallet-adapter-dropdown"
+          closeMenu={() => setOpenMenu(false)}
+          openModal={openModal}
+        />
+      )}
+    </div>
   );
 }

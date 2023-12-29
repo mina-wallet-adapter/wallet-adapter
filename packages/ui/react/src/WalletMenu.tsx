@@ -5,12 +5,12 @@ import { useClickOutside } from "./useClickOutside";
 import { useWallet } from "./useWallet";
 
 type WalletMenuProps = {
-  containerId: string;
+  nodeSelector: string;
   closeMenu: () => void;
   openModal: () => void;
 };
 
-export function WalletMenu({ containerId, closeMenu, openModal }: WalletMenuProps) {
+export function WalletMenu({ nodeSelector, closeMenu, openModal }: WalletMenuProps) {
   const ref = useRef(null);
   const [copied, setCopied] = useState(false);
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -19,9 +19,9 @@ export function WalletMenu({ containerId, closeMenu, openModal }: WalletMenuProp
   useClickOutside({ ref, callback: closeMenu });
 
   useEffect(() => {
-    const element = document.getElementById(containerId) as HTMLElement;
-    if (element) setContainer(element);
-  }, [containerId]);
+    const node = document.querySelector(nodeSelector) as HTMLElement;
+    if (node) setContainer(node);
+  }, [nodeSelector]);
 
   async function handleCopy() {
     if (!account) return;
@@ -36,7 +36,7 @@ export function WalletMenu({ containerId, closeMenu, openModal }: WalletMenuProp
   }
 
   function handleDisconnect() {
-    disconnect().catch(() => {});
+    disconnect();
     closeMenu();
   }
 
