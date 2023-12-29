@@ -8,7 +8,7 @@ type useClickOutsideProps = {
 export function useClickOutside({ ref, callback }: useClickOutsideProps) {
   useEffect(() => {
     function onClick(e: MouseEvent) {
-      if (ref && ref.current && !ref.current.contains(e.target)) callback();
+      if (ref && ref.current && !ref.current.contains(e.target as Node)) callback();
     }
     document.addEventListener("click", onClick);
     return () => {

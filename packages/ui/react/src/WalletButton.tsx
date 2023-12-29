@@ -16,7 +16,10 @@ export const WalletButton: FC<WalletButtonProps> = props => {
       className={`wallet-adapter-button ${props.className || ""}`}
       disabled={props.disabled}
       style={{ justifyContent: "space-between", ...props.style }}
-      onClick={props.onClick}
+      onClick={e => {
+        e.stopPropagation();
+        if (props.onClick) props.onClick(e);
+      }}
     >
       {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
       {props.children}
