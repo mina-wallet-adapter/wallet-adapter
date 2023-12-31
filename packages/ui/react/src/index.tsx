@@ -8,3 +8,5 @@ export * from "./WalletProvider";
 export * from "./WalletButton";
 export * from "./WalletConnectButton";
 export * from "./WalletMenu";
+export * from "./WalletModal";
+export * from "./WalletMultiButton";
