@@ -6,7 +6,7 @@ type WalletButtonProps = PropsWithChildren<{
   disabled?: boolean;
   style?: CSSProperties;
   startIcon?: ReactElement;
-  endStatus?: ReactElement;
+  endStatus?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }>;
 
@@ -23,7 +23,7 @@ export const WalletButton: FC<WalletButtonProps> = props => {
     >
       {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
       {props.children}
-      {props.endStatus && <span>{props.endStatus}</span>}
+      {props.endStatus !== undefined && <span>{props.endStatus}</span>}
     </button>
   );
 };
