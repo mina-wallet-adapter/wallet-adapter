@@ -9,7 +9,11 @@ export function shortenAddress(addr: string, limit: number = 6): string {
 }
 
 export function showExplainWalletSite() {
+  openWeblink(MINA_WALLET_EXPLAIN_SITE);
+}
+
+export function openWeblink(url: string | URL) {
   if (typeof window !== "undefined") {
-    window.open(MINA_WALLET_EXPLAIN_SITE, "_blank");
+    window.open(url, "_blank");
   }
 }

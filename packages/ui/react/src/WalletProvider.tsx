@@ -1,8 +1,9 @@
 import { ReactNode, Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import {
-  WalletReadyState,
+  openWeblink,
   getLocalStorage,
   setLocalStorage,
+  WalletReadyState,
   WalletNotSelectedError,
   WalletNotConnectedError,
   WalletNotReadyError
@@ -159,10 +160,7 @@ export function WalletProvider({
 
     if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
       resetWallet();
-
-      if (typeof window !== "undefined") {
-        window.open(wallet.url, "_blank");
-      }
+      openWeblink(wallet.url);
 
       return throwError(new WalletNotReadyError());
     }

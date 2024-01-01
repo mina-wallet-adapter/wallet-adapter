@@ -3,6 +3,7 @@ import {
   WalletNotConnectedError,
   WalletNotReadyError,
   WalletNotSelectedError,
+  openWeblink,
   getLocalStorage,
   setLocalStorage
 } from "mina-wallet-adapter-core";
@@ -65,10 +66,7 @@ async function connect(): Promise<void> {
 
   if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
     walletStore.resetWallet();
-
-    if (typeof window !== "undefined") {
-      window.open(wallet.url, "_blank");
-    }
+    openWeblink(wallet.url);
 
     throw newError(new WalletNotReadyError());
   }
