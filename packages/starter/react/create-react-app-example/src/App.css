@@ -1,7 +1,55 @@
 .App {
+  display: block;
+  padding-top: 7rem;
   text-align: center;
+  height: 100vh;
 }
 
-button {
+.wallet-multi-button-span {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+.warning {
+  color: #eb2e2e;
+}
+
+.connect-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connect-div p {
+  font-size: 1.5rem;
   margin: 1rem;
+}
+
+.source-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.source-div svg {
+  height: 1.4rem;
+  margin-right: 0.5rem;
+}
+
+input {
+  text-align: center;
+  border: 1px solid #9e9e9e;
+  border-radius: 8px;
+  font-size: 2rem;
+  font-weight: 800;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  min-width: 15rem;
+  max-width: 80vw;
 }
