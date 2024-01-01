@@ -40,7 +40,7 @@ export function WalletProvider({
 
   const [wallets, setWallets] = useState<WalletAdapter[]>([]);
 
-  const wallet = useMemo(() => wallets.find(w => w.name === walletName) || null, [wallets, walletName]);
+  const wallet = useMemo(() => (walletName && wallets.find(w => w.name === walletName)) || null, [wallets, walletName]);
 
   const readyState = useMemo(() => (wallet ? wallet.readyState : WalletReadyState.Unsupported), [wallet]);
 
@@ -61,7 +61,8 @@ export function WalletProvider({
 
   // If autoConnect is enabled, select the wallet saved in localStorage when list of wallets changes
   useEffect(() => {
-    if (autoConnect && walletName) select(walletName);
+    const storedName: WalletName | null = getLocalStorage();
+    if (autoConnect && storedName) select(storedName);
   }, [wallets]);
 
   // Setup and teardown event listeners when the wallet changes
@@ -90,7 +91,7 @@ export function WalletProvider({
     wallet.on("disconnect", onDisconnect);
     wallet.on("error", onError);
 
-    if (autoConnect) connect();
+    connect();
 
     return () => {
       wallet.off("connect", onConnect);
@@ -123,7 +124,7 @@ export function WalletProvider({
 
   // Wrap localStorage handling in a use hook
   function useLocalStorage<T>(): [T, Dispatch<SetStateAction<T>>] {
-    const [value, setValue] = useState<T>(getLocalStorage() as T);
+    const [value, setValue] = useState<T>(null as T);
 
     const setValueAndStore = useCallback((newValue: SetStateAction<T>) => {
       setLocalStorage(newValue);
