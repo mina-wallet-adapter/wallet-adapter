@@ -20,7 +20,7 @@
     "packages/ui",
     "packages/ui/*",
     "packages/starter/**/*",
-    "docs"
+    "site"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
