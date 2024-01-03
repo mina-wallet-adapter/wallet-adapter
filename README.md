@@ -2,7 +2,7 @@
 
 Modular TypeScript wallet adapters and components designed for Mina zkApps. Add wallet support into your zkApp with just a few lines of code.
 
-<img src="docs/assets/screenshots.png" alt="screenshot" width="720">
+<img src="site/public/assets/screenshots.png" alt="screenshot" width="720">
 
 ## Demo
 
@@ -20,7 +20,7 @@ Check out the demo site below to see the Wallet Adapter in action.
 
 ## Architecture
 
-![screenshot](docs/assets/design.png)
+![screenshot](site/public/assets/design.png)
 
 ## Directory Structure
 
