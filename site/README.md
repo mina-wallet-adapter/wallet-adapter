@@ -1,3 +1,5 @@
-# Getting Started
+# `mina-wallet-adapter-docs`
 
-_WIP ..._
+## Documentation
+
+[https://aztemi.github.io/mina-wallet-adapter/](https://aztemi.github.io/mina-wallet-adapter/)
