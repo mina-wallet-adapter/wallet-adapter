@@ -1,18 +1,18 @@
-import React from 'react'
-import { DocsThemeConfig } from 'nextra-theme-docs'
+import React from "react";
+import type { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
+  logo: <span>Mina Wallet Adapter</span>,
   project: {
-    link: 'https://github.com/shuding/nextra-docs-template',
+    link: "https://github.com/aztemi/mina-wallet-adapter"
   },
-  chat: {
-    link: 'https://discord.com',
+  docsRepositoryBase: "https://github.com/aztemi/mina-wallet-adapter",
+  editLink: {
+    text: "Edit this page on GitHub →"
   },
-  docsRepositoryBase: 'https://github.com/shuding/nextra-docs-template',
   footer: {
-    text: 'Nextra Docs Template',
-  },
-}
+    text: <small>© {new Date().getFullYear()} AZTemi.</small>
+  }
+};
 
-export default config
+export default config;
