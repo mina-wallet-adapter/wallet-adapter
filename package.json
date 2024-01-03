@@ -19,7 +19,8 @@
     "packages/wallets",
     "packages/ui",
     "packages/ui/*",
-    "packages/starter/**/*"
+    "packages/starter/**/*",
+    "docs"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
