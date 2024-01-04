@@ -18,7 +18,7 @@ Follow the steps below to seamlessly integrate the Wallet Adapter into your zkAp
 
 1. Install dependency. Only a single package is required.
 
-```bash
+```bash npm2yarn
 npm install mina-wallet-adapter-ui-svelte
 ```
 

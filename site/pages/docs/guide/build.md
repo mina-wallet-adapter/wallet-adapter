@@ -14,18 +14,18 @@ cd mina-wallet-adapter
 
 2. Install project dependencies
 
-```bash
+```bash npm2yarn
 npm install
 ```
 
 3. Build all packages in the project workspace
 
-```bash
+```bash npm2yarn
 npm run build
 ```
 
 4. Preview the demo app running below command. This will spin up a local server that can be accessed at [localhost:4173](http://localhost:4173).
 
-```bash
+```bash npm2yarn
 npm run preview
 ```
