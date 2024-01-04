@@ -1,4 +1,4 @@
-# Develop Locally
+# Build project workspace locally
 
 0. Dependencies
 

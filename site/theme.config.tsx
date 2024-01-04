@@ -10,6 +10,9 @@ const config: DocsThemeConfig = {
   editLink: {
     text: "Edit this page on GitHub →"
   },
+  search: {
+    placeholder: "Search Docs ..."
+  },
   footer: {
     text: <small>© {new Date().getFullYear()} AZTemi.</small>
   }

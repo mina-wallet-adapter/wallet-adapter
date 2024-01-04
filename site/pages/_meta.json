@@ -1,3 +1,18 @@
 {
-  "index": "Introduction"
+  "index": {
+    "title": "Home",
+    "display": "hidden",
+    "theme": {
+      "breadcrumb": false,
+      "toc": false,
+      "sidebar": false,
+      "pagination": false,
+      "timestamp": false,
+      "footer": true
+    }
+  },
+  "docs": {
+    "title": "Docs",
+    "type": "page"
+  }
 }
