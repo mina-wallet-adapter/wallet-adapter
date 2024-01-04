@@ -4,4 +4,12 @@ const withNextra = require("nextra")({
   defaultShowCopyCode: true
 });
 
-module.exports = withNextra();
+module.exports = withNextra({
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
+    return config;
+  }
+});

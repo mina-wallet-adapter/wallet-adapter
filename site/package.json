@@ -1,5 +1,5 @@
 {
-  "name": "mina-wallet-adapter-docs",
+  "name": "mina-wallet-adapter-site",
   "version": "0.0.1",
   "author": "t4top",
   "license": "Apache-2.0",
@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "18.11.10",
     "typescript": "^4.9.3"
   }
