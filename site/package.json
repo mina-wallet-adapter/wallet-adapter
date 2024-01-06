@@ -1,0 +1,25 @@
+{
+  "name": "mina-wallet-adapter-site",
+  "version": "0.0.1",
+  "author": "t4top",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/aztemi/mina-wallet-adapter",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^13.0.6",
+    "nextra": "latest",
+    "nextra-theme-docs": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sharp": "^0.33.1"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@types/node": "18.11.10",
+    "typescript": "^4.9.3"
+  }
+}

@@ -19,12 +19,13 @@
     "packages/wallets",
     "packages/ui",
     "packages/ui/*",
-    "packages/starter/**/*"
+    "packages/starter/**/*",
+    "site"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
-    "preview": "npm run preview --workspace=packages/starter/svelte",
+    "preview": "npm run start --workspace=site",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "clean": "npm run clean --workspaces --if-present",

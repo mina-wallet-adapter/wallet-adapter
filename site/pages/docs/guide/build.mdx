@@ -1,0 +1,41 @@
+import { Steps } from "nextra/components";
+
+# Build project workspace locally
+
+<Steps>
+
+### Prerequisite
+
+The following programs are necessary to build this project.
+
+- Node 16 or newer
+- NPM
+
+### Clone the git repository and change to the project directory
+
+```bash
+git clone https://github.com/aztemi/mina-wallet-adapter.git
+cd mina-wallet-adapter
+```
+
+### Install project dependencies
+
+```bash npm2yarn
+npm install
+```
+
+### Build all packages in the project workspace
+
+```bash npm2yarn
+npm run build
+```
+
+### Preview the project site
+
+This will spin up a local server that can be accessed at [localhost:3000](http://localhost:3000).
+
+```bash npm2yarn
+npm run preview
+```
+
+</Steps>
