@@ -3,6 +3,7 @@
     "title": "Home",
     "display": "hidden",
     "theme": {
+      "layout": "raw",
       "breadcrumb": false,
       "toc": false,
       "sidebar": false,
