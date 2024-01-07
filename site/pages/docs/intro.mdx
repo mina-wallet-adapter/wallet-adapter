@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { addAssetPrefix } from "@/constant";
 
 # Mina Wallet Adapter
 
@@ -6,7 +7,7 @@ This is a set of modular components and hooks for zkApps to easily interact with
 
 The Mina Wallet Adapter is written in TypeScript and allows adding wallets support into zkApps with a few lines of code.
 
-<Image src="/assets/screenshots.png" alt="Screenshot" width={720} height={390} priority={true} />
+<Image src={addAssetPrefix("/assets/screenshots.png")} alt="Screenshot" width={720} height={390} priority={true} />
 
 ## Demo
 

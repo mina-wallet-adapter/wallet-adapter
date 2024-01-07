@@ -1,5 +1,6 @@
 import { LinkButton } from "@components/buttons";
 import style from "./style.module.css";
+import { addAssetPrefix } from "@/constant";
 
 function Hero() {
   return (
@@ -9,7 +10,7 @@ function Hero() {
         <p className="nextra-content">Add wallets support to your zkApps with ease 🔥</p>
         <LinkButton href="/docs/intro">View Docs</LinkButton>
       </div>
-      <div className={style.imgdiv} style={{ backgroundImage: "url('/assets/hero.png')" }} />
+      <div className={style.imgdiv} style={{ backgroundImage: `url('${addAssetPrefix("/assets/hero.png")}')` }} />
     </div>
   );
 }
