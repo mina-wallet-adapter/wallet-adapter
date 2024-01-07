@@ -4,6 +4,7 @@
   "author": "t4top",
   "license": "Apache-2.0",
   "repository": "https://github.com/aztemi/mina-wallet-adapter",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
