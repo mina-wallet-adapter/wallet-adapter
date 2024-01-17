@@ -1,6 +1,6 @@
-export const isProduction = process.env.NODE_ENV === "production";
+export const isGithub = process.env.BUILD_ENV === "github";
 
-// Set Github repo name as the sub-path prefix since this site is deployed using Github Pages
-export const assetPrefix = isProduction ? "/mina-wallet-adapter" : "";
+// Set Github repo name as the sub-path prefix when this site is intended for Github Pages
+export const assetPrefix = isGithub ? "/mina-wallet-adapter" : "";
 
 export const addAssetPrefix = path => `${assetPrefix}${path}`;
