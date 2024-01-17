@@ -10,8 +10,6 @@ Check out the demo sites below to see the Wallet Adapter in action.
 
 👉 [zkApp Starter Kit](https://aztemi.github.io/mina-wallet-adapter/)
 
-👉 [Mina Name Service (MVP)](https://dotminadomain.com)
-
 ## Core Features
 
 - [Wallet Standard](https://github.com/wallet-standard/wallet-standard) support
@@ -21,25 +19,29 @@ Check out the demo sites below to see the Wallet Adapter in action.
 - Query hooks and modular UI components for zkApps
 - TypeScript
 
-## Architecture
-
-![screenshot](site/public/assets/design.png)
-
 ## Documentation
 
 [https://aztemi.github.io/mina-wallet-adapter/](https://aztemi.github.io/mina-wallet-adapter/)
 
 ## Directory Structure
 
-| Package                                            | Description                                                                                                                                                                                                                                                                            |
-| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [site](site/)                                      | Project website with the documentations and guidelines                                                                                                                                                                                                                                 |
-| [`mina-wallet-adapter-core`](packages/core/)       | Base interfaces, classes and shared common logics                                                                                                                                                                                                                                      |
-| [`mina-wallet-adapter-wallets`](packages/wallets/) | Adapter classes for [Wallet Standard](https://github.com/aztemi/mina-wallet-standard) and to wrap legacy wallets like Auro Wallet                                                                                                                                                      |
-| [`mina-wallet-adapter-ui`](packages/ui/)           | UI components for zkApps written for [Svelte](packages/ui/svelte/), [React](packages/ui/react/), [Vue](packages/ui/vue/) and [Angular](packages/ui/angular/) JS frameworks.                                                                                                            |
-| [Starter Kits](packages/starter/)                  | Reference templates showing how to use wallet adapter UI components in [Svelte](packages/starter/svelte/), [React](packages/starter/react/), [Vue](packages/starter/vue/) and [Angular](packages/starter/angular/) zkApp projects. Refer to them to bootstrap your zkApps development. |
+This is a monorepo containing the following packages.
 
-> - React, Vue and Angular components are WIP
+- `site`: Project website with the documentations and guidelines
+- `packages`
+  - `core`: Base library containing shared interfaces, classes and common logics
+  - `wallets`: Adapter class library for `Wallet Standard` and wrapper classes for legacy wallets like Auro Wallet
+  - `ui`: UI components and hooks for zkApps, supporting `Vanilla JS`, `Svelte`, `React`, `Vue`, and `Angular` frameworks
+  - `starter`: Reference starter templates showing how to use the Wallet Adapter in zkApps
+    - `svelte`: Starter zkApp example using `SvelteKit`
+    - `react`: Starter zkApp example in React created with `Create React App`
+    - `contract`: Shared o1js smart contract used in above JS starter examples
+
+> _Vanilla js, Vue and Angular components are WIP_
+
+## Architecture
+
+![screenshot](site/public/assets/design.png)
 
 ## License
 
