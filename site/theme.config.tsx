@@ -3,6 +3,9 @@ import type { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
   logo: <span>Mina Wallet Adapter</span>,
+  nextThemes: {
+    defaultTheme: "dark"
+  },
   project: {
     link: "https://github.com/aztemi/mina-wallet-adapter"
   },
