@@ -1,4 +1,4 @@
-import { Square } from './Square';
+import { Square } from './square';
 import { Field, Mina, PrivateKey, PublicKey, AccountUpdate } from 'o1js';
 
 /*

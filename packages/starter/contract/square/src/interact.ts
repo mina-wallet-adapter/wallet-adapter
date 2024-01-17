@@ -14,7 +14,7 @@
  */
 import fs from 'fs/promises';
 import { Field, Mina, PrivateKey } from 'o1js';
-import { Square } from './Square.js';
+import { Square } from './square.js';
 
 // check command line arg
 let deployAlias = process.argv[2];
