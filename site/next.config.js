@@ -1,5 +1,5 @@
 import nextra from "nextra";
-import { isProduction, assetPrefix } from "./constant.js";
+import { isGithub, assetPrefix } from "./constant.js";
 
 const svgConfig = {
   webpack(config) {
@@ -22,7 +22,7 @@ const withNextra = nextra(nextraConfig)(svgConfig);
 // Suppress 'Specified "rewrites" cannot be used with "output: export"' error during production build
 let output = undefined;
 let images = undefined;
-if (isProduction) {
+if (isGithub) {
   output = "export";
   images = { unoptimized: true };
   delete withNextra.rewrites;

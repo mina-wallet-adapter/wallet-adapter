@@ -28,7 +28,7 @@
 		"vite": "^4.4.2"
 	},
 	"type": "module",
-	"dependencies": {
-		"mina-wallet-adapter-ui-svelte": "file:../../../ui/svelte"
+	"peerDependencies": {
+		"mina-wallet-adapter-ui-svelte": "*"
 	}
 }
