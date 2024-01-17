@@ -22,18 +22,18 @@ Follow the steps below to seamlessly integrate the Wallet Adapter into your zkAp
 npm install mina-wallet-adapter-ui-svelte
 ```
 
-2. Import the `adapterId` constant, wallet components, and store. The CSS file is optional; import it if you prefer the default theme. It can be replaced with a project-specific stylesheet.
+2. Import wallet components and store. Import the CSS file for the default theme. Feel free to customize the CSS styles or replace it with a project-specific stylesheet.
 
 ```js
-import { AdapterId, WalletProvider, WalletMultiButton, walletStore } from "mina-wallet-adapter-ui-svelte";
-import "mina-wallet-adapter-ui-svelte/dist/wallet-adapter.css"; // Optional. Only for the default look
+import { WalletProvider, WalletMultiButton, walletStore } from "mina-wallet-adapter-ui-svelte";
+import "mina-wallet-adapter-ui-svelte/dist/wallet-adapter.css"; // Default style. Feel free to customize for project-specific look.
 ```
 
 3. Utilize the components as HTML elements within the page document. Pass the list of wallet adapters to display as a parameter to the `WalletProvider` component. The `WalletMultiButton` component will show the "Connect Wallet" button and handle the entire connection workflow.
 
 ```svelte
 <div>
-  <WalletProvider {[AdapterId.AURO, AdapterId.METAMASK]} autoConnect={true} />
+  <WalletProvider autoConnect={true} />
   <WalletMultiButton />
 </div>
 ```
