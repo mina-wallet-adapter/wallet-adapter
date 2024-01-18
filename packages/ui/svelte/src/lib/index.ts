@@ -1,3 +1,4 @@
+export { type WalletError } from "mina-wallet-adapter-core";
 export { type AdapterOption, AdapterId } from "mina-wallet-adapter-wallets";
 
 export * from "./walletStore.js";

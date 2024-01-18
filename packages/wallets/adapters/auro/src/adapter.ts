@@ -164,7 +164,7 @@ export class AuroWalletAdapter extends MinaWalletAdapter {
       if (!wallet) throw new WalletNotConnectedError();
 
       try {
-        const { hash } = <{ hash: string }>(<unknown>await wallet.sendTransaction(<any>(<unknown>transaction)));
+        const { hash } = <{ hash: string }>(<unknown>await wallet.sendTransaction({ transaction }));
         return hash;
       } catch (error: any) {
         throw new WalletSignAndSendTransactionError(error?.message, error);
