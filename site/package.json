@@ -8,8 +8,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:github": "BUILD_ENV=github next build",
-    "start": "next start"
+    "build:github": "BUILD_ENV=github npm run build && npm-run-all cp:*",
+    "start": "next start",
+    "cp:contract": "shx cp -r ../packages/starter/contract/square/build/cache out/",
+    "cp:react": "shx mkdir -p out/starter/react && shx cp -r ../packages/starter/react/create-react-app-example/build/. out/starter/react/.",
+    "cp:svelte": "shx mkdir -p out/starter/svelte && shx cp -r ../packages/starter/svelte/svelte-kit-example/build/. out/starter/svelte/.",
+    "clean": "shx rm -rf .next out"
   },
   "dependencies": {
     "next": "^13.0.6",
@@ -22,6 +26,8 @@
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
     "@types/node": "18.11.10",
+    "npm-run-all": "^4.1.5",
+    "shx": "^0.3.4",
     "typescript": "^4.9.3"
   }
 }
