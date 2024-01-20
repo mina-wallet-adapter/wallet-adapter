@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "author": "t4top",
   "license": "Apache-2.0",
-  "repository": "https://github.com/aztemi/mina-wallet-adapter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aztemi/mina-wallet-adapter.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "next dev",

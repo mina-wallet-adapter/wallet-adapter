@@ -1,13 +1,14 @@
 {
   "name": "mina-wallet-adapter-ui",
+  "private": "true",
   "version": "0.1.0",
   "author": "t4top",
   "license": "Apache-2.0",
-  "repository": "https://github.com/aztemi/mina-wallet-adapter",
-  "type": "module",
-  "publishConfig": {
-    "access": "public"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aztemi/mina-wallet-adapter.git"
   },
+  "type": "module",
   "scripts": {
     "build": "npm-run-all build:stylus cp:*",
     "build:stylus": "stylus stylesheet/ -c",
