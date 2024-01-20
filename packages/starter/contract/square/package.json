@@ -14,7 +14,7 @@
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
-    "build": "tsc && node build/src/cache.js",
+    "build": "tsc && node build/src/cache.js && node build/src/cache.js",
     "buildw": "tsc --watch",
     "interact": "node build/src/interact.js berkeley",
     "format": "prettier --write --ignore-unknown **/*",
