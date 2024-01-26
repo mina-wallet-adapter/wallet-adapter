@@ -6,8 +6,8 @@ import {
   useWallet,
   WalletProvider,
   WalletMultiButton
-} from "mina-wallet-adapter-ui-react";
-import "mina-wallet-adapter-ui-react/dist/wallet-adapter.css";
+} from "@mina-wallet-adapter/ui-react";
+import "@mina-wallet-adapter/ui-react/dist/wallet-adapter.css";
 
 import "./App.css";
 

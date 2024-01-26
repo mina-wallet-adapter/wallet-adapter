@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { shortenAddress, copyToClipboard } from "mina-wallet-adapter-core";
+  import { shortenAddress, copyToClipboard } from "@mina-wallet-adapter/core";
   import { walletStore, type WalletStore } from "./walletStore.js";
   import WalletButton from "./WalletButton.svelte";
   import WalletConnectButton from "./WalletConnectButton.svelte";

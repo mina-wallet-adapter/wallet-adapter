@@ -1,7 +1,7 @@
 <script lang="ts">
   import { slide } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
-  import { showExplainWalletSite } from "mina-wallet-adapter-core";
+  import { showExplainWalletSite } from "@mina-wallet-adapter/core";
   import { walletStore } from "./walletStore.js";
   import { clickOutside } from "./clickOutside.js";
   import WalletButton from "./WalletButton.svelte";

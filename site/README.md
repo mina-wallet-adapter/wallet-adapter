@@ -1,4 +1,4 @@
-# `mina-wallet-adapter-docs`
+# `@mina-wallet-adapter/docs`
 
 ## Documentation
 

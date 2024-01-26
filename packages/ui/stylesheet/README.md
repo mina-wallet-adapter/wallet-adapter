@@ -16,7 +16,7 @@ All selectors are prefixed with `wallet-adapter-` to avoid conflicts.
 
 ```shell
 git clone https://github.com/mina-wallet-adapter/wallet-adapter.git
-cd mina-wallet-adapter/packages/ui/
+cd wallet-adapter/packages/ui/
 ```
 
 2. Install project dependencies

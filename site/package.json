@@ -1,5 +1,5 @@
 {
-  "name": "mina-wallet-adapter-site",
+  "name": "@mina-wallet-adapter/site",
   "version": "0.0.1",
   "author": "t4top",
   "license": "Apache-2.0",

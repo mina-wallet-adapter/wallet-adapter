@@ -1,4 +1,4 @@
-# `mina-wallet-adapter-ui-svelte`
+# `@mina-wallet-adapter/ui-svelte`
 
 A set of modular UI components, store and utilities for integrating wallet adapter to Mina zkApps written in Svelte.
 
@@ -13,7 +13,7 @@ A set of modular UI components, store and utilities for integrating wallet adapt
 
 ```bash
 git clone https://github.com/mina-wallet-adapter/wallet-adapter.git
-cd mina-wallet-adapter/packages/ui/svelte/
+cd wallet-adapter/packages/ui/svelte/
 ```
 
 2. Install project dependencies

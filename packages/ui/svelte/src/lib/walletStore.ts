@@ -6,9 +6,9 @@ import {
   openWeblink,
   getLocalStorage,
   setLocalStorage
-} from "mina-wallet-adapter-core";
+} from "@mina-wallet-adapter/core";
 import { get, writable } from "svelte/store";
-import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
+import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "@mina-wallet-adapter/core";
 import type { SignableData, SignedAny } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 
 type ErrorHandler = (error: WalletError) => void;

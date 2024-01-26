@@ -5,8 +5,8 @@
 		WalletProvider,
 		WalletMultiButton,
 		walletStore
-	} from 'mina-wallet-adapter-ui-svelte';
-	import 'mina-wallet-adapter-ui-svelte/dist/wallet-adapter.css';
+	} from '@mina-wallet-adapter/ui-svelte';
+	import '@mina-wallet-adapter/ui-svelte/dist/wallet-adapter.css';
 
 	let adapters: AdapterOption[] = [AdapterId.AURO];
 	let value: number = 2;

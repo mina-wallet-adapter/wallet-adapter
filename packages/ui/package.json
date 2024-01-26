@@ -1,5 +1,5 @@
 {
-  "name": "mina-wallet-adapter-ui",
+  "name": "@mina-wallet-adapter/ui",
   "private": "true",
   "version": "0.1.0",
   "author": "t4top",

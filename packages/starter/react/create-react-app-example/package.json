@@ -18,7 +18,7 @@
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
-    "mina-wallet-adapter-ui-react": "*"
+    "@mina-wallet-adapter/ui-react": "*"
   },
   "scripts": {
     "start": "react-scripts start",

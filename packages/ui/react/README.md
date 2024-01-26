@@ -1,4 +1,4 @@
-# `mina-wallet-adapter-ui-react`
+# `@mina-wallet-adapter/ui-react`
 
 Modular TypeScript wallet adapter and UI components for Mina zkApps using React.
 
@@ -10,7 +10,7 @@ This package exports a series of hooks that you can use to create custom wallet 
 
 ```bash
 git clone https://github.com/mina-wallet-adapter/wallet-adapter.git
-cd mina-wallet-adapter/packages/ui/react/
+cd wallet-adapter/packages/ui/react/
 ```
 
 2. Install project dependencies

@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { WalletAdapterContext, WalletAdapter, WalletName } from "mina-wallet-adapter-core";
+import type { WalletAdapterContext, WalletAdapter, WalletName } from "@mina-wallet-adapter/core";
 
 export interface WalletContextState extends WalletAdapterContext {
   wallets: WalletAdapter[];

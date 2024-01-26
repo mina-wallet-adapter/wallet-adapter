@@ -7,10 +7,10 @@ import {
   WalletNotSelectedError,
   WalletNotConnectedError,
   WalletNotReadyError
-} from "mina-wallet-adapter-core";
+} from "@mina-wallet-adapter/core";
 import type { SignableData, SignedAny } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "mina-wallet-adapter-core";
-import { type AdapterOption, AdapterId, loadAdapters } from "mina-wallet-adapter-wallets";
+import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "@mina-wallet-adapter/core";
+import { type AdapterOption, AdapterId, loadAdapters } from "@mina-wallet-adapter/wallets";
 import { WalletContext } from "./useWallet";
 
 const initialState = {

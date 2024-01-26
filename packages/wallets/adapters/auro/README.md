@@ -1,1 +1,1 @@
-# `mina-wallet-adapter-auro`
+# `@mina-wallet-adapter/auro`

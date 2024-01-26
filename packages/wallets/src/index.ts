@@ -1,4 +1,4 @@
-import type { WalletAdapter } from "mina-wallet-adapter-core";
+import type { WalletAdapter } from "@mina-wallet-adapter/core";
 
 export const AdapterId = {
   AURO: "auro"
@@ -23,7 +23,7 @@ export async function loadAdapters(options: AdapterOption[]): Promise<WalletAdap
       .map(async ({ adapter, config }) => {
         switch (adapter) {
           case AdapterId.AURO:
-            const { AuroWalletAdapter } = await import("mina-wallet-adapter-auro");
+            const { AuroWalletAdapter } = await import("@mina-wallet-adapter/auro");
             adapters.push(new AuroWalletAdapter(config));
             break;
 

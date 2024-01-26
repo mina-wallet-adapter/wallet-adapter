@@ -1,1 +1,1 @@
-# `mina-wallet-adapter-core`
+# `@mina-wallet-adapter/core`

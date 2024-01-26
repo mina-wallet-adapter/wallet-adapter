@@ -1,6 +1,6 @@
 import React, { type MouseEvent, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { copyToClipboard } from "mina-wallet-adapter-core";
+import { copyToClipboard } from "@mina-wallet-adapter/core";
 import { useClickOutside } from "./useClickOutside";
 import { useWallet } from "./useWallet";
 

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { type AdapterOption, AdapterId, loadAdapters } from "mina-wallet-adapter-wallets";
+  import { type AdapterOption, AdapterId, loadAdapters } from "@mina-wallet-adapter/wallets";
   import { initialize } from "./walletStore.js";
-  import type { WalletAdapter, WalletError } from "mina-wallet-adapter-core";
+  import type { WalletAdapter, WalletError } from "@mina-wallet-adapter/core";
 
   export let adapters: AdapterOption[] = Object.values(AdapterId),
     autoConnect = false,

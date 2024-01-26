@@ -8,10 +8,10 @@ import {
   WalletSignMessageError,
   WalletNotSupportedMethod,
   WalletSignAndSendTransactionError
-} from "mina-wallet-adapter-core";
+} from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { EventEmitter, WalletName } from "mina-wallet-adapter-core";
+import type { EventEmitter, WalletName } from "@mina-wallet-adapter/core";
 import type MinaProvider from "@aurowallet/mina-provider";
 import type SignedData from "@aurowallet/mina-provider";
 

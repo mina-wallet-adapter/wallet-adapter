@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { shortenAddress } from "mina-wallet-adapter-core";
+import { shortenAddress } from "@mina-wallet-adapter/core";
 import { useWallet } from "./useWallet";
 import { WalletButton } from "./WalletButton";
 import { WalletMenu } from "./WalletMenu";

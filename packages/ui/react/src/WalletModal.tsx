@@ -1,10 +1,10 @@
 import React, { type MouseEvent, useRef, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
-import { WalletReadyState, showExplainWalletSite } from "mina-wallet-adapter-core";
+import { WalletReadyState, showExplainWalletSite } from "@mina-wallet-adapter/core";
 import { useWallet } from "./useWallet";
 import { useClickOutside } from "./useClickOutside";
 import { WalletButton } from "./WalletButton";
-import type { WalletName } from "mina-wallet-adapter-core";
+import type { WalletName } from "@mina-wallet-adapter/core";
 
 type WalletModalProps = {
   maxNumberOfWallets: number;

@@ -1,5 +1,5 @@
 {
-  "name": "mina-wallet-adapter-ui-svelte",
+  "name": "@mina-wallet-adapter/ui-svelte",
   "version": "0.1.0",
   "author": "t4top",
   "license": "Apache-2.0",
