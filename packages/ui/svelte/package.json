@@ -17,6 +17,9 @@
     },
     "./dist/wallet-adapter.css": "./dist/wallet-adapter.css"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist",
     "!dist/**/*.test.*",
