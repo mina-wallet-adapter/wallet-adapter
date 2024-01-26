@@ -12,11 +12,11 @@ Check out the demo sites below to see the Wallet Adapter in action.
 
 ## Core Features
 
-- [Wallet Standard](https://github.com/wallet-standard/wallet-standard) support
 - Auto-detection of installed wallets
 - Automatic wallet state management
-- Integration with .mina domain (Mina Names Service)
 - Query hooks and modular UI components for zkApps
+- [Wallet Standard](https://github.com/mina-wallet-adapter/wallet-standard) support
+- Integration with .mina domain (Mina Names Service) _(coming soon)_
 - TypeScript
 
 ## Documentation
