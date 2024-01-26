@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aztemi/mina-wallet-adapter.git"
+    "url": "git+https://github.com/mina-wallet-adapter/wallet-adapter.git"
   },
   "publishConfig": {
     "access": "public"

@@ -31,12 +31,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aztemi/mina-wallet-adapter.git"
+    "url": "git+https://github.com/mina-wallet-adapter/wallet-adapter.git"
   },
   "bugs": {
-    "url": "https://github.com/aztemi/mina-wallet-adapter/issues"
+    "url": "https://github.com/mina-wallet-adapter/wallet-adapter/issues"
   },
-  "homepage": "https://github.com/aztemi/mina-wallet-adapter#readme",
+  "homepage": "https://github.com/mina-wallet-adapter/wallet-adapter#readme",
   "keywords": [
     "mina",
     "wallet",

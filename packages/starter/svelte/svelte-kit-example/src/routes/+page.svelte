@@ -21,7 +21,11 @@
 	<h1>zkApp starter-kit with <u>Svelte</u></h1>
 	<p>
 		Demo of
-		<a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank" rel="noreferrer">
+		<a
+			href="https://github.com/mina-wallet-adapter/wallet-adapter"
+			target="_blank"
+			rel="noreferrer"
+		>
 			mina-wallet-adapter
 		</a> for implementing zkApps in Svelte.
 	</p>
@@ -51,7 +55,7 @@
 		</svg>
 		<p>
 			<a
-				href="https://github.com/aztemi/mina-wallet-adapter/tree/main/packages/starter/svelte/svelte-kit-example"
+				href="https://github.com/mina-wallet-adapter/wallet-adapter/tree/main/packages/starter/svelte/svelte-kit-example"
 				target="_blank"
 				rel="noreferrer"
 			>

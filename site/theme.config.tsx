@@ -5,7 +5,7 @@ import type { DocsThemeConfig } from "nextra-theme-docs";
 
 const site = {
   name: "Mina Wallet Adapter",
-  url: "https://aztemi.github.io/mina-wallet-adapter",
+  url: "https://mina-wallet-adapter.github.io/wallet-adapter",
   description: "Add wallets support to your zkApps with ease."
 };
 
@@ -51,9 +51,9 @@ const config: DocsThemeConfig = {
     );
   },
   project: {
-    link: "https://github.com/aztemi/mina-wallet-adapter"
+    link: "https://github.com/mina-wallet-adapter/wallet-adapter"
   },
-  docsRepositoryBase: "https://github.com/aztemi/mina-wallet-adapter/tree/main/site",
+  docsRepositoryBase: "https://github.com/mina-wallet-adapter/wallet-adapter/tree/main/site",
   editLink: {
     text: "Edit this page on GitHub →"
   },
@@ -61,7 +61,7 @@ const config: DocsThemeConfig = {
     placeholder: "Search Docs ..."
   },
   footer: {
-    text: <small>© {new Date().getFullYear()} AZTemi.</small>
+    text: <small>© {new Date().getFullYear()} Mina Wallet Adapter.</small>
   }
 };
 

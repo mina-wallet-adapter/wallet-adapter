@@ -2,4 +2,4 @@
 
 ## Documentation
 
-[https://aztemi.github.io/mina-wallet-adapter/](https://aztemi.github.io/mina-wallet-adapter/)
+[https://mina-wallet-adapter.github.io/wallet-adapter/](https://mina-wallet-adapter.github.io/wallet-adapter/)

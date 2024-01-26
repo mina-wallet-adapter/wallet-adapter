@@ -9,7 +9,7 @@ This package exports a series of hooks that you can use to create custom wallet 
 1. Clone this git repository and change to the project directory
 
 ```bash
-git clone https://github.com/aztemi/mina-wallet-adapter.git
+git clone https://github.com/mina-wallet-adapter/wallet-adapter.git
 cd mina-wallet-adapter/packages/ui/react/
 ```
 

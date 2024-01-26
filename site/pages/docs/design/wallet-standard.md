@@ -25,4 +25,4 @@ The Wallet Standard Extensions for Mina Protocol are defined as follows:
 
 ## Source code
 
-[`mina-wallet-standard`](https://github.com/aztemi/mina-wallet-standard)
+[`mina-wallet-standard`](https://github.com/mina-wallet-adapter/wallet-standard)

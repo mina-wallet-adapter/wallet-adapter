@@ -8,7 +8,7 @@ Modular TypeScript wallet adapters and components designed for Mina zkApps. Add 
 
 Check out the demo sites below to see the Wallet Adapter in action.
 
-👉 [zkApp Starter Kit](https://aztemi.github.io/mina-wallet-adapter/)
+👉 [zkApp Starter Kit](https://mina-wallet-adapter.github.io/wallet-adapter/)
 
 ## Core Features
 
@@ -21,7 +21,7 @@ Check out the demo sites below to see the Wallet Adapter in action.
 
 ## Documentation
 
-[https://aztemi.github.io/mina-wallet-adapter/](https://aztemi.github.io/mina-wallet-adapter/)
+[https://mina-wallet-adapter.github.io/wallet-adapter/](https://mina-wallet-adapter.github.io/wallet-adapter/)
 
 ## Directory Structure
 

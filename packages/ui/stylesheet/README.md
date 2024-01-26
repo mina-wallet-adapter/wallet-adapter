@@ -15,7 +15,7 @@ All selectors are prefixed with `wallet-adapter-` to avoid conflicts.
 1. Clone this git repository and change to the project directory
 
 ```shell
-git clone https://github.com/aztemi/mina-wallet-adapter.git
+git clone https://github.com/mina-wallet-adapter/wallet-adapter.git
 cd mina-wallet-adapter/packages/ui/
 ```
 

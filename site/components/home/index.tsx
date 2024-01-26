@@ -10,7 +10,7 @@ function Hero() {
         <p className="nextra-content">Add wallets support to your zkApps with ease 🔥</p>
         <div className="nx-flex mx-flex-wrap nx-gap-4 nx-justify-center md:nx-justify-start nx-mt-8">
           <LinkButton href="/docs/intro">View Docs</LinkButton>
-          <LinkButton href="https://aztemi.github.io/mina-wallet-adapter/starter/svelte" target="_blank">
+          <LinkButton href="https://mina-wallet-adapter.github.io/wallet-adapter/starter/svelte" target="_blank">
             See Demo
           </LinkButton>
         </div>

@@ -5,14 +5,14 @@ A set of modular UI components, store and utilities for integrating wallet adapt
 ## Demo
 
 - [Starter Project](./../../starter/svelte/svelte-kit-example/)
-- [Demo zkApp](https://aztemi.github.io/mina-wallet-adapter/)
+- [Demo zkApp](https://mina-wallet-adapter.github.io/wallet-adapter/)
 
 ## How to build
 
 1. Clone this git repository and change to the project directory
 
 ```bash
-git clone https://github.com/aztemi/mina-wallet-adapter.git
+git clone https://github.com/mina-wallet-adapter/wallet-adapter.git
 cd mina-wallet-adapter/packages/ui/svelte/
 ```
 

@@ -53,7 +53,7 @@ function Content() {
       </h1>
       <p>
         Demo of{" "}
-        <a href="https://github.com/aztemi/mina-wallet-adapter" target="_blank" rel="noreferrer">
+        <a href="https://github.com/mina-wallet-adapter/wallet-adapter" target="_blank" rel="noreferrer">
           mina-wallet-adapter
         </a>{" "}
         for implementing zkApps in React.
@@ -85,7 +85,7 @@ function Content() {
         </svg>
         <p>
           <a
-            href="https://github.com/aztemi/mina-wallet-adapter/tree/main/packages/starter/react/create-react-app-example"
+            href="https://github.com/mina-wallet-adapter/wallet-adapter/tree/main/packages/starter/react/create-react-app-example"
             target="_blank"
             rel="noreferrer"
           >
