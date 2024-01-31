@@ -1,6 +1,5 @@
 import { LinkButton } from "@components/elements";
 import style from "./style.module.css";
-import { addAssetPrefix } from "@/constant";
 
 function Hero() {
   return (
@@ -15,7 +14,7 @@ function Hero() {
           </LinkButton>
         </div>
       </div>
-      <div className={style.imgdiv} style={{ backgroundImage: `url('${addAssetPrefix("/assets/hero.png")}')` }} />
+      <div className={style.imgdiv} style={{ backgroundImage: "url('./assets/hero.png')" }} />
     </div>
   );
 }

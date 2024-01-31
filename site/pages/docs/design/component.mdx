@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { addAssetPrefix } from "@/constant";
+import { ImgDiv } from "@components/elements";
 
 # Components
 
@@ -15,13 +14,13 @@ This serves as the entry button to connect a wallet. When clicked, it opens eith
 
 Displayed when no wallet is detected, the Welcome Modal presents a redirect button to the Mina Protocol official guide page for installing wallets and a configurable list of links to the websites of popular Mina wallets.
 
-<Image src={addAssetPrefix("/assets/welcome_modal.png")} alt="Welcome Modal" width={300} height={358} />
+<ImgDiv style={{ maxWidth: "300px" }}>![Welcome Modal](/assets/welcome_modal.png)</ImgDiv>
 
 ## 3. Select Modal
 
 This is shown when at least one wallet is detected as installed. It displays a button list of wallets supported by the zkApp. Detected wallets are sorted to the top of the list for easy access. Click any of the wallets in the list to trigger a connection flow.
 
-<Image src={addAssetPrefix("/assets/select_modal.png")} alt="Select Modal" width={300} height={293} />
+<ImgDiv style={{ maxWidth: "300px" }}>![Select Modal](/assets/select_modal.png)</ImgDiv>
 
 ## 4. Context Menu
 
