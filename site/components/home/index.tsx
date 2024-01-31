@@ -1,4 +1,4 @@
-import { LinkButton } from "@components/buttons";
+import { LinkButton } from "@components/elements";
 import style from "./style.module.css";
 import { addAssetPrefix } from "@/constant";
 
