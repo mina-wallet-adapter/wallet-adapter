@@ -12,7 +12,7 @@ This guide provides a quick setup for integrating the Wallet Adapter into a zkAp
 
 ## Svelte
 
-Follow the steps below to seamlessly integrate the Wallet Adapter into your zkApp with just a few lines of code. Refer to the [example starter project](../packages/starter/svelte/svelte-kit-example/) for the complete reference source code.
+Follow the steps below to seamlessly integrate the Wallet Adapter into your zkApp with just a few lines of code. Refer to the [example starter project](https://github.com/mina-wallet-adapter/starter-kit-svelte) for the complete reference source code.
 
 ### Usage steps
 
