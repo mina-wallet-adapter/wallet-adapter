@@ -1,4 +1,8 @@
+import { Tabs, Pre } from "nextra/components";
+import { SvelteIcon, ReactIcon } from "@components/icons";
 import { LinkButton } from "@components/elements";
+import SvelteCode from "./svelte_code.mdx";
+import ReactCode from "./react_code.mdx";
 import style from "./style.module.css";
 
 function Hero() {
@@ -19,6 +23,57 @@ function Hero() {
   );
 }
 
+function Code() {
+  return (
+    <>
+      <hr className="dark:nx-border-neutral-800" />
+      <div className={style.code}>
+        <div>
+          <h2>Get started in seconds</h2>
+          <p>
+            Simple, intuitive and easy to integrate. Using Svelte, React or another library, add wallets support to
+            zkApps with just a few lines of code.
+          </p>
+          <LinkButton href="/docs/intro" className="nx-my-4">
+            Learn more
+          </LinkButton>
+        </div>
+        <div className="nextra-scrollbar nx-overflow-x-auto nx-overflow-y-hidden nx-overscroll-x-contain">
+          <div className="nx-w-max nx-min-w-full nx-bg-gray-100 dark:nx-bg-gray-50/10 nx-rounded-xl nx-pt-1 nx-px-4 nx-pb-8">
+            <Tabs
+              items={[
+                <span>
+                  <SvelteIcon /> Svelte
+                </span>,
+                <span>
+                  <ReactIcon /> React
+                </span>
+              ]}
+            >
+              <Tabs.Tab>
+                <Pre hasCopyCode={true}>
+                  <SvelteCode />
+                </Pre>
+              </Tabs.Tab>
+              <Tabs.Tab>
+                <Pre hasCopyCode={true}>
+                  <ReactCode />
+                </Pre>
+              </Tabs.Tab>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+      <hr className="dark:nx-border-neutral-800" />
+    </>
+  );
+}
+
 export function Home() {
-  return <Hero />;
+  return (
+    <>
+      <Hero />
+      <Code />
+    </>
+  );
 }

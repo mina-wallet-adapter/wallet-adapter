@@ -47,3 +47,33 @@
     grid-template-columns: 1fr 35rem;
   }
 }
+
+.code {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem 1rem 1rem;
+  margin: 0 auto;
+  max-width: 70rem;
+  min-height: calc(100vh - (3.5 * var(--nextra-navbar-height)));
+}
+.code h2 {
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 1rem;
+}
+.code svg {
+  display: inline;
+  width: 1rem;
+  max-height: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .code {
+    grid-template-columns: 40% 60%;
+    padding: 2rem 2rem 1rem;
+  }
+}
