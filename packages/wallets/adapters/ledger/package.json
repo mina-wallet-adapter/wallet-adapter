@@ -1,0 +1,45 @@
+{
+  "name": "@mina-wallet-adapter/ledger",
+  "version": "0.1.0",
+  "author": "t4top",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mina-wallet-adapter/wallet-adapter.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "clean": "shx rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/w3c-web-hid": "^1.0.6",
+    "@wallet-standard/base": "^1.0.1",
+    "mina-signer": "^2.1.1",
+    "shx": "^0.3.4",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@ledgerhq/devices": "8.2.0",
+    "@ledgerhq/hw-transport": "6.30.3",
+    "@ledgerhq/hw-transport-webhid": "6.28.3",
+    "buffer": "^6.0.3",
+    "mina-wallet-standard": "^0.1.2"
+  }
+}
