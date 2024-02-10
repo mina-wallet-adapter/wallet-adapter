@@ -1,4 +1,4 @@
-import type { WalletAdapter } from "@mina-wallet-adapter/core";
+import { WalletReadyState, type WalletAdapter } from "@mina-wallet-adapter/core";
 
 export const AdapterId = {
   AURO: "auro",
@@ -11,39 +11,46 @@ export type AdapterIdType = (typeof AdapterId)[keyof typeof AdapterId];
 export type AdapterOption = AdapterIdType | { adapter: AdapterIdType; config?: object };
 
 export async function loadAdapters(options: AdapterOption[]): Promise<WalletAdapter[]> {
-  let adapters: WalletAdapter[] = [];
+  let adapters: { [key: string]: WalletAdapter } = {};
+  let detected: WalletAdapter[] = [];
+  let others: WalletAdapter[] = [];
 
+  // normalize and remove duplicates
+  const nOptions = options
+    .map(aId => (typeof aId === "string" ? { adapter: aId, config: {} } : aId))
+    .filter((a, idx, arr) => arr.findIndex(b => b.adapter === a.adapter) === idx);
+
+  // load adapters
   await Promise.allSettled(
-    options
-      // normalize to object arrays
-      .map(aId => (typeof aId === "string" ? { adapter: aId, config: {} } : aId))
+    nOptions.map(async ({ adapter, config }) => {
+      switch (adapter) {
+        case AdapterId.AURO:
+          const { AuroWalletAdapter } = await import("@mina-wallet-adapter/auro");
+          adapters[adapter] = new AuroWalletAdapter(config);
+          break;
 
-      // remove duplicates
-      .filter((a, idx, arr) => arr.findIndex(b => b.adapter === a.adapter) === idx)
+        case AdapterId.LEDGER:
+          const { LedgerWalletAdapter } = await import("@mina-wallet-adapter/ledger");
+          adapters[adapter] = new LedgerWalletAdapter(config);
+          break;
 
-      // load adapters
-      .map(async ({ adapter, config }) => {
-        switch (adapter) {
-          case AdapterId.AURO:
-            const { AuroWalletAdapter } = await import("@mina-wallet-adapter/auro");
-            adapters.push(new AuroWalletAdapter(config));
-            break;
+        case AdapterId.METAMASK_SNAP:
+          const { MetaMaskSnapWalletAdapter } = await import("@mina-wallet-adapter/metamask-snap");
+          adapters[adapter] = new MetaMaskSnapWalletAdapter(config);
+          break;
 
-          case AdapterId.LEDGER:
-            const { LedgerWalletAdapter } = await import("@mina-wallet-adapter/ledger");
-            adapters.push(new LedgerWalletAdapter(config));
-            break;
-
-          case AdapterId.METAMASK_SNAP:
-            const { MetaMaskSnapWalletAdapter } = await import("@mina-wallet-adapter/metamask-snap");
-            adapters.push(new MetaMaskSnapWalletAdapter(config));
-            break;
-
-          default:
-            break;
-        }
-      })
+        default:
+          break;
+      }
+    })
   );
 
-  return adapters;
+  // keep adapters order based on request, sorting detected adapters to the top
+  nOptions.forEach(({ adapter }) =>
+    adapters[adapter].readyState === WalletReadyState.Installed
+      ? detected.push(adapters[adapter])
+      : others.push(adapters[adapter])
+  );
+
+  return detected.concat(others);
 }
