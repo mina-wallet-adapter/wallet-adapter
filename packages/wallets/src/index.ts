@@ -2,7 +2,8 @@ import type { WalletAdapter } from "@mina-wallet-adapter/core";
 
 export const AdapterId = {
   AURO: "auro",
-  LEDGER: "ledger"
+  LEDGER: "ledger",
+  METAMASK_SNAP: "MetaMask Snap"
 } as const;
 
 export type AdapterIdType = (typeof AdapterId)[keyof typeof AdapterId];
@@ -31,6 +32,11 @@ export async function loadAdapters(options: AdapterOption[]): Promise<WalletAdap
           case AdapterId.LEDGER:
             const { LedgerWalletAdapter } = await import("@mina-wallet-adapter/ledger");
             adapters.push(new LedgerWalletAdapter(config));
+            break;
+
+          case AdapterId.METAMASK_SNAP:
+            const { MetaMaskSnapWalletAdapter } = await import("@mina-wallet-adapter/metamask-snap");
+            adapters.push(new MetaMaskSnapWalletAdapter(config));
             break;
 
           default:
