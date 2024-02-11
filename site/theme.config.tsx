@@ -25,7 +25,7 @@ const config: DocsThemeConfig = {
   head: function useHead() {
     const { title } = useConfig();
     const pageTitle = (title ? title + " – " : "") + site.name;
-    const socialCard = `${site.url}/og.png`;
+    const socialCard = `${site.url}/assets/og.png`;
 
     return (
       <>
