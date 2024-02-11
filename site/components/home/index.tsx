@@ -7,7 +7,7 @@ import style from "./style.module.css";
 
 function Hero() {
   return (
-    <div className={style.hero}>
+    <div className={`${style.section} ${style.hero}`}>
       <div className={style.textdiv}>
         <h1>Mina Wallet Adapter</h1>
         <p className="nextra-content">Add wallets support to your zkApps with ease 🔥</p>
@@ -27,7 +27,7 @@ function Code() {
   return (
     <>
       <hr className="dark:nx-border-neutral-800" />
-      <div className={style.code}>
+      <div className={`${style.section} ${style.code}`}>
         <div>
           <h2>Get started in seconds</h2>
           <p>

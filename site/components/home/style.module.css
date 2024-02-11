@@ -1,4 +1,4 @@
-.hero {
+.section {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -7,8 +7,9 @@
   padding: 2rem 1rem 1rem;
   margin: 0 auto;
   max-width: 70rem;
-  min-height: calc(100vh - (3.5 * var(--nextra-navbar-height)));
+  min-height: min(45rem, calc(100vh - (4 * var(--nextra-navbar-height))));
 }
+
 .hero h1 {
   font-weight: 700;
   font-size: 2.25rem;
@@ -49,15 +50,7 @@
 }
 
 .code {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  justify-content: space-between;
   gap: 1rem;
-  padding: 2rem 1rem 1rem;
-  margin: 0 auto;
-  max-width: 70rem;
-  min-height: calc(100vh - (3.5 * var(--nextra-navbar-height)));
 }
 .code h2 {
   font-weight: 700;
