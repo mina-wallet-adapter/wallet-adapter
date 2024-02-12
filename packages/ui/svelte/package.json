@@ -38,6 +38,9 @@
     "format": "prettier --plugin-search-dir . --write ."
   },
   "peerDependencies": {
+    "@mina-wallet-adapter/core": "*",
+    "@mina-wallet-adapter/wallets": "*",
+    "o1js": "0.15.*",
     "svelte": "^4.0.0"
   },
   "devDependencies": {

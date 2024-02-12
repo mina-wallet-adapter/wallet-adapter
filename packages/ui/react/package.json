@@ -31,6 +31,9 @@
     "clean": "shx rm -rf dist"
   },
   "peerDependencies": {
+    "@mina-wallet-adapter/core": "*",
+    "@mina-wallet-adapter/wallets": "*",
+    "o1js": "0.15.*",
     "react": "*",
     "react-dom": "*"
   },
