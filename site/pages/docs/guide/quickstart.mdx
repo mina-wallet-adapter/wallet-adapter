@@ -1,0 +1,118 @@
+import { Tabs, Steps, Callout } from "nextra/components";
+
+There are two possible options to quickly add the Mina Wallet Adapter to your zkApps.
+
+## Option 1: Starter-Kits
+
+The easiest way to start using the Mina Wallet Adapter is to build upon the starter-kit projects. There are starter-kits for various JavaScript frameworks; choose any compatible with your zkApp.
+
+<Tabs items={['React', 'Svelte']} storageKey="selectedJSFramework">
+  <Tabs.Tab>
+
+```bash
+npx degit mina-wallet-adapter/starter-kit-react my-zkapp
+cd my-zkapp
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+```bash
+npx degit mina-wallet-adapter/starter-kit-svelte my-zkapp
+cd my-zkapp
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+## Option 2: Manual Installation
+
+Manually add the Mina Wallet Adapter to your pre-existing zkApp project.
+
+<Tabs items={["React", "Svelte"]} storageKey="selectedJSFramework">
+  <Tabs.Tab>
+    <Steps>
+
+### Add dependency
+
+Install the following dependency in your project. Only a single package is required.
+
+```bash npm2yarn
+npm install @mina-wallet-adapter/ui-react
+```
+
+### Import components
+
+the default mode requires just `WalletProvider` and `WalletMultiButton`. The `wallet-adapter.css` file is optional and just for the default theme. Feel free to customize its CSS styles or replace the file with a project-specific stylesheet.
+
+```js filename="App.tsx"
+import { WalletProvider, WalletMultiButton } from "@mina-wallet-adapter/ui-react";
+import "@mina-wallet-adapter/ui-react/dist/wallet-adapter.css";
+```
+
+### Use in App
+
+Use `WalletProvider` as the root of your App to set up the necessary context object for your React app.
+The `WalletMultiButton` shows the user a button to connect and a modal to select available wallets from. It automatically uses the connection state to display appropriate components.
+
+```js filename="App.tsx" {3,4,6}
+function App() {
+  return (
+    <WalletProvider>
+      <WalletMultiButton />
+      <YourApp />
+    </WalletProvider>
+  );
+}
+```
+
+<Callout type="info">
+  Wrap your app with the `WalletProvider` so that you can use other components and hooks underneath it.
+</Callout>
+
+### That's it
+
+You can now start adding the `useWallet` hook for more advanced features.
+
+    </Steps>
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    <Steps>
+
+### Add dependency
+
+Install the following dependency to your project. Only a single package is required.
+
+```bash npm2yarn
+npm install @mina-wallet-adapter/ui-svelte
+```
+
+### Import components
+
+The default mode requires just `WalletProvider` and `WalletMultiButton`. The `wallet-adapter.css` file is optional and just for the default theme. Feel free to customize its CSS styles or replace the file with a project-specific stylesheet.
+
+```js filename="+page.svelte"
+import { WalletProvider, WalletMultiButton } from "@mina-wallet-adapter/ui-svelte";
+import "@mina-wallet-adapter/ui-svelte/dist/wallet-adapter.css";
+```
+
+### Use in App
+
+Use `WalletProvider` to set up the necessary context and common configurations.
+The `WalletMultiButton` shows the user a button to connect and a modal to select available wallets from. It automatically uses the connection state to display appropriate components.
+
+```js {1,2} filename="+page.svelte"
+  <WalletProvider />
+  <WalletMultiButton />
+  <YourApp />
+```
+
+### That's it
+
+You can now start adding the `walletStore` store for more advanced features.
+
+    </Steps>
+
+  </Tabs.Tab>
+</Tabs>
