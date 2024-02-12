@@ -43,6 +43,10 @@ This is a monorepo containing the following packages.
 
 ![screenshot](site/public/assets/design.png)
 
+## Special Thanks
+
+This project is funded as part of the [Mina Navigators Program](https://minaprotocol.com/blog/mina-navigators-zk-grants-program), and it was inspired by the [Aptos Wallet Adapter](https://github.com/aptos-labs/aptos-wallet-adapter) and [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter). Special thanks to the contributors of those projects.
+
 ## License
 
 [Apache-2.0](./LICENSE)
