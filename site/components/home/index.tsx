@@ -31,7 +31,7 @@ function Code() {
         <div>
           <h2>Get started in seconds</h2>
           <p>
-            Simple, intuitive and easy to integrate. Using Svelte, React or another library, add wallets support to
+            Simple, intuitive and easy to integrate. Using React, Svelte or another library, add wallets support to
             zkApps with just a few lines of code.
           </p>
           <LinkButton href="/docs/intro" className="nx-my-4">
@@ -41,23 +41,24 @@ function Code() {
         <div className="nextra-scrollbar nx-overflow-x-auto nx-overflow-y-hidden nx-overscroll-x-contain">
           <div className="nx-w-max nx-min-w-full nx-bg-gray-100 dark:nx-bg-gray-50/10 nx-rounded-xl nx-pt-1 nx-px-4 nx-pb-8">
             <Tabs
+              storageKey="selectedJSFramework"
               items={[
                 <span>
-                  <SvelteIcon /> Svelte
+                  <ReactIcon /> React
                 </span>,
                 <span>
-                  <ReactIcon /> React
+                  <SvelteIcon /> Svelte
                 </span>
               ]}
             >
               <Tabs.Tab>
                 <Pre hasCopyCode={true}>
-                  <SvelteCode />
+                  <ReactCode />
                 </Pre>
               </Tabs.Tab>
               <Tabs.Tab>
                 <Pre hasCopyCode={true}>
-                  <ReactCode />
+                  <SvelteCode />
                 </Pre>
               </Tabs.Tab>
             </Tabs>
