@@ -14,7 +14,7 @@ function Hero() {
         <div className="nx-flex mx-flex-wrap nx-gap-4 nx-justify-center md:nx-justify-start nx-mt-8">
           <LinkButton href="/docs/intro">View Docs</LinkButton>
           <LinkButton href="https://mina-wallet-adapter.github.io/starter-kit-svelte/" target="_blank">
-            See Demo
+            See Demo ↗
           </LinkButton>
         </div>
       </div>
@@ -34,7 +34,7 @@ function Code() {
             Simple, intuitive and easy to integrate. Using React, Svelte or another library, add wallets support to
             zkApps with just a few lines of code.
           </p>
-          <LinkButton href="/docs/intro" className="nx-my-4">
+          <LinkButton href="/docs/guide/quickstart" className="nx-my-4">
             Learn more
           </LinkButton>
         </div>
