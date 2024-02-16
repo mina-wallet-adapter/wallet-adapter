@@ -11,14 +11,13 @@ import {
   WalletNotConnectedError,
   WalletDisconnectionError,
   WalletPublicKeyError,
-  WalletSignMessageError,
-  WalletNotSupportedMethod,
-  WalletSignAndSendTransactionError
+  WalletSignTransactionError,
+  WalletNotSupportedMethod
 } from "@mina-wallet-adapter/core";
-import { MinaLedgerJS } from "mina-ledger-js";
+import { MinaLedgerJS, SignTransactionArgs, TxType, Networks } from "mina-ledger-js";
 import type { WalletAccount } from "@wallet-standard/base";
-import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { EventEmitter, WalletName } from "@mina-wallet-adapter/core";
+import type { SignableData, SignedAny, Signed, Payment } from "mina-signer/dist/node/mina-signer/src/TSTypes";
+import type { WalletName } from "@mina-wallet-adapter/core";
 import type { default as Transport } from "@ledgerhq/hw-transport";
 
 if (typeof window !== "undefined" && window.Buffer === undefined) {
@@ -38,8 +37,8 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
     "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzUgMzUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI2ZmZiI+PHBhdGggZD0ibTIzLjU4OCAwaC0xNnYyMS41ODNoMjEuNnYtMTZhNS41ODUgNS41ODUgMCAwIDAgLTUuNi01LjU4M3oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuNzM5KSIvPjxwYXRoIGQ9Im04LjM0MiAwaC0yLjc1N2E1LjU4NSA1LjU4NSAwIDAgMCAtNS41ODUgNS41ODV2Mi43NTdoOC4zNDJ6Ii8+PHBhdGggZD0ibTAgNy41OWg4LjM0MnY4LjM0MmgtOC4zNDJ6IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDUuNzM5KSIvPjxwYXRoIGQ9Im0xNS4xOCAyMy40NTFoMi43NTdhNS41ODUgNS41ODUgMCAwIDAgNS41ODUtNS42di0yLjY3MWgtOC4zNDJ6IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMS40NzggMTEuNDc4KSIvPjxwYXRoIGQ9Im03LjU5IDE1LjE4aDguMzQydjguMzQyaC04LjM0MnoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuNzM5IDExLjQ3OCkiLz48cGF0aCBkPSJtMCAxNS4xOHYyLjc1N2E1LjU4NSA1LjU4NSAwIDAgMCA1LjU4NSA1LjU4NWgyLjc1N3YtOC4zNDJ6IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDExLjQ3OCkiLz48L2c+PC9zdmc+";
 
   private _connecting: boolean;
-  private _ledgerApp: MinaLedgerJS | null;
   private _transport: Transport | null;
+  private _ledgerApp: MinaLedgerJS | null;
   private _publicKey: string | null;
   private _account: WalletAccount | null;
   private _accountIndex: number = 1;
@@ -54,10 +53,10 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   constructor(config: LedgerWalletAdapterConfig = {}) {
     super();
     this._connecting = false;
-    this._publicKey = null;
-    this._account = null;
     this._transport = null;
     this._ledgerApp = null;
+    this._publicKey = null;
+    this._account = null;
   }
 
   get account() {
@@ -149,7 +148,42 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   }
 
   async signTransaction(transaction: SignableData): Promise<SignedAny> {
-    throw new WalletNotSupportedMethod("ToDo");
+    try {
+      if (typeof transaction === "string")
+        throw new WalletSignTransactionError("'transaction' parameter cannot be a string");
+
+      const publicKey = this._publicKey;
+      const ledgerApp = this._ledgerApp;
+      if (!publicKey || !ledgerApp) throw new WalletNotConnectedError();
+
+      const type = transaction.hasOwnProperty("amount") ? TxType.PAYMENT : TxType.DELEGATION;
+      const { to, from, fee, nonce, amount = 0, memo = "" } = transaction as Payment;
+
+      const payload: SignTransactionArgs = {
+        txType: type,
+        senderAccount: this._accountIndex,
+        senderAddress: from,
+        receiverAddress: to,
+        amount,
+        fee,
+        nonce,
+        memo,
+        networkId: Networks.DEVNET // ToDo: Network shouldn't be needed for signing
+      };
+
+      const { signature } = await ledgerApp.signTransaction(payload).catch((error: any) => {
+        throw new WalletSignTransactionError(error?.message, error);
+      });
+
+      return {
+        signature,
+        publicKey,
+        data: transaction
+      };
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 
   async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
