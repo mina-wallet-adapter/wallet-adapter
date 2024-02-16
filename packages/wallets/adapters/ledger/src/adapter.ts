@@ -1,8 +1,6 @@
 export { LedgerWalletName, LedgerWalletAdapter, LedgerWalletAdapterConfig };
 
 import { Buffer } from "buffer";
-import type { default as Transport } from "@ledgerhq/hw-transport";
-import type { default as TransportWebHID } from "@ledgerhq/hw-transport-webhid";
 import { MINA_CHAINS } from "mina-wallet-standard";
 import {
   MinaWalletAdapter,
@@ -20,6 +18,7 @@ import {
 import type { WalletAccount } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import type { EventEmitter, WalletName } from "@mina-wallet-adapter/core";
+import type { default as Transport } from "@ledgerhq/hw-transport";
 
 if (typeof window !== "undefined" && window.Buffer === undefined) {
   (window as any).Buffer = Buffer;
@@ -78,30 +77,16 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
     try {
       if (this.connected || this.connecting) return;
       if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
-
       this._connecting = true;
 
-      let TransportWebHIDClass: typeof TransportWebHID;
-      try {
-        TransportWebHIDClass = (await import("@ledgerhq/hw-transport-webhid")).default;
-      } catch (error: any) {
-        throw new WalletLoadError(error?.message, error);
-      }
-
-      let transport: Transport;
-      try {
-        transport = await TransportWebHIDClass.create();
-      } catch (error: any) {
-        throw new WalletConnectionError(error?.message, error);
-      }
+      const transport = await getTransport();
+      transport.on("disconnect", this._disconnected);
 
       try {
         this._publicKey = ""; // ToDo: Get Address
       } catch (error: any) {
         throw new WalletPublicKeyError(error?.message, error);
       }
-
-      transport.on("disconnect", this._disconnected);
 
       this._transport = transport;
 
@@ -169,4 +154,29 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
     throw new WalletNotSupportedMethod("ToDo");
   }
+}
+
+async function getTransportClass() {
+  try {
+    // HID interface is more widely supported; try it first
+    const webHIDClass = (await import("@ledgerhq/hw-transport-webhid")).default;
+    if (await webHIDClass.isSupported()) return webHIDClass;
+
+    // try WebUSB if HID is not supported
+    const webUSBClass = (await import("@ledgerhq/hw-transport-webusb")).default;
+    if (await webUSBClass.isSupported()) return webUSBClass;
+  } catch (error: any) {
+    throw new WalletLoadError(error?.message, error);
+  }
+
+  throw new WalletLoadError("No supported transport for Ledger device found");
+}
+
+async function getTransport() {
+  const transportClass = await getTransportClass();
+  const transport = await transportClass.create().catch(error => {
+    throw new WalletConnectionError(error?.message, error);
+  });
+
+  return transport;
 }
