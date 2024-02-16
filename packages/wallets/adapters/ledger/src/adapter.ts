@@ -15,6 +15,7 @@ import {
   WalletNotSupportedMethod,
   WalletSignAndSendTransactionError
 } from "@mina-wallet-adapter/core";
+import { MinaLedgerJS } from "mina-ledger-js";
 import type { WalletAccount } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import type { EventEmitter, WalletName } from "@mina-wallet-adapter/core";
@@ -37,10 +38,11 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
     "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzUgMzUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI2ZmZiI+PHBhdGggZD0ibTIzLjU4OCAwaC0xNnYyMS41ODNoMjEuNnYtMTZhNS41ODUgNS41ODUgMCAwIDAgLTUuNi01LjU4M3oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuNzM5KSIvPjxwYXRoIGQ9Im04LjM0MiAwaC0yLjc1N2E1LjU4NSA1LjU4NSAwIDAgMCAtNS41ODUgNS41ODV2Mi43NTdoOC4zNDJ6Ii8+PHBhdGggZD0ibTAgNy41OWg4LjM0MnY4LjM0MmgtOC4zNDJ6IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDUuNzM5KSIvPjxwYXRoIGQ9Im0xNS4xOCAyMy40NTFoMi43NTdhNS41ODUgNS41ODUgMCAwIDAgNS41ODUtNS42di0yLjY3MWgtOC4zNDJ6IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMS40NzggMTEuNDc4KSIvPjxwYXRoIGQ9Im03LjU5IDE1LjE4aDguMzQydjguMzQyaC04LjM0MnoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuNzM5IDExLjQ3OCkiLz48cGF0aCBkPSJtMCAxNS4xOHYyLjc1N2E1LjU4NSA1LjU4NSAwIDAgMCA1LjU4NSA1LjU4NWgyLjc1N3YtOC4zNDJ6IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDExLjQ3OCkiLz48L2c+PC9zdmc+";
 
   private _connecting: boolean;
-  private _derivationPath: Buffer;
+  private _ledgerApp: MinaLedgerJS | null;
   private _transport: Transport | null;
   private _publicKey: string | null;
   private _account: WalletAccount | null;
+  private _accountIndex: number = 1;
   private _readyState: WalletReadyState =
     typeof window === "undefined" ||
     typeof document === "undefined" ||
@@ -53,8 +55,9 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
     super();
     this._connecting = false;
     this._publicKey = null;
-    this._transport = null;
     this._account = null;
+    this._transport = null;
+    this._ledgerApp = null;
   }
 
   get account() {
@@ -82,16 +85,16 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
       const transport = await getTransport();
       transport.on("disconnect", this._disconnected);
 
-      try {
-        this._publicKey = ""; // ToDo: Get Address
-      } catch (error: any) {
-        throw new WalletPublicKeyError(error?.message, error);
-      }
+      const ledgerApp = new MinaLedgerJS(transport);
+      const { publicKey } = await ledgerApp.getAddress(this._accountIndex);
+      if (!publicKey) throw new WalletPublicKeyError("Failed to get Ledger wallet address");
 
+      this._publicKey = publicKey;
       this._transport = transport;
+      this._ledgerApp = ledgerApp;
 
       this._account = {
-        address: this._publicKey,
+        address: publicKey,
         publicKey: new Uint8Array(), // ToDo: Calculate publicKey from address
         chains: MINA_CHAINS,
         features: [] // ToDo: Populate features
@@ -114,6 +117,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
       transport.off("disconnect", this._disconnected);
 
       this._transport = null;
+      this._ledgerApp = null;
 
       try {
         await transport.close();
@@ -133,6 +137,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
     if (transport) {
       transport.off("disconnect", this._disconnected);
       this._transport = null;
+      this._ledgerApp = null;
       this.emit("disconnect");
     }
   };
