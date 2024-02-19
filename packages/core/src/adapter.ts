@@ -2,6 +2,7 @@ import EventEmitter from "eventemitter3";
 import { WalletName, WalletReadyState } from "./wallet";
 import type { WalletAccount, WalletIcon } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
+import type { MinaChain } from "mina-wallet-standard";
 import type { WalletError } from "./error";
 
 export { EventEmitter };
@@ -12,6 +13,7 @@ export interface WalletAdapterEvents {
   error(error: WalletError): void;
   readyStateChange(readyState: WalletReadyState): void;
   accountChange(account: WalletAccount | null): void;
+  chainChange(chain: MinaChain | null): void;
 }
 
 export interface WalletAdapterContext {
@@ -20,6 +22,7 @@ export interface WalletAdapterContext {
   account: WalletAccount | null;
   connecting: boolean;
   connected: boolean;
+  chain: MinaChain | null;
   connect(): Promise<void>;
   disconnect(): Promise<void>;
   signMessage(message: string): Promise<Signed<string> | undefined>;
@@ -55,6 +58,14 @@ export abstract class MinaWalletAdapter<Name extends string = string>
 
   get publicKey(): string | null {
     return this.account ? this.account.address : null;
+  }
+
+  get chain() {
+    return this.chain || null;
+  }
+
+  set chain(val: MinaChain | null) {
+    this.chain = val;
   }
 
   async autoConnect() {
