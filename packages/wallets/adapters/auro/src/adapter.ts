@@ -1,6 +1,7 @@
 import { MINA_CHAINS } from "mina-wallet-standard";
 import {
   MinaWalletAdapter,
+  type WalletAdapterContext,
   WalletReadyState,
   WalletNotReadyError,
   WalletConnectionError,
@@ -11,20 +12,12 @@ import {
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { EventEmitter, WalletName } from "@mina-wallet-adapter/core";
+import type { WalletName } from "@mina-wallet-adapter/core";
 import type MinaProvider from "@aurowallet/mina-provider";
 import type SignedData from "@aurowallet/mina-provider";
 
-interface AuroWalletEvents {
-  connect(...args: unknown[]): unknown;
-  disconnect(...args: unknown[]): unknown;
-}
-
-interface AuroWallet extends EventEmitter<AuroWalletEvents> {
+interface AuroWallet extends WalletAdapterContext {
   isAuro?: boolean;
-  account?: WalletAccount;
-  isConnected: boolean;
-  // ToDo: Add remaining standard interfaces
 }
 
 interface AuroWindow extends Window {
