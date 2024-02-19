@@ -1,6 +1,6 @@
 import EventEmitter from "eventemitter3";
 import { WalletName, WalletReadyState } from "./wallet";
-import type { WalletAccount } from "@wallet-standard/base";
+import type { WalletAccount, WalletIcon } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import type { WalletError } from "./error";
 
@@ -31,7 +31,7 @@ export interface WalletAdapterContext {
 export interface WalletAdapterProps<Name extends string = string> extends WalletAdapterContext {
   name: WalletName<Name>;
   url: string;
-  icon: string;
+  icon: WalletIcon;
   publicKey: string | null;
   autoConnect(): Promise<void>;
 }
@@ -44,7 +44,7 @@ export abstract class MinaWalletAdapter<Name extends string = string>
 {
   abstract name: WalletName<Name>;
   abstract url: string;
-  abstract icon: string;
+  abstract icon: WalletIcon;
   abstract readyState: WalletReadyState;
   abstract account: WalletAccount | null;
   abstract connecting: boolean;
