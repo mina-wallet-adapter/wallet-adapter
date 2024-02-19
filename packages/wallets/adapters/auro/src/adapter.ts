@@ -1,6 +1,8 @@
-import { MINA_CHAINS } from "mina-wallet-standard";
 import {
+  type MinaChain,
+  MINA_CHAINS,
   MinaWalletAdapter,
+  Network,
   type WalletAdapterContext,
   WalletReadyState,
   WalletNotReadyError,
@@ -13,8 +15,7 @@ import {
 import type { WalletAccount } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import type { WalletName } from "@mina-wallet-adapter/core";
-import type MinaProvider from "@aurowallet/mina-provider";
-import type SignedData from "@aurowallet/mina-provider";
+import type { default as MinaProvider, ChainInfoArgs } from "@aurowallet/mina-provider";
 
 interface AuroWallet extends WalletAdapterContext {
   isAuro?: boolean;
@@ -40,6 +41,7 @@ export class AuroWalletAdapter extends MinaWalletAdapter {
   private _connecting: boolean;
   private _legacyAuro: MinaProvider;
   private _publicKey: string | null;
+  private _chain: MinaChain | null;
   private _account: WalletAccount | null;
   private _readyState: WalletReadyState =
     typeof window === "undefined" || typeof document === "undefined"
@@ -81,12 +83,31 @@ export class AuroWalletAdapter extends MinaWalletAdapter {
     return this._readyState;
   }
 
+  get chain() {
+    return this._chain;
+  }
+
+  set chain(newChain: MinaChain | null) {
+    if (newChain) {
+      const chainId = newChain === Network.Mainnet ? "mainnet" : newChain === Network.Berkeley ? "berkeley" : "devnet";
+      const wallet = this._legacyAuro;
+      if (!wallet) throw new WalletNotConnectedError();
+
+      wallet.switchChain({ chainId }).then(() => {
+        wallet.requestNetwork().then(a => this._chainChanged(a));
+      });
+    } else {
+      this._chain = null;
+    }
+  }
+
   async connect(): Promise<void> {
     try {
       if (this.connected || this.connecting) return;
       if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
       this._connecting = true;
+      this._legacyAuro.on("chainChanged", this._chainChanged);
       this._legacyAuro.on("accountsChanged", this._accountsChanged);
 
       try {
@@ -103,8 +124,10 @@ export class AuroWalletAdapter extends MinaWalletAdapter {
   }
 
   async disconnect(): Promise<void> {
+    this._legacyAuro.off("chainChanged", this._chainChanged);
     this._legacyAuro.off("accountsChanged", this._accountsChanged);
     this._publicKey = null;
+    this._chain = null;
     this._account = null;
     this.emit("disconnect");
   }
@@ -119,11 +142,19 @@ export class AuroWalletAdapter extends MinaWalletAdapter {
         features: [] // ToDo: Populate features
       };
       this.emit("connect", this._account);
+      this._legacyAuro.requestNetwork().then(a => this._chainChanged(a));
     } else {
       this._publicKey = null;
       this._account = null;
       this.emit("disconnect");
     }
+  };
+
+  private _chainChanged = ({ chainId }: ChainInfoArgs) => {
+    const chain = chainId === "mainnet" ? Network.Mainnet : chainId === "berkeley" ? Network.Berkeley : Network.Devnet;
+
+    this._chain = chain;
+    this.emit("chainChange", chain);
   };
 
   async signMessage(message: string): Promise<Signed<string>> {
