@@ -176,7 +176,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
       });
 
       return {
-        signature,
+        signature: toSignatureJson(signature as string),
         publicKey,
         data: transaction
       };
@@ -218,4 +218,23 @@ async function getTransport() {
   });
 
   return transport;
+}
+
+function toSignatureJson(ledgerSignature: string = "") {
+  const VALID_LEN = 128;
+  const HALF_LEN = VALID_LEN / 2;
+
+  if (ledgerSignature.length !== VALID_LEN) throw "Ledger signature not valid";
+
+  const getSubstring = (start: number, end?: number | undefined) => ledgerSignature.substring(start, end);
+
+  const reverseBytes = (hex: string) => {
+    const bytes = hex.match(/.{2}/g) || [];
+    return bytes.reverse().join("");
+  };
+
+  const field = reverseBytes(getSubstring(0, HALF_LEN));
+  const scalar = reverseBytes(getSubstring(HALF_LEN));
+
+  return { field, scalar };
 }
