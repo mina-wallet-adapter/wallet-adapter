@@ -40,8 +40,8 @@
     "@ledgerhq/hw-transport": "6.30.3",
     "@ledgerhq/hw-transport-webhid": "6.28.3",
     "@ledgerhq/hw-transport-webusb": "6.28.3",
+    "@mina-wallet-adapter/mina-ledger-js": "^1.0.8",
     "buffer": "^6.0.3",
-    "mina-ledger-js": "1.0.6",
     "mina-wallet-standard": "^0.1.2"
   }
 }

@@ -14,7 +14,7 @@ import {
   WalletSignTransactionError,
   WalletNotSupportedMethod
 } from "@mina-wallet-adapter/core";
-import { MinaLedgerJS, SignTransactionArgs, TxType, Networks } from "mina-ledger-js";
+import { MinaLedgerJS, SignTransactionArgs, TxType, Networks } from "@mina-wallet-adapter/mina-ledger-js";
 import type { WalletAccount } from "@wallet-standard/base";
 import type { SignableData, SignedAny, Signed, Payment } from "mina-signer/dist/node/mina-signer/src/TSTypes";
 import type { WalletName } from "@mina-wallet-adapter/core";
@@ -164,9 +164,9 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
         senderAccount: this._accountIndex,
         senderAddress: from,
         receiverAddress: to,
-        amount,
-        fee,
-        nonce,
+        amount: amount as number,
+        fee: fee as number,
+        nonce: nonce as number,
         memo,
         networkId: Networks.DEVNET // ToDo: Network shouldn't be needed for signing
       };
