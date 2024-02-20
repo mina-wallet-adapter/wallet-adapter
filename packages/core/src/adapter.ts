@@ -60,12 +60,8 @@ export abstract class MinaWalletAdapter<Name extends string = string>
     return this.account ? this.account.address : null;
   }
 
-  get chain() {
-    return this.chain || null;
-  }
-
-  set chain(val: MinaChain | null) {
-    this.chain = val;
+  get chain(): MinaChain | null {
+    return null;
   }
 
   async autoConnect() {

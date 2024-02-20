@@ -1,8 +1,10 @@
 export { LedgerWalletName, LedgerWalletAdapter, LedgerWalletAdapterConfig };
 
 import { Buffer } from "buffer";
-import { MINA_CHAINS } from "mina-wallet-standard";
 import {
+  type MinaChain,
+  MINA_CHAINS,
+  Network,
   MinaWalletAdapter,
   WalletReadyState,
   WalletLoadError,
@@ -25,7 +27,7 @@ if (typeof window !== "undefined" && window.Buffer === undefined) {
 }
 
 interface LedgerWalletAdapterConfig {
-  derivationPath?: Buffer;
+  chain?: MinaChain;
 }
 
 const LedgerWalletName = "Ledger" as WalletName<"Ledger">;
@@ -40,6 +42,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   private _transport: Transport | null;
   private _ledgerApp: MinaLedgerJS | null;
   private _publicKey: string | null;
+  private _chain: MinaChain | null;
   private _account: WalletAccount | null;
   private _accountIndex: number = 1;
   private _readyState: WalletReadyState =
@@ -57,6 +60,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
     this._ledgerApp = null;
     this._publicKey = null;
     this._account = null;
+    this._chain = (config && config?.chain) || Network.Devnet;
   }
 
   get account() {
@@ -73,6 +77,14 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
 
   get readyState() {
     return this._readyState;
+  }
+
+  get chain() {
+    return this._chain;
+  }
+
+  set chain(newChain: MinaChain | null) {
+    this._chain = newChain;
   }
 
   async connect(): Promise<void> {
@@ -168,7 +180,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
         fee: fee as number,
         nonce: nonce as number,
         memo,
-        networkId: Networks.DEVNET // ToDo: Network shouldn't be needed for signing
+        networkId: this.chain === Network.Mainnet ? Networks.MAINNET : Networks.DEVNET
       };
 
       const { signature } = await ledgerApp.signTransaction(payload).catch((error: any) => {
@@ -187,11 +199,11 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   }
 
   async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
-    throw new WalletNotSupportedMethod("ToDo");
+    throw new WalletNotSupportedMethod("'sendTransaction' is not supported");
   }
 
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
-    throw new WalletNotSupportedMethod("ToDo");
+    throw new WalletNotSupportedMethod("'signAndSendTransaction' is not supported");
   }
 }
 
