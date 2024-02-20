@@ -15,8 +15,8 @@ type ErrorHandler = (error: WalletError) => void;
 type WalletPropsConfig = Pick<WalletStore, "autoConnect" | "onError"> & {
   wallets: WalletAdapter[];
 };
+type WalletChain = WalletAdapterContext["chain"];
 type WalletReturnConfig = Pick<WalletStore, "wallets" | "autoConnect" | "onError">;
-
 type WalletStatus = Pick<WalletStore & WalletAdapterContext, "connected" | "account" | "publicKey">;
 
 export interface WalletStore extends WalletAdapterContext {
@@ -38,6 +38,7 @@ function addAdapterEventListeners(adapter: WalletAdapter) {
   wallets.forEach(wallet => {
     wallet.on("readyStateChange", onReadyStateChange, wallet);
   });
+  adapter.on("chainChange", onChainChange);
   adapter.on("connect", onConnect);
   adapter.on("disconnect", onDisconnect);
   adapter.on("error", onError);
@@ -92,6 +93,7 @@ function createWalletStore() {
     connected: false,
     connecting: false,
     disconnecting: false,
+    chain: null,
     account: null,
     publicKey: null,
     readyState: WalletReadyState.Unsupported,
@@ -112,6 +114,7 @@ function createWalletStore() {
       name: adapter?.name || null,
       wallet: adapter,
       readyState: adapter?.readyState || WalletReadyState.Unsupported,
+      chain: adapter?.chain || null,
       account: adapter?.account || null,
       publicKey: adapter?.publicKey || null,
       connected: adapter?.connected || false
@@ -205,6 +208,7 @@ function createWalletStore() {
       })),
     updateWallets: (wallets: WalletAdapter[]) => update((store: WalletStore) => ({ ...store, wallets })),
     updateStatus: (walletStatus: WalletStatus) => update((store: WalletStore) => ({ ...store, ...walletStatus })),
+    updateChain: (chain: WalletChain) => update((store: WalletStore) => ({ ...store, chain })),
     updateWallet: (walletName: WalletName) => updateWalletName(walletName),
     updateFeatures: (adapter: WalletAdapter) => updateAdapterFeatures(adapter)
   };
@@ -249,6 +253,12 @@ function newError(error: WalletError): WalletError {
   return error;
 }
 
+function onChainChange() {
+  const { wallet } = get(walletStore);
+  if (!wallet) return;
+  walletStore.updateChain(wallet.chain);
+}
+
 function onConnect() {
   const { wallet } = get(walletStore);
   if (!wallet) return;
@@ -286,6 +296,7 @@ function removeAdapterEventListeners(): void {
   wallets.forEach(wallet => {
     wallet.off("readyStateChange", onReadyStateChange, wallet);
   });
+  wallet.off("chainChange", onChainChange);
   wallet.off("connect", onConnect);
   wallet.off("disconnect", onDisconnect);
   wallet.off("error", onError);

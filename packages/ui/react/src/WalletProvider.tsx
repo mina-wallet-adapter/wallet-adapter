@@ -1,5 +1,6 @@
 import { ReactNode, Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import {
+  type MinaChain,
   openWeblink,
   getLocalStorage,
   setLocalStorage,
@@ -41,6 +42,8 @@ export function WalletProvider({
 
   const [wallets, setWallets] = useState<WalletAdapter[]>([]);
 
+  const [chain, setChain] = useState<MinaChain | null>(null);
+
   const wallet = useMemo(() => (walletName && wallets.find(w => w.name === walletName)) || null, [wallets, walletName]);
 
   const readyState = useMemo(() => (wallet ? wallet.readyState : WalletReadyState.Unsupported), [wallet]);
@@ -70,6 +73,10 @@ export function WalletProvider({
   useEffect(() => {
     if (!wallet) return;
 
+    const onChainChange = () => {
+      setChain(wallet.chain);
+    };
+
     const onConnect = () => {
       setState(state => {
         return {
@@ -88,6 +95,7 @@ export function WalletProvider({
       resetState();
     };
 
+    wallet.on("chainChange", onChainChange);
     wallet.on("connect", onConnect);
     wallet.on("disconnect", onDisconnect);
     wallet.on("error", onError);
@@ -95,6 +103,7 @@ export function WalletProvider({
     connect();
 
     return () => {
+      wallet.off("chainChange", onChainChange);
       wallet.off("connect", onConnect);
       wallet.off("disconnect", onDisconnect);
       wallet.off("error", onError);
@@ -253,6 +262,7 @@ export function WalletProvider({
     <WalletContext.Provider
       value={{
         name,
+        chain,
         account,
         publicKey,
         readyState,
