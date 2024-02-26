@@ -24,7 +24,7 @@ export default App;
 type AppContextProp = { children: ReactNode };
 
 function AppContext({ children }: AppContextProp) {
-  const adapters: AdapterOption[] = [AdapterId.AURO];
+  const adapters: AdapterOption[] = [AdapterId.AURO, AdapterId.LEDGER, AdapterId.METAMASK_SNAP];
 
   function onError(error: WalletError) {
     console.error(error);
@@ -38,9 +38,9 @@ function AppContext({ children }: AppContextProp) {
 }
 
 function Content() {
-  const [value, setValue] = useState(2);
+  const [value] = useState(2);
   const [square, setSquare] = useState(0);
-  const { connected } = useWallet();
+  const { connected, chain } = useWallet();
 
   function submit() {
     alert("This feature is WIP.");
@@ -66,6 +66,7 @@ function Content() {
       <div className="connect-div">
         {connected ? (
           <>
+            <p>chain: {chain}</p>
             <p>
               What is the square of <strong>{value}</strong>?
             </p>

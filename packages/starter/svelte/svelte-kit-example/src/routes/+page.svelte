@@ -1,14 +1,7 @@
 <script lang="ts">
-	import {
-		type AdapterOption,
-		AdapterId,
-		WalletProvider,
-		WalletMultiButton,
-		walletStore
-	} from '@mina-wallet-adapter/ui-svelte';
+	import { WalletProvider, WalletMultiButton, walletStore } from '@mina-wallet-adapter/ui-svelte';
 	import '@mina-wallet-adapter/ui-svelte/dist/wallet-adapter.css';
 
-	let adapters: AdapterOption[] = [AdapterId.AURO];
 	let value: number = 2;
 	let square: number;
 
@@ -30,13 +23,14 @@
 		</a> for implementing zkApps in Svelte.
 	</p>
 
-	<WalletProvider {adapters} autoConnect={true} />
+	<WalletProvider autoConnect={true} />
 	<span>
 		<WalletMultiButton />
 	</span>
 
 	<div class="connect-div">
 		{#if $walletStore?.connected}
+			<p>chain: {$walletStore?.chain}</p>
 			<p>What is the square of <strong>{value}</strong>?</p>
 			<input type="number" min="0" bind:value={square} />
 			<button class="wallet-adapter-button wallet-adapter-button-trigger" on:click={submit}>
