@@ -33,7 +33,7 @@
   "peerDependencies": {
     "@mina-wallet-adapter/core": "*",
     "@mina-wallet-adapter/wallets": "*",
-    "o1js": "0.15.*",
+    "o1js": "0.16.*",
     "react": "*",
     "react-dom": "*"
   },

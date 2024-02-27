@@ -29,7 +29,6 @@
 	},
 	"type": "module",
 	"peerDependencies": {
-		"@mina-wallet-adapter/ui-svelte": "*",
-		"o1js": "0.15.*"
+		"@mina-wallet-adapter/ui-svelte": "*"
 	}
 }

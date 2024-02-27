@@ -28,10 +28,9 @@
     "clean": "shx rm -rf dist"
   },
   "peerDependencies": {
-    "o1js": "0.15.*"
+    "o1js": "0.16.*"
   },
   "devDependencies": {
-    "o1js": "^0.15.2",
     "shx": "^0.3.4",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"
