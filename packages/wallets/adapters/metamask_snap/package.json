@@ -1,6 +1,6 @@
 {
   "name": "@mina-wallet-adapter/metamask-snap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "t4top",
   "license": "Apache-2.0",
   "repository": {
