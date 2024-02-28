@@ -27,6 +27,8 @@
     "clean": "npm run clean --workspaces --if-present",
     "prepublishOnly": "npm run clean && npm run build",
     "publish": "npm publish --workspaces",
+    "pretypedoc": "shx rm -rf typedoc",
+    "typedoc": "npm run typedoc --workspaces --if-present && typedoc",
     "format": "prettier --write ."
   },
   "repository": {
@@ -44,6 +46,8 @@
     "zkApp"
   ],
   "devDependencies": {
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "shx": "^0.3.4",
+    "typedoc": "^0.25.9"
   }
 }

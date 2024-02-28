@@ -1,0 +1,20 @@
+{
+  "name": "API Doc",
+  "out": "typedoc",
+  "readme": "README.md",
+  "entryPoints": [
+    "packages/core/dist/api.json",
+    "packages/wallets/dist/api.json",
+    "packages/wallets/adapters/auro/dist/api.json",
+    "packages/wallets/adapters/ledger/dist/api.json",
+    "packages/wallets/adapters/metamask_snap/dist/api.json",
+    "packages/ui/react/dist/api.json",
+    "packages/ui/svelte/dist/api.json"
+  ],
+  "entryPointStrategy": "merge",
+  "sourceLinkExternal": true,
+  "navigationLinks": {
+    "Docs": "https://mina-wallet-adapter.github.io/wallet-adapter/",
+    "GitHub": "https://github.com/mina-wallet-adapter/wallet-adapter"
+  }
+}

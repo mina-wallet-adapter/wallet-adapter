@@ -4,6 +4,7 @@ dist-ssr
 vite-env.d.ts
 build
 out
+typedoc
 
 *.log
 logs
