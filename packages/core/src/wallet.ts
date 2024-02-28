@@ -1,4 +1,4 @@
-// WalletName is a nominal type. Wallet adapters should use like: `'MyMinaWallet' as WalletName<'MyMinaWallet'>`
+/** WalletName is a nominal type. Wallet adapters should use like: `'MyMinaWallet' as WalletName<'MyMinaWallet'>` */
 export type WalletName<T extends string = string> = T & { __brand__: "WalletName" };
 
 /**

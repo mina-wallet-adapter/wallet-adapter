@@ -25,6 +25,7 @@
   "scripts": {
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "build": "tsup src/index.ts --format esm,cjs --dts",
+    "typedoc": "typedoc --name $npm_package_name --json dist/api.json ./src",
     "clean": "shx rm -rf dist"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "mina-signer": "^2.1.1",
     "shx": "^0.3.4",
     "tsup": "^7.2.0",
+    "typedoc": "^0.25.9",
     "typescript": "^5.2.2"
   },
   "dependencies": {

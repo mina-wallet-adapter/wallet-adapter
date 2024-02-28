@@ -2,7 +2,7 @@ interface CallbackType {
   (arg?: string): void;
 }
 
-export function clickOutside(node: HTMLElement, callbackFunction: CallbackType): SvelteActionReturnType {
+export function clickOutside(node: HTMLElement, callbackFunction: CallbackType) {
   function onClick(event: MouseEvent) {
     if (node && event.target instanceof Node && !node.contains(event.target) && !event.defaultPrevented) {
       callbackFunction();
