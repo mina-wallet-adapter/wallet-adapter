@@ -15,5 +15,10 @@
   "docs": {
     "title": "Docs",
     "type": "page"
+  },
+  "api": {
+    "title": "API Docs",
+    "type": "page",
+    "href": "https://mina-wallet-adapter.github.io/wallet-adapter/typedoc"
   }
 }
