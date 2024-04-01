@@ -19,9 +19,10 @@ Check out the demo sites below to see the Wallet Adapter in action.
 - Integration with .mina domain (Mina Names Service) _(coming soon)_
 - TypeScript
 
-## Documentation
+## Documentations
 
-[https://mina-wallet-adapter.github.io/wallet-adapter/](https://mina-wallet-adapter.github.io/wallet-adapter/)
+- User Guide: [mina-wallet-adapter.github.io/wallet-adapter/](https://mina-wallet-adapter.github.io/wallet-adapter/)
+- API Doc: [mina-wallet-adapter.github.io/wallet-adapter/typedoc/](https://mina-wallet-adapter.github.io/wallet-adapter/typedoc/)
 
 ## Directory Structure
 
@@ -37,7 +38,7 @@ This is a monorepo containing the following packages.
     - `react`: Starter zkApp example in React created with `Create React App`
     - `contract`: Shared o1js smart contract used in above JS starter examples
 
-> _Vanilla js, Vue and Angular components are WIP_
+> _Supports for Vanilla js, Vue and Angular are planned on the roadmap_
 
 ## Architecture
 
