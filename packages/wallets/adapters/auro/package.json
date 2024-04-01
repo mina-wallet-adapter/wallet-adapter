@@ -31,7 +31,6 @@
   "devDependencies": {
     "@aurowallet/mina-provider": "^0.2.7",
     "@wallet-standard/base": "^1.0.1",
-    "mina-signer": "^2.1.1",
     "shx": "^0.3.4",
     "tsup": "^7.2.0",
     "typedoc": "^0.25.9",

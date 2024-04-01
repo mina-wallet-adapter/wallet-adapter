@@ -1,6 +1,12 @@
 import { ReactNode, Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import {
   type MinaChain,
+  type SignedAny,
+  type SignableData,
+  type WalletAdapter,
+  type WalletAdapterContext,
+  type WalletError,
+  type WalletName,
   openWeblink,
   getLocalStorage,
   setLocalStorage,
@@ -9,8 +15,6 @@ import {
   WalletNotConnectedError,
   WalletNotReadyError
 } from "@mina-wallet-adapter/core";
-import type { SignableData, SignedAny } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { WalletAdapterContext, WalletAdapter, WalletError, WalletName } from "@mina-wallet-adapter/core";
 import { type AdapterOption, AdapterId, loadAdapters } from "@mina-wallet-adapter/wallets";
 import { WalletContext } from "./useWallet";
 

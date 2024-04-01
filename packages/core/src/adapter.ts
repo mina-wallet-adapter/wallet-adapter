@@ -1,7 +1,7 @@
 import EventEmitter from "eventemitter3";
 import { WalletName, WalletReadyState } from "./wallet";
 import type { WalletAccount, WalletIcon } from "@wallet-standard/base";
-import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
+import type { SignableData, SignedAny, Signed } from "./types";
 import type { MinaChain } from "mina-wallet-standard";
 import type { WalletError } from "./error";
 

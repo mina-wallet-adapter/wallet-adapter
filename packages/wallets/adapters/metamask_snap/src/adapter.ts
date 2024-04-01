@@ -2,6 +2,10 @@ export { MetaMaskSnapWalletName, MetaMaskSnapWalletAdapter, MetaMaskSnapWalletAd
 
 import { MINA_CHAINS } from "mina-wallet-standard";
 import {
+  type Signed,
+  type SignedAny,
+  type SignableData,
+  type WalletName,
   MinaWalletAdapter,
   WalletReadyState,
   WalletNotReadyError,
@@ -12,8 +16,6 @@ import {
   WalletSignAndSendTransactionError
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
-import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { EventEmitter, WalletName } from "@mina-wallet-adapter/core";
 
 interface MetaMaskSnapWalletAdapterConfig {}
 

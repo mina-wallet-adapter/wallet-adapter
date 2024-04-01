@@ -1,9 +1,13 @@
 import {
   type MinaChain,
+  type Signed,
+  type SignedAny,
+  type SignableData,
+  type WalletAdapterContext,
+  type WalletName,
   MINA_CHAINS,
   MinaWalletAdapter,
   Network,
-  type WalletAdapterContext,
   WalletReadyState,
   WalletNotReadyError,
   WalletConnectionError,
@@ -13,8 +17,6 @@ import {
   WalletSignAndSendTransactionError
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
-import type { SignableData, SignedAny, Signed } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { WalletName } from "@mina-wallet-adapter/core";
 import type { default as MinaProvider, ChainInfoArgs } from "@aurowallet/mina-provider";
 
 interface AuroWallet extends WalletAdapterContext {

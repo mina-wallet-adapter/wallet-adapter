@@ -3,6 +3,11 @@ export { LedgerWalletName, LedgerWalletAdapter, LedgerWalletAdapterConfig };
 import { Buffer } from "buffer";
 import {
   type MinaChain,
+  type Payment,
+  type Signed,
+  type SignedAny,
+  type SignableData,
+  type WalletName,
   MINA_CHAINS,
   Network,
   MinaWalletAdapter,
@@ -18,8 +23,6 @@ import {
 } from "@mina-wallet-adapter/core";
 import { MinaLedgerJS, SignTransactionArgs, TxType, Networks } from "@mina-wallet-adapter/mina-ledger-js";
 import type { WalletAccount } from "@wallet-standard/base";
-import type { SignableData, SignedAny, Signed, Payment } from "mina-signer/dist/node/mina-signer/src/TSTypes";
-import type { WalletName } from "@mina-wallet-adapter/core";
 import type { default as Transport } from "@ledgerhq/hw-transport";
 
 if (typeof window !== "undefined" && window.Buffer === undefined) {
@@ -176,9 +179,9 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
         senderAccount: this._accountIndex,
         senderAddress: from,
         receiverAddress: to,
-        amount: amount as number,
-        fee: fee as number,
-        nonce: nonce as number,
+        amount: Number(amount),
+        fee: Number(fee),
+        nonce: Number(nonce),
         memo,
         networkId: this.chain === Network.Mainnet ? Networks.MAINNET : Networks.DEVNET
       };
