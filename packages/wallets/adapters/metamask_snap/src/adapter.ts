@@ -1,6 +1,5 @@
 export { MetaMaskSnapWalletName, MetaMaskSnapWalletAdapter, MetaMaskSnapWalletAdapterConfig };
 
-import { MINA_CHAINS } from "mina-wallet-standard";
 import {
   type Signed,
   type SignedAny,
@@ -9,11 +8,7 @@ import {
   MinaWalletAdapter,
   WalletReadyState,
   WalletNotReadyError,
-  WalletConnectionError,
-  WalletNotConnectedError,
-  WalletSignMessageError,
-  WalletNotSupportedMethodError,
-  WalletSignAndSendTransactionError
+  WalletNotSupportedMethodError
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
 

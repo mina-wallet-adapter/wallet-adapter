@@ -34,8 +34,5 @@
     "tsup": "^7.2.0",
     "typedoc": "^0.25.9",
     "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "mina-wallet-standard": "^0.1.2"
   }
 }
