@@ -14,7 +14,7 @@ import {
   WalletDisconnectionError,
   WalletPublicKeyError,
   WalletSignTransactionError,
-  WalletNotSupportedMethod
+  WalletNotSupportedMethodError
 } from "@mina-wallet-adapter/core";
 import { MinaLedgerJS, SignTransactionArgs, TxType, Networks } from "@mina-wallet-adapter/mina-ledger-js";
 import type { WalletAccount } from "@wallet-standard/base";
@@ -154,7 +154,7 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   };
 
   async signMessage(message: string): Promise<Signed<string>> {
-    throw new WalletNotSupportedMethod(
+    throw new WalletNotSupportedMethodError(
       "'signMessage' is not supported. Ledger wallet does not support signing messages."
     );
   }
@@ -199,11 +199,11 @@ class LedgerWalletAdapter extends MinaWalletAdapter {
   }
 
   async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
-    throw new WalletNotSupportedMethod("'sendTransaction' is not supported");
+    throw new WalletNotSupportedMethodError("'sendTransaction' is not supported");
   }
 
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
-    throw new WalletNotSupportedMethod("'signAndSendTransaction' is not supported");
+    throw new WalletNotSupportedMethodError("'signAndSendTransaction' is not supported");
   }
 }
 

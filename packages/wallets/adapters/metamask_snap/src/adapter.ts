@@ -8,7 +8,7 @@ import {
   WalletConnectionError,
   WalletNotConnectedError,
   WalletSignMessageError,
-  WalletNotSupportedMethod,
+  WalletNotSupportedMethodError,
   WalletSignAndSendTransactionError
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
@@ -83,14 +83,14 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
   }
 
   async signTransaction(transaction: SignableData): Promise<SignedAny> {
-    throw new WalletNotSupportedMethod("ToDo");
+    throw new WalletNotSupportedMethodError("ToDo");
   }
 
   async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
-    throw new WalletNotSupportedMethod("ToDo");
+    throw new WalletNotSupportedMethodError("ToDo");
   }
 
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
-    throw new WalletNotSupportedMethod("ToDo");
+    throw new WalletNotSupportedMethodError("ToDo");
   }
 }
