@@ -5,6 +5,7 @@ import {
   type SignedAny,
   type SignableData,
   type WalletName,
+  MINA_CHAINS,
   MinaWalletAdapter,
   WalletReadyState,
   WalletNotReadyError,
@@ -12,8 +13,16 @@ import {
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
 
+type MetaMaskSnap = {
+  permissionName: string;
+  id: string;
+  version: string;
+  initialPermissions: Record<string, unknown>;
+};
+
 interface MetaMaskEthereumProvider {
   isMetaMask?: boolean;
+  request?: any;
 }
 
 interface MetaMaskSnapWindow extends Window {
@@ -26,6 +35,8 @@ interface MetaMaskSnapWalletAdapterConfig {}
 
 const MetaMaskSnapWalletName = "MetaMask Snap" as WalletName<"MetaMask Snap">;
 
+const SNAP_ID = "npm:mina-portal";
+
 class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
   name = MetaMaskSnapWalletName;
   url = "https://snaps.metamask.io/snap/npm/mina-portal/";
@@ -37,6 +48,7 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
   private _publicKey: string | null;
   private _account: WalletAccount | null;
   private _provider: MetaMaskEthereumProvider | null;
+  private _snap: MetaMaskSnap | null;
   private _readyState: WalletReadyState =
     typeof window === "undefined" || typeof document === "undefined"
       ? WalletReadyState.Unsupported
@@ -48,6 +60,7 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
     this._publicKey = null;
     this._account = null;
     this._provider = null;
+    this._snap = null;
 
     if (this._readyState !== WalletReadyState.Unsupported) {
       this.scopePollingDetectionStrategy(this.detectMetamaskSnap);
@@ -119,8 +132,37 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
       if (this.connected || this.connecting) return;
       if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
+      const snapId = SNAP_ID;
+
+      // connect to snap
       this._connecting = true;
-      this.emit("connect", this._account as WalletAccount);
+      await this._provider?.request({ method: "wallet_requestSnaps", params: { [snapId]: {} } });
+
+      // find the relevant snap
+      const snaps = await this._provider?.request({ method: "wallet_getSnaps" });
+      this._snap = Object.values(snaps).find((snap: any) => snap.id === snapId) as MetaMaskSnap;
+
+      if (this._snap) {
+        // get account
+        const accounts = await this._provider?.request({
+          method: "wallet_invokeSnap",
+          params: {
+            snapId,
+            request: {
+              method: "mina_accountList"
+            }
+          }
+        });
+        this._publicKey = accounts[0]?.address as string;
+        this._account = {
+          address: this._publicKey,
+          publicKey: new Uint8Array(), // ToDo: Calculate publicKey from address
+          chains: MINA_CHAINS,
+          features: [] // ToDo: Populate features
+        };
+
+        this.emit("connect", this._account as WalletAccount);
+      }
     } catch (error: any) {
       this.emit("error", error);
       throw error;
