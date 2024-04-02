@@ -65,12 +65,18 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
       self._provider = provider;
       self._readyState = WalletReadyState.Installed;
       self.emit("readyStateChange", self._readyState);
+      window.removeEventListener("eip6963:announceProvider", onAnnounce);
     }
 
     function detectEthereumProvider() {
       window.removeEventListener("ethereum#initialized", detectEthereumProvider);
       const { ethereum } = window;
       if (ethereum && ethereum.isMetaMask) metamaskDetected(ethereum);
+    }
+
+    function onAnnounce(event: any) {
+      const { provider } = event.detail;
+      if (provider && provider.isMetaMask) metamaskDetected(provider);
     }
 
     // detect using Ethereum Provider
@@ -80,6 +86,12 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
       window.addEventListener("ethereum#initialized", detectEthereumProvider);
       setTimeout(detectEthereumProvider, 3000); // Wait 3s for 'ethereum#initialized' to be dispatched
     }
+
+    // detect via EIP-6963 standard
+    if (!self._listenerAdded) {
+      window.addEventListener("eip6963:announceProvider", onAnnounce);
+    }
+    window.dispatchEvent(new Event("eip6963:requestProvider"));
 
     self._listenerAdded = true;
 
