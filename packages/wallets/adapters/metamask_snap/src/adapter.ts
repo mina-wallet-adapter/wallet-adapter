@@ -9,7 +9,9 @@ import {
   MinaWalletAdapter,
   WalletReadyState,
   WalletNotReadyError,
-  WalletNotSupportedMethodError
+  WalletNotConnectedError,
+  WalletNotSupportedMethodError,
+  WalletSignAndSendTransactionError
 } from "@mina-wallet-adapter/core";
 import type { WalletAccount } from "@wallet-standard/base";
 
@@ -177,19 +179,38 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
   }
 
   async signMessage(message: string): Promise<Signed<string>> {
-    const signedMessage = <Signed<string>>(<unknown>"");
-    return signedMessage;
+    try {
+      const signedMessage = await this.invokeSnapMethod("mina_signMessage", { message });
+      return signedMessage;
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 
-  async signTransaction(transaction: SignableData): Promise<SignedAny> {
-    throw new WalletNotSupportedMethodError("ToDo");
+  async signTransaction(_transaction: SignableData): Promise<SignedAny> {
+    throw new WalletNotSupportedMethodError(
+      "'signTransaction' is not supported. Use 'signAndSendTransaction' instead."
+    );
   }
 
-  async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
-    throw new WalletNotSupportedMethodError("ToDo");
+  async sendTransaction(_transaction: SignedAny): Promise<string | undefined> {
+    throw new WalletNotSupportedMethodError(
+      "'sendTransaction' is not supported. Use 'signAndSendTransaction' instead."
+    );
   }
 
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
-    throw new WalletNotSupportedMethodError("ToDo");
+    try {
+      if (typeof transaction === "string")
+        throw new WalletSignAndSendTransactionError("'transaction' parameter cannot be a string");
+
+      const method = transaction.hasOwnProperty("amount") ? "mina_sendPayment" : "mina_sendStakeDelegation";
+      const { hash } = await this.invokeSnapMethod(method, transaction);
+      return hash;
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 }
