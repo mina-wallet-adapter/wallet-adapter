@@ -91,9 +91,7 @@ export abstract class MinaWalletAdapter<Name extends string = string>
     }
 
     // Strategy #1: Try detecting every second.
-    const interval =
-      // TODO: #334 Replace with idle callback strategy.
-      setInterval(detectAndDispose, 1000);
+    const interval = setInterval(detectAndDispose, 1000);
     disposers.push(() => clearInterval(interval));
 
     // Strategy #2: Detect as soon as the DOM becomes 'ready'/'interactive'.
