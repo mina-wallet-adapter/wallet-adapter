@@ -1,12 +1,14 @@
 export { MetaMaskSnapWalletName, MetaMaskSnapWalletAdapter, MetaMaskSnapWalletAdapterConfig };
 
 import {
+  type MinaChain,
   type Signed,
   type SignedAny,
   type SignableData,
   type WalletName,
   MINA_CHAINS,
   MinaWalletAdapter,
+  Network,
   WalletReadyState,
   WalletNotReadyError,
   WalletNotConnectedError,
@@ -32,6 +34,12 @@ const MetaMaskSnapWalletName = "MetaMask Snap" as WalletName<"MetaMask Snap">;
 
 const SNAP_ID = "npm:mina-portal";
 
+enum ENetworkName {
+  MAINNET = "Mainnet",
+  DEVNET = "Devnet",
+  BERKELEY = "Berkeley"
+}
+
 class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
   name = MetaMaskSnapWalletName;
   url = "https://snaps.metamask.io/snap/npm/mina-portal/";
@@ -41,6 +49,7 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
   private _connecting: boolean;
   private _listenerAdded = false;
   private _publicKey: string | null;
+  private _chain: MinaChain | null;
   private _account: WalletAccount | null;
   private _provider: MetaMaskEthereumProvider | null;
   private _readyState: WalletReadyState =
@@ -120,6 +129,36 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
     return this._readyState;
   }
 
+  get chain() {
+    return this._chain;
+  }
+
+  set chain(newChain: MinaChain | null) {
+    if (newChain) {
+      const networkName =
+        newChain === Network.Mainnet
+          ? ENetworkName.MAINNET
+          : newChain === Network.Berkeley
+            ? ENetworkName.BERKELEY
+            : ENetworkName.DEVNET;
+
+      this.invokeSnapMethod("mina_changeNetwork", { networkName }).then(() => this.getChain());
+    } else {
+      this._chain = null;
+    }
+  }
+
+  async getChain() {
+    const { name } = await this.invokeSnapMethod("mina_networkConfig");
+    this._chain =
+      name === ENetworkName.MAINNET
+        ? Network.Mainnet
+        : name === ENetworkName.BERKELEY
+          ? Network.Berkeley
+          : Network.Devnet;
+    this.emit("chainChange", this._chain);
+  }
+
   async isSnapConnected() {
     // connect to snap
     await this._provider?.request({ method: "wallet_requestSnaps", params: { [SNAP_ID]: {} } });
@@ -148,6 +187,8 @@ class MetaMaskSnapWalletAdapter extends MinaWalletAdapter {
       if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
       if (await this.isSnapConnected()) {
+        // get chain
+        await this.getChain();
         // get account
         const accounts = await this.invokeSnapMethod("mina_accountList");
         const publicKey = (accounts && accounts[0]?.address) || null;
