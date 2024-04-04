@@ -61,11 +61,11 @@ export function WalletProvider({
     };
 
     async function load() {
-      const wallets = await loadAdapters(adapters);
       if (!active) return;
+      const wallets = await loadAdapters(adapters);
       setWallets(wallets);
     }
-  }, [adapters]);
+  }, []);
 
   // If autoConnect is enabled, select the wallet saved in localStorage when list of wallets changes
   useEffect(() => {
