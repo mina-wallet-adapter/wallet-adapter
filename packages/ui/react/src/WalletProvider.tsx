@@ -148,14 +148,14 @@ export function WalletProvider({
     return [value, setValueAndStore];
   }
 
-  function resetState() {
+  const resetState = useCallback(() => {
     setState(state => ({ ...state, ...initialState }));
-  }
+  }, []);
 
-  function resetWallet() {
+  const resetWallet = useCallback(() => {
     resetState();
     setWalletName(null);
-  }
+  }, []);
 
   const select = useCallback(
     async (selected: WalletName | null): Promise<void> => {
@@ -256,11 +256,11 @@ export function WalletProvider({
     [connected, wallet]
   );
 
-  function throwError(error: WalletError | any) {
+  const throwError = useCallback((error: WalletError | any) => {
     if (onError) onError(error);
     else throw error;
     return undefined;
-  }
+  }, []);
 
   return (
     <WalletContext.Provider

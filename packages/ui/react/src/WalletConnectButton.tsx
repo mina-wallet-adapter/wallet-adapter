@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useCallback } from "react";
 import { shortenAddress } from "@mina-wallet-adapter/core";
 import { useWallet } from "./useWallet";
 import { WalletButton } from "./WalletButton";
@@ -13,19 +13,19 @@ export function WalletConnectButton({ disabled, openModal }: WalletConnectButton
   const [openMenu, setOpenMenu] = useState(false);
   const { connected, connecting, wallet, account } = useWallet();
 
-  function handleClick() {
+  const handleClick = useCallback(() => {
     if (connected) setOpenMenu(true);
     else openModal();
-  }
+  }, [connected]);
 
-  function getText() {
+  const getText = useCallback(() => {
     let content = "Connect Wallet";
     if (wallet) content = "Connect";
     if (connecting) content = "Connecting ...";
     if (connected) content = account ? shortenAddress(account.address) : "Connected";
 
     return content;
-  }
+  }, [wallet, account, connecting, connected]);
 
   return (
     <div className="wallet-adapter-dropdown">

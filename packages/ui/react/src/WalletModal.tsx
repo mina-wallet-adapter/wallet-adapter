@@ -1,4 +1,4 @@
-import React, { type MouseEvent, useRef, useState, useMemo } from "react";
+import { type MouseEvent, useRef, useState, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { WalletReadyState, showExplainWalletSite } from "@mina-wallet-adapter/core";
 import { useWallet } from "./useWallet";
@@ -25,10 +25,10 @@ export function WalletModal({ maxNumberOfWallets, closeModal }: WalletModalProps
 
   useClickOutside({ ref, callback: closeModal });
 
-  function toggleMore(e: MouseEvent) {
+  const toggleMore = useCallback((e: MouseEvent) => {
     e.stopPropagation();
     setShowMore(!showMore);
-  }
+  }, [showMore]);
 
   function ToggleButton({ hideMsg = "Less options", showMsg = "More options" }) {
     return (
@@ -51,10 +51,10 @@ export function WalletModal({ maxNumberOfWallets, closeModal }: WalletModalProps
   }
 
   function WalletsList() {
-    async function handleClick(name: WalletName) {
+    const handleClick = useCallback((name: WalletName) => {
       select(name);
       closeModal();
-    }
+    }, []);
 
     return (
       <ul className="wallet-adapter-modal-list">
@@ -84,10 +84,10 @@ export function WalletModal({ maxNumberOfWallets, closeModal }: WalletModalProps
   }
 
   function WalletNotAvailableModal() {
-    function getStarted() {
+    const getStarted = useCallback(() => {
       showExplainWalletSite();
       closeModal();
-    }
+    }, []);
 
     return (
       <>

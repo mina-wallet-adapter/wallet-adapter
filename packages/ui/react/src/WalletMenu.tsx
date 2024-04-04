@@ -1,4 +1,4 @@
-import React, { type MouseEvent, useRef, useState, useEffect } from "react";
+import { type MouseEvent, useRef, useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { copyToClipboard } from "@mina-wallet-adapter/core";
 import { useClickOutside } from "./useClickOutside";
@@ -23,23 +23,23 @@ export function WalletMenu({ nodeSelector, closeMenu, openModal }: WalletMenuPro
     if (node) setContainer(node);
   }, [nodeSelector]);
 
-  async function handleCopy() {
+  const handleCopy = useCallback(async () => {
     if (!account) return;
     await copyToClipboard(account.address);
     setCopied(true);
     setTimeout(() => setCopied(false), 400);
-  }
+  }, [account]);
 
-  function handleConnect(e: MouseEvent) {
+  const handleConnect = useCallback((e: MouseEvent) => {
     e.stopPropagation();
     openModal();
     closeMenu();
-  }
+  }, []);
 
-  function handleDisconnect() {
+  const handleDisconnect = useCallback(() => {
     disconnect();
     closeMenu();
-  }
+  }, []);
 
   return (
     <>

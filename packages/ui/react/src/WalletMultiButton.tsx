@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { WalletConnectButton } from "./WalletConnectButton";
 import { WalletModal } from "./WalletModal";
 
