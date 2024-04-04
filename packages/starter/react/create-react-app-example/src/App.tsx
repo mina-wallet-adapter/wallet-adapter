@@ -1,12 +1,5 @@
 import { ReactNode, useState } from "react";
-import {
-  type AdapterOption,
-  type WalletError,
-  AdapterId,
-  useWallet,
-  WalletProvider,
-  WalletMultiButton
-} from "@mina-wallet-adapter/ui-react";
+import { useWallet, WalletProvider, WalletMultiButton } from "@mina-wallet-adapter/ui-react";
 import "@mina-wallet-adapter/ui-react/dist/wallet-adapter.css";
 
 import "./App.css";
@@ -24,17 +17,7 @@ export default App;
 type AppContextProp = { children: ReactNode };
 
 function AppContext({ children }: AppContextProp) {
-  const adapters: AdapterOption[] = [AdapterId.AURO, AdapterId.LEDGER, AdapterId.METAMASK_SNAP];
-
-  function onError(error: WalletError) {
-    console.error(error);
-  }
-
-  return (
-    <WalletProvider adapters={adapters} autoConnect={true} onError={onError}>
-      {children}
-    </WalletProvider>
-  );
+  return <WalletProvider autoConnect={true}>{children}</WalletProvider>;
 }
 
 function Content() {
