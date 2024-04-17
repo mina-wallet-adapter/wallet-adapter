@@ -14,8 +14,6 @@
     "build:github": "BUILD_ENV=github npm run build && npm-run-all cp:*",
     "start": "next start",
     "cp:contract": "shx cp -r ../packages/starter/contract/square/build/cache out/",
-    "cp:react": "shx mkdir -p out/starter/react && shx cp -r ../packages/starter/react/create-react-app-example/build/. out/starter/react/.",
-    "cp:svelte": "shx mkdir -p out/starter/svelte && shx cp -r ../packages/starter/svelte/svelte-kit-example/build/. out/starter/svelte/.",
     "clean": "shx rm -rf .next out"
   },
   "dependencies": {
