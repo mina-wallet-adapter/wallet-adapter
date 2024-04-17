@@ -1,1 +1,12 @@
-# Design
+import { Card, Cards } from "nextra/components";
+import { ArchitectureIcon, HookIcon, ViewIcon, WalletIcon, WidgetIcon } from "@components/icons";
+
+# Technical Design
+
+<Cards>
+  <Card icon={<ArchitectureIcon />} title="Architecture" href="./design/architecture" />
+  <Card icon={<WalletIcon />} title="Wallet Standard" href="./design/wallet-standard" />
+  <Card icon={<WidgetIcon />} title="UI Components" href="./design/component" />
+  <Card icon={<HookIcon />} title="Hooks" href="./design/hook" />
+  <Card icon={<ViewIcon />} title="Styling" href="./design/style" />
+</Cards>

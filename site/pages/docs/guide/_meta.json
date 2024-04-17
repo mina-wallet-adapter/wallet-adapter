@@ -1,6 +1,5 @@
 {
-  "quickstart": "Quick Start",
   "zkapp": "Use in zkApps",
   "wallet": "Integrate in Wallets",
-  "build": "Develop Locally"
+  "build": "Build Locally"
 }

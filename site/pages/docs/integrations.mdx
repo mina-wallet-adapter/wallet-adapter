@@ -1,14 +1,21 @@
 import { Card, Cards } from "nextra/components";
-import { AuroIcon, GlobeIcon } from "@components/icons";
+import { AuroIcon, GlobeIcon, LedgerIcon, MetaMaskIcon } from "@components/icons";
 
 # Integrations Showcase
 
-List of wallets and zkApp projects supporting Mina Wallet Adapter.
+List of wallets and zkApp projects supporting or supported by Mina Wallet Adapter.
 
 ## Wallets
 
 <Cards>
   <Card icon={<AuroIcon />} title="Auro Wallet" href="https://www.aurowallet.com/" target="_blank" />
+  <Card icon={<LedgerIcon />} title="Ledger Wallet" href="https://ledger.com" target="_blank" />
+  <Card
+    icon={<MetaMaskIcon />}
+    title="MinaPortal"
+    href="https://snaps.metamask.io/snap/npm/mina-portal/"
+    target="_blank"
+  />
 </Cards>
 
 ## zkApps

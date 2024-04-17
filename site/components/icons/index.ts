@@ -1,7 +1,14 @@
+export { default as AppIcon } from "./app.svg";
+export { default as ArchitectureIcon } from "./architecture.svg";
 export { default as AuroIcon } from "./aurowallet.svg";
 export { default as GlobeIcon } from "./globe.svg";
+export { default as HookIcon } from "./hook.svg";
+export { default as LedgerIcon } from "./ledger.svg";
 export { default as LightningIcon } from "./lightning.svg";
+export { default as MetaMaskIcon } from "./metamask.svg";
 export { default as ReactIcon } from "./react.svg";
 export { default as SvelteIcon } from "./svelte.svg";
 export { default as TerminalIcon } from "./terminal.svg";
+export { default as ViewIcon } from "./view.svg";
 export { default as WalletIcon } from "./wallet.svg";
+export { default as WidgetIcon } from "./widget.svg";
