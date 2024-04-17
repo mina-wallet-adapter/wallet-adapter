@@ -1,6 +1,6 @@
 {
   "name": "wallet-adapter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Modular wallet adapters and components for Mina Protocol zkApps",
   "author": "t4top",
   "license": "Apache-2.0",
