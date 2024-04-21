@@ -45,6 +45,9 @@ export class MinaStandardWallet implements Wallet {
   constructor(config: MinaStandardWalletConfig) {
     this._adapter = new MinaStandardWalletAdapter(config.adapterProps);
     this._chains = config.chains;
+
+    this._adapter.on("connect", this.connected, this);
+    this._adapter.on("disconnect", this.disconnected, this);
   }
 
   get version() {
@@ -76,10 +79,20 @@ export class MinaStandardWallet implements Wallet {
   }
 
   connect: StandardConnectMethod = async () => {
+    await this._adapter.connect();
     return { accounts: this.accounts };
   };
+
+  connected(): void {
+  }
 
   disconnect: StandardDisconnectMethod = async () => {
     await this._adapter.disconnect();
   };
+
+  disconnected(): void {
+    if (this._account) {
+      this._account = null;
+    }
+  }
 }
