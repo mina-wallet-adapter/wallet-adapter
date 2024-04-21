@@ -1,5 +1,11 @@
 import type { Wallet, WalletIcon, WalletAccount } from "@wallet-standard/base";
-import type { StandardConnectMethod, StandardDisconnectMethod } from "@wallet-standard/features";
+import type {
+  StandardConnectMethod,
+  StandardDisconnectMethod,
+  StandardEventsListeners,
+  StandardEventsNames,
+  StandardEventsOnMethod
+} from "@wallet-standard/features";
 import { type MinaChain, MINA_CHAINS } from "mina-wallet-standard";
 import { type MinaWalletAdapter, type StandardWalletAdapterProps, MinaStandardWalletAdapter } from "./adapter";
 
@@ -41,6 +47,10 @@ export class MinaStandardWallet implements Wallet {
   private _adapter: MinaWalletAdapter;
   private _chains: MinaChain[] | undefined;
   private _account: WalletAccount | null = null;
+
+  readonly _listeners: {
+    [E in StandardEventsNames]?: StandardEventsListeners[E][];
+  } = {};
 
   constructor(config: MinaStandardWalletConfig) {
     this._adapter = new MinaStandardWalletAdapter(config.adapterProps);
@@ -93,6 +103,20 @@ export class MinaStandardWallet implements Wallet {
   disconnected(): void {
     if (this._account) {
       this._account = null;
+      this.emit("change", { accounts: this.accounts });
     }
+  }
+
+  on: StandardEventsOnMethod = (event, listener) => {
+    this._listeners[event]?.push(listener) || (this._listeners[event] = [listener]);
+    return (): void => this.off(event, listener);
+  };
+
+  emit<E extends StandardEventsNames>(event: E, ...args: Parameters<StandardEventsListeners[E]>): void {
+    this._listeners[event]?.forEach(listener => listener.apply(null, args));
+  }
+
+  off<E extends StandardEventsNames>(event: E, listener: StandardEventsListeners[E]): void {
+    this._listeners[event] = this._listeners[event]?.filter(existingListener => listener !== existingListener);
   }
 }
