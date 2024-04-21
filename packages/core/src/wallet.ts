@@ -1,3 +1,8 @@
+import type { Wallet, WalletIcon, WalletAccount } from "@wallet-standard/base";
+import type { StandardConnectMethod, StandardDisconnectMethod } from "@wallet-standard/features";
+import { type MinaChain, MINA_CHAINS } from "mina-wallet-standard";
+import { type MinaWalletAdapter, type StandardWalletAdapterProps, MinaStandardWalletAdapter } from "./adapter";
+
 /** WalletName is a nominal type. Wallet adapters should use like: `'MyMinaWallet' as WalletName<'MyMinaWallet'>` */
 export type WalletName<T extends string = string> = T & { __brand__: "WalletName" };
 
@@ -23,4 +28,58 @@ export enum WalletReadyState {
    * mobile) then it will stay in the `Unsupported` state.
    */
   Unsupported = "Unsupported"
+}
+
+export interface MinaStandardWalletConfig {
+  adapterProps: StandardWalletAdapterProps;
+  chains?: MinaChain[];
+}
+
+const supportedStandardVersion = "1.0.0" as const;
+
+export class MinaStandardWallet implements Wallet {
+  private _adapter: MinaWalletAdapter;
+  private _chains: MinaChain[] | undefined;
+  private _account: WalletAccount | null = null;
+
+  constructor(config: MinaStandardWalletConfig) {
+    this._adapter = new MinaStandardWalletAdapter(config.adapterProps);
+    this._chains = config.chains;
+  }
+
+  get version() {
+    return supportedStandardVersion;
+  }
+
+  get name() {
+    return this._adapter.name;
+  }
+
+  get icon() {
+    return this._adapter.icon as WalletIcon;
+  }
+
+  get url() {
+    return this._adapter.url;
+  }
+
+  get chains() {
+    return this._chains && this._chains.length ? this._chains : MINA_CHAINS;
+  }
+
+  get accounts() {
+    return this._account ? [this._account] : [];
+  }
+
+  get features() {
+    return {};
+  }
+
+  connect: StandardConnectMethod = async () => {
+    return { accounts: this.accounts };
+  };
+
+  disconnect: StandardDisconnectMethod = async () => {
+    await this._adapter.disconnect();
+  };
 }
