@@ -116,3 +116,94 @@ export abstract class MinaWalletAdapter<Name extends string = string>
     detectAndDispose();
   }
 }
+
+export interface StandardWalletAdapterProps {
+  name: WalletName;
+  icon: WalletIcon;
+  url: string;
+  connect(): Promise<void>;
+  disconnect(): Promise<void>;
+  signMessage(message: string): Promise<Signed<string> | undefined>;
+  signTransaction(transaction: SignableData): Promise<SignedAny | undefined>;
+  sendTransaction(transaction: SignedAny): Promise<string | undefined>;
+  signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
+}
+
+export class MinaStandardWalletAdapter extends MinaWalletAdapter {
+  private _props: StandardWalletAdapterProps;
+  private _connecting: boolean;
+  private _publicKey: string | null;
+  private _chain: MinaChain | null;
+  private _account: WalletAccount | null;
+  private _readyState: WalletReadyState =
+    typeof window === "undefined" || typeof document === "undefined"
+      ? WalletReadyState.Unsupported
+      : WalletReadyState.NotDetected;
+
+  constructor(props: StandardWalletAdapterProps) {
+    super();
+    this._props = props;
+    this._connecting = false;
+    this._publicKey = null;
+    this._account = null;
+
+    if (this._readyState !== WalletReadyState.Unsupported) {
+      this._readyState = WalletReadyState.Installed;
+      this.emit("readyStateChange", this._readyState);
+    }
+  }
+
+  get name() {
+    return this._props.name;
+  }
+
+  get icon() {
+    return this._props.icon as WalletIcon;
+  }
+
+  get url() {
+    return this._props.url;
+  }
+
+  get account() {
+    return this._account;
+  }
+
+  get connecting() {
+    return this._connecting;
+  }
+
+  get connected() {
+    return !!this._publicKey;
+  }
+
+  get readyState() {
+    return this._readyState;
+  }
+
+  get chain() {
+    return this._chain;
+  }
+
+  set chain(newChain: MinaChain | null) {}
+
+  async connect(): Promise<void> {}
+
+  async disconnect(): Promise<void> {}
+
+  async signMessage(message: string): Promise<Signed<string>> {
+    throw new Error("ToDo");
+  }
+
+  async signTransaction(transaction: SignableData): Promise<SignedAny> {
+    throw new Error("ToDo");
+  }
+
+  async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
+    throw new Error("ToDo");
+  }
+
+  async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
+    throw new Error("ToDo");
+  }
+}
