@@ -3,14 +3,20 @@ import { AppIcon, WalletIcon, TerminalIcon } from "@components/icons";
 
 # Getting Started
 
-<Cards>
-  <Card icon={<AppIcon />} title="For zkApps" href="./guide/zkapp">
-    For builders wanting to support different wallets in their zkApps
+<Cards num="2">
+  <Card icon={<AppIcon />} title="Building zkApps" href="./guide/zkapp" image="true" arrow="true">
+    <p className="nx-p-4 nx-h-full nx-text-gray-400">
+      For builders wanting to support multiple wallets in their zkApps
+    </p>
   </Card>
-  <Card icon={<WalletIcon />} title="For Wallets" href="./guide/wallet">
-    For developers building wallets for Mina Protocol
+  <Card icon={<WalletIcon />} title="Developing Wallets" href="./guide/wallet" image="true" arrow="true">
+    <p className="nx-p-4 nx-h-full nx-text-gray-400">
+      For developers building wallets for Mina Protocol
+    </p>
   </Card>
-  <Card icon={<TerminalIcon />} title="For Contributors" href="./guide/build">
-    For coders that want to add features or fix bugs in this project.
+  <Card icon={<TerminalIcon />} title="Building locally" href="./guide/build" image="true" arrow="true">
+    <p className="nx-p-4 nx-h-full nx-text-gray-400">
+      For coders wanting to add features or fix bugs in this project
+    </p>
   </Card>
 </Cards>
