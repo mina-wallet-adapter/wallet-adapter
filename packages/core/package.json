@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "eventemitter3": "^5.0.1",
-    "mina-wallet-standard": "^0.1.2"
+    "mina-wallet-standard": "^0.1.3"
   }
 }
