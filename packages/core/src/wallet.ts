@@ -107,6 +107,11 @@ export class MinaStandardWallet implements Wallet {
     }
   }
 
+  destroy(): void {
+    this._adapter.off("connect", this.connected, this);
+    this._adapter.off("disconnect", this.disconnected, this);
+  }
+
   on: StandardEventsOnMethod = (event, listener) => {
     this._listeners[event]?.push(listener) || (this._listeners[event] = [listener]);
     return (): void => this.off(event, listener);
