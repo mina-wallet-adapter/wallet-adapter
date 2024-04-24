@@ -33,7 +33,7 @@ export interface StandardWalletAdapterProps {
   name: WalletName;
   icon: WalletIcon;
   url: string;
-  connect(): Promise<void>;
+  connect(): Promise<WalletAccount>;
   disconnect(): Promise<void>;
   signMessage(message: string): Promise<Signed<string> | undefined>;
   signTransaction(transaction: SignableData): Promise<SignedAny | undefined>;
@@ -51,7 +51,6 @@ const supportedStandardVersion = "1.0.0" as const;
 export class MinaStandardWalletAdapter extends MinaWalletAdapter {
   private _props: StandardWalletAdapterProps;
   private _connecting: boolean;
-  private _publicKey: string | null;
   private _chain: MinaChain | null;
   private _account: WalletAccount | null;
   private _readyState: WalletReadyState =
@@ -63,7 +62,6 @@ export class MinaStandardWalletAdapter extends MinaWalletAdapter {
     super();
     this._props = props;
     this._connecting = false;
-    this._publicKey = null;
     this._account = null;
 
     if (this._readyState !== WalletReadyState.Unsupported) {
@@ -92,10 +90,6 @@ export class MinaStandardWalletAdapter extends MinaWalletAdapter {
     return this._connecting;
   }
 
-  get connected() {
-    return !!this._publicKey;
-  }
-
   get readyState() {
     return this._readyState;
   }
@@ -106,9 +100,16 @@ export class MinaStandardWalletAdapter extends MinaWalletAdapter {
 
   set chain(newChain: MinaChain | null) {}
 
-  async connect(): Promise<void> {}
+  async connect(): Promise<void> {
+    this._account = await this._props.connect();
+    this.emit("connect", this._account);
+  }
 
-  async disconnect(): Promise<void> {}
+  async disconnect(): Promise<void> {
+    await this._props.disconnect();
+    this._account = null;
+    this.emit("disconnect");
+  }
 
   async signMessage(message: string): Promise<Signed<string>> {
     throw new Error("ToDo");
@@ -142,6 +143,8 @@ export class MinaStandardWallet implements Wallet {
 
     this._adapter.on("connect", this.connected, this);
     this._adapter.on("disconnect", this.disconnected, this);
+
+    this.connected();
   }
 
   get version() {
@@ -203,12 +206,22 @@ export class MinaStandardWallet implements Wallet {
     return { ...features };
   }
 
-  connect: StandardConnectMethod = async () => {
-    await this._adapter.connect();
+  connect: StandardConnectMethod = async ({ silent } = {}) => {
+    if (!silent && !this._adapter.connected) {
+      await this._adapter.connect();
+    }
+    this.connected();
+
     return { accounts: this.accounts };
   };
 
-  connected(): void {}
+  connected(): void {
+    const account = this._adapter.account;
+    if (account && account.address !== this._account?.address) {
+      this._account = account;
+      this.emit("change", { accounts: this.accounts });
+    }
+  }
 
   disconnect: StandardDisconnectMethod = async () => {
     await this._adapter.disconnect();
