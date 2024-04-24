@@ -1,12 +1,30 @@
 import type { Wallet, WalletIcon, WalletAccount } from "@wallet-standard/base";
-import type {
-  StandardConnectMethod,
-  StandardDisconnectMethod,
-  StandardEventsListeners,
-  StandardEventsNames,
-  StandardEventsOnMethod
+import {
+  type StandardConnectMethod,
+  type StandardConnectFeature,
+  type StandardDisconnectFeature,
+  type StandardDisconnectMethod,
+  type StandardEventsFeature,
+  type StandardEventsListeners,
+  type StandardEventsNames,
+  type StandardEventsOnMethod,
+  StandardConnect,
+  StandardDisconnect,
+  StandardEvents
 } from "@wallet-standard/features";
-import { type MinaChain, MINA_CHAINS } from "mina-wallet-standard";
+import {
+  type MinaChain,
+  MinaFeatures,
+  MinaSignMessage,
+  MinaSignMessageMethod,
+  MinaSignTransaction,
+  MinaSignTransactionMethod,
+  MinaSendTransaction,
+  MinaSendTransactionMethod,
+  MinaSignAndSendTransaction,
+  MinaSignAndSendTransactionMethod,
+  MINA_CHAINS
+} from "mina-wallet-standard";
 import { MinaWalletAdapter } from "./adapter";
 import { WalletName, WalletReadyState } from "./wallet";
 import type { SignableData, SignedAny, Signed } from "./types";
@@ -150,8 +168,39 @@ export class MinaStandardWallet implements Wallet {
     return this._account ? [this._account] : [];
   }
 
-  get features() {
-    return {};
+  get features(): StandardConnectFeature & StandardDisconnectFeature & MinaFeatures {
+    const features: StandardConnectFeature & StandardDisconnectFeature & StandardEventsFeature & MinaFeatures = {
+      [StandardConnect]: {
+        version: supportedStandardVersion,
+        connect: this.connect
+      },
+      [StandardDisconnect]: {
+        version: supportedStandardVersion,
+        disconnect: this.disconnect
+      },
+      [StandardEvents]: {
+        version: supportedStandardVersion,
+        on: this.on
+      },
+      [MinaSignMessage]: {
+        version: supportedStandardVersion,
+        signMessage: this.signMessage
+      },
+      [MinaSignTransaction]: {
+        version: supportedStandardVersion,
+        signTransaction: this.signTransaction
+      },
+      [MinaSendTransaction]: {
+        version: supportedStandardVersion,
+        sendTransaction: this.sendTransaction
+      },
+      [MinaSignAndSendTransaction]: {
+        version: supportedStandardVersion,
+        signAndSendTransaction: this.signAndSendTransaction
+      }
+    };
+
+    return { ...features };
   }
 
   connect: StandardConnectMethod = async () => {
@@ -189,4 +238,20 @@ export class MinaStandardWallet implements Wallet {
   off<E extends StandardEventsNames>(event: E, listener: StandardEventsListeners[E]): void {
     this._listeners[event] = this._listeners[event]?.filter(existingListener => listener !== existingListener);
   }
+
+  signMessage: MinaSignMessageMethod = async ({ message }) => {
+    return { signedMessage: await this._adapter.signMessage(message) };
+  };
+
+  signTransaction: MinaSignTransactionMethod = async ({ transaction }) => {
+    return { signedTransaction: await this._adapter.signTransaction(transaction) };
+  };
+
+  sendTransaction: MinaSendTransactionMethod = async ({ signedTransaction }) => {
+    return { signature: await this._adapter.sendTransaction(signedTransaction) };
+  };
+
+  signAndSendTransaction: MinaSignAndSendTransactionMethod = async ({ transaction }) => {
+    return { signature: await this._adapter.signAndSendTransaction(transaction) };
+  };
 }
