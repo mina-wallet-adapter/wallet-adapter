@@ -1,55 +1,192 @@
+import type { Wallet, WalletIcon, WalletAccount } from "@wallet-standard/base";
 import type {
-  Wallet,
-  WalletEventsWindow,
-  WindowRegisterWalletEvent,
-  WindowRegisterWalletEventCallback
-} from "@wallet-standard/base";
+  StandardConnectMethod,
+  StandardDisconnectMethod,
+  StandardEventsListeners,
+  StandardEventsNames,
+  StandardEventsOnMethod
+} from "@wallet-standard/features";
+import { type MinaChain, MINA_CHAINS } from "mina-wallet-standard";
+import { MinaWalletAdapter } from "./adapter";
+import { WalletName, WalletReadyState } from "./wallet";
+import type { SignableData, SignedAny, Signed } from "./types";
 
-export function registerWallet(wallet: Wallet): void {
-  const callback: WindowRegisterWalletEventCallback = ({ register }) => register(wallet);
+export interface StandardWalletAdapterProps {
+  name: WalletName;
+  icon: WalletIcon;
+  url: string;
+  connect(): Promise<void>;
+  disconnect(): Promise<void>;
+  signMessage(message: string): Promise<Signed<string> | undefined>;
+  signTransaction(transaction: SignableData): Promise<SignedAny | undefined>;
+  sendTransaction(transaction: SignedAny): Promise<string | undefined>;
+  signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
+}
 
-  try {
-    (window as WalletEventsWindow).dispatchEvent(new RegisterWalletEvent(callback));
-  } catch (error) {
-    console.error("wallet-standard:register-wallet event could not be dispatched", error);
+export interface MinaStandardWalletConfig {
+  adapterProps: StandardWalletAdapterProps;
+  chains?: MinaChain[];
+}
+
+const supportedStandardVersion = "1.0.0" as const;
+
+export class MinaStandardWalletAdapter extends MinaWalletAdapter {
+  private _props: StandardWalletAdapterProps;
+  private _connecting: boolean;
+  private _publicKey: string | null;
+  private _chain: MinaChain | null;
+  private _account: WalletAccount | null;
+  private _readyState: WalletReadyState =
+    typeof window === "undefined" || typeof document === "undefined"
+      ? WalletReadyState.Unsupported
+      : WalletReadyState.NotDetected;
+
+  constructor(props: StandardWalletAdapterProps) {
+    super();
+    this._props = props;
+    this._connecting = false;
+    this._publicKey = null;
+    this._account = null;
+
+    if (this._readyState !== WalletReadyState.Unsupported) {
+      this._readyState = WalletReadyState.Installed;
+      this.emit("readyStateChange", this._readyState);
+    }
   }
 
-  try {
-    (window as WalletEventsWindow).addEventListener("wallet-standard:app-ready", ({ detail: api }) => callback(api));
-  } catch (error) {
-    console.error("wallet-standard:app-ready event listener could not be added", error);
+  get name() {
+    return this._props.name;
+  }
+
+  get icon() {
+    return this._props.icon as WalletIcon;
+  }
+
+  get url() {
+    return this._props.url;
+  }
+
+  get account() {
+    return this._account;
+  }
+
+  get connecting() {
+    return this._connecting;
+  }
+
+  get connected() {
+    return !!this._publicKey;
+  }
+
+  get readyState() {
+    return this._readyState;
+  }
+
+  get chain() {
+    return this._chain;
+  }
+
+  set chain(newChain: MinaChain | null) {}
+
+  async connect(): Promise<void> {}
+
+  async disconnect(): Promise<void> {}
+
+  async signMessage(message: string): Promise<Signed<string>> {
+    throw new Error("ToDo");
+  }
+
+  async signTransaction(transaction: SignableData): Promise<SignedAny> {
+    throw new Error("ToDo");
+  }
+
+  async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
+    throw new Error("ToDo");
+  }
+
+  async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
+    throw new Error("ToDo");
   }
 }
 
-class RegisterWalletEvent extends Event implements WindowRegisterWalletEvent {
-  readonly _detail: WindowRegisterWalletEventCallback;
+export class MinaStandardWallet implements Wallet {
+  private _adapter: MinaWalletAdapter;
+  private _chains: MinaChain[] | undefined;
+  private _account: WalletAccount | null = null;
 
-  constructor(callback: WindowRegisterWalletEventCallback) {
-    super("wallet-standard:register-wallet", {
-      bubbles: false,
-      cancelable: false,
-      composed: false
-    });
-    this._detail = callback;
+  readonly _listeners: {
+    [E in StandardEventsNames]?: StandardEventsListeners[E][];
+  } = {};
+
+  constructor(config: MinaStandardWalletConfig) {
+    this._adapter = new MinaStandardWalletAdapter(config.adapterProps);
+    this._chains = config.chains;
+
+    this._adapter.on("connect", this.connected, this);
+    this._adapter.on("disconnect", this.disconnected, this);
   }
 
-  get detail() {
-    return this._detail;
+  get version() {
+    return supportedStandardVersion;
   }
 
-  get type() {
-    return "wallet-standard:register-wallet" as const;
+  get name() {
+    return this._adapter.name;
   }
 
-  preventDefault(): never {
-    throw new Error("preventDefault cannot be called");
+  get icon() {
+    return this._adapter.icon as WalletIcon;
   }
 
-  stopImmediatePropagation(): never {
-    throw new Error("stopImmediatePropagation cannot be called");
+  get url() {
+    return this._adapter.url;
   }
 
-  stopPropagation(): never {
-    throw new Error("stopPropagation cannot be called");
+  get chains() {
+    return this._chains && this._chains.length ? this._chains : MINA_CHAINS;
+  }
+
+  get accounts() {
+    return this._account ? [this._account] : [];
+  }
+
+  get features() {
+    return {};
+  }
+
+  connect: StandardConnectMethod = async () => {
+    await this._adapter.connect();
+    return { accounts: this.accounts };
+  };
+
+  connected(): void {}
+
+  disconnect: StandardDisconnectMethod = async () => {
+    await this._adapter.disconnect();
+  };
+
+  disconnected(): void {
+    if (this._account) {
+      this._account = null;
+      this.emit("change", { accounts: this.accounts });
+    }
+  }
+
+  destroy(): void {
+    this._adapter.off("connect", this.connected, this);
+    this._adapter.off("disconnect", this.disconnected, this);
+  }
+
+  on: StandardEventsOnMethod = (event, listener) => {
+    this._listeners[event]?.push(listener) || (this._listeners[event] = [listener]);
+    return (): void => this.off(event, listener);
+  };
+
+  emit<E extends StandardEventsNames>(event: E, ...args: Parameters<StandardEventsListeners[E]>): void {
+    this._listeners[event]?.forEach(listener => listener.apply(null, args));
+  }
+
+  off<E extends StandardEventsNames>(event: E, listener: StandardEventsListeners[E]): void {
+    this._listeners[event] = this._listeners[event]?.filter(existingListener => listener !== existingListener);
   }
 }
