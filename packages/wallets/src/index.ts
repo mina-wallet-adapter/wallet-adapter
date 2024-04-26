@@ -1,4 +1,5 @@
-import { WalletReadyState, type WalletAdapter } from "@mina-wallet-adapter/core";
+import { getWallets } from "@wallet-standard/app";
+import { Network, WalletReadyState, type WalletAdapter, type MinaStandardWallet } from "@mina-wallet-adapter/core";
 
 export const AdapterId = {
   AURO: "auro",
@@ -44,6 +45,13 @@ export async function loadAdapters(options: AdapterOption[]): Promise<WalletAdap
       }
     })
   );
+
+  // autodetect wallets supporting Wallet Standard
+  const { get } = getWallets();
+  const standardWallets = get().filter(w => w.chains.includes(Network.Mainnet)) as MinaStandardWallet[];
+  standardWallets.forEach(({ name, adapter }) => {
+    if (Object.values(adapters).some(a => a.name !== name)) detected.push(adapter);
+  });
 
   // keep adapters order based on request, sorting detected adapters to the top
   nOptions.forEach(({ adapter }) =>

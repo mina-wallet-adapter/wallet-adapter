@@ -29,6 +29,7 @@
     "clean": "shx rm -rf dist"
   },
   "peerDependencies": {
+    "@wallet-standard/app": "*",
     "o1js": "0.16.*"
   },
   "devDependencies": {

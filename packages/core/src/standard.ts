@@ -70,8 +70,12 @@ export class MinaStandardWalletAdapter extends MinaWalletAdapter {
     }
   }
 
+  get standard() {
+    return true as const;
+  }
+
   get name() {
-    return this._props.name;
+    return this._props.name as WalletName;
   }
 
   get icon() {
@@ -164,15 +168,19 @@ export class MinaStandardWallet implements Wallet {
   }
 
   get chains() {
-    return this._chains && this._chains.length ? this._chains : MINA_CHAINS;
+    return this._chains && this._chains.length ? this._chains : MINA_CHAINS.slice();
   }
 
   get accounts() {
     return this._account ? [this._account] : [];
   }
 
-  get features(): StandardConnectFeature & StandardDisconnectFeature & MinaFeatures {
-    const features: StandardConnectFeature & StandardDisconnectFeature & StandardEventsFeature & MinaFeatures = {
+  get adapter() {
+    return this._adapter;
+  }
+
+  get features(): StandardConnectFeature & StandardDisconnectFeature & StandardEventsFeature & MinaFeatures {
+    return {
       [StandardConnect]: {
         version: supportedStandardVersion,
         connect: this.connect
@@ -202,8 +210,6 @@ export class MinaStandardWallet implements Wallet {
         signAndSendTransaction: this.signAndSendTransaction
       }
     };
-
-    return { ...features };
   }
 
   connect: StandardConnectMethod = async ({ silent } = {}) => {
