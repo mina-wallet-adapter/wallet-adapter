@@ -28,6 +28,7 @@ import {
 import { MinaWalletAdapter } from "./adapter";
 import { WalletName, WalletReadyState } from "./wallet";
 import type { SignableData, SignedAny, Signed } from "./types";
+import { WalletAccountError, WalletConnectionError, WalletNotReadyError } from "./error";
 
 export interface StandardWalletAdapterProps {
   name: WalletName;
@@ -105,14 +106,36 @@ export class MinaStandardWalletAdapter extends MinaWalletAdapter {
   set chain(newChain: MinaChain | null) {}
 
   async connect(): Promise<void> {
-    this._account = await this._props.connect();
-    this.emit("connect", this._account);
+    try {
+      if (this.connected || this.connecting) return;
+      if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+
+      this._connecting = true;
+
+      try {
+        this._account = await this._props.connect();
+      } catch (error: any) {
+        throw new WalletConnectionError(error?.message, error);
+      }
+
+      if (!this._account) throw new WalletAccountError();
+      this.emit("connect", this._account);
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    } finally {
+      this._connecting = false;
+    }
   }
 
   async disconnect(): Promise<void> {
-    await this._props.disconnect();
-    this._account = null;
-    this.emit("disconnect");
+    try {
+      await this._props.disconnect();
+      this._account = null;
+      this.emit("disconnect");
+    } catch (error: any) {
+      this.emit("error", error);
+    }
   }
 
   async signMessage(message: string): Promise<Signed<string>> {
