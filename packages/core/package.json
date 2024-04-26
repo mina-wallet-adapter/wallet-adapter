@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@wallet-standard/base": "^1.0.1",
+    "@wallet-standard/core": "^1.0.3",
     "@wallet-standard/features": "^1.0.3",
     "shx": "^0.3.4",
     "tsup": "^7.2.0",
