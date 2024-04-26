@@ -28,7 +28,17 @@ import {
 import { MinaWalletAdapter } from "./adapter";
 import { WalletName, WalletReadyState } from "./wallet";
 import type { SignableData, SignedAny, Signed } from "./types";
-import { WalletAccountError, WalletConnectionError, WalletNotReadyError } from "./error";
+import {
+  WalletAccountError,
+  WalletConnectionError,
+  WalletNotConnectedError,
+  WalletNotReadyError,
+  WalletNotSupportedMethodError,
+  WalletSignMessageError,
+  WalletSendTransactionError,
+  WalletSignTransactionError,
+  WalletSignAndSendTransactionError
+} from "./error";
 
 export interface StandardWalletAdapterProps {
   name: WalletName;
@@ -36,10 +46,10 @@ export interface StandardWalletAdapterProps {
   url: string;
   connect(): Promise<WalletAccount>;
   disconnect(): Promise<void>;
-  signMessage(message: string): Promise<Signed<string> | undefined>;
-  signTransaction(transaction: SignableData): Promise<SignedAny | undefined>;
-  sendTransaction(transaction: SignedAny): Promise<string | undefined>;
-  signAndSendTransaction(transaction: SignableData): Promise<string | undefined>;
+  signMessage?(message: string): Promise<Signed<string>>;
+  signTransaction?(transaction: SignableData): Promise<SignedAny>;
+  sendTransaction?(transaction: SignedAny): Promise<string | undefined>;
+  signAndSendTransaction?(transaction: SignableData): Promise<string | undefined>;
 }
 
 export interface MinaStandardWalletConfig {
@@ -139,19 +149,79 @@ export class MinaStandardWalletAdapter extends MinaWalletAdapter {
   }
 
   async signMessage(message: string): Promise<Signed<string>> {
-    throw new Error("ToDo");
+    try {
+      if (!this._account) throw new WalletNotConnectedError();
+
+      if (MinaSignMessage in this._account.features) {
+        try {
+          return await this._props.signMessage!(message);
+        } catch (error: any) {
+          throw new WalletSignMessageError(error?.message, error);
+        }
+      } else {
+        throw new WalletNotSupportedMethodError("'signMessage' is not supported.");
+      }
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 
   async signTransaction(transaction: SignableData): Promise<SignedAny> {
-    throw new Error("ToDo");
+    try {
+      if (!this._account) throw new WalletNotConnectedError();
+
+      if (MinaSignTransaction in this._account.features) {
+        try {
+          return await this._props.signTransaction!(transaction);
+        } catch (error: any) {
+          throw new WalletSignTransactionError(error?.message, error);
+        }
+      } else {
+        throw new WalletNotSupportedMethodError("'signTransaction' is not supported.");
+      }
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 
   async sendTransaction(transaction: SignedAny): Promise<string | undefined> {
-    throw new Error("ToDo");
+    try {
+      if (!this._account) throw new WalletNotConnectedError();
+
+      if (MinaSendTransaction in this._account.features) {
+        try {
+          return await this._props.sendTransaction!(transaction);
+        } catch (error: any) {
+          throw new WalletSendTransactionError(error?.message, error);
+        }
+      } else {
+        throw new WalletNotSupportedMethodError("'sendTransaction' is not supported.");
+      }
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 
   async signAndSendTransaction(transaction: SignableData): Promise<string | undefined> {
-    throw new Error("ToDo");
+    try {
+      if (!this._account) throw new WalletNotConnectedError();
+
+      if (MinaSignAndSendTransaction in this._account.features) {
+        try {
+          return await this._props.signAndSendTransaction!(transaction);
+        } catch (error: any) {
+          throw new WalletSignAndSendTransactionError(error?.message, error);
+        }
+      } else {
+        throw new WalletNotSupportedMethodError("'signAndSendTransaction' is not supported.");
+      }
+    } catch (error: any) {
+      this.emit("error", error);
+      throw error;
+    }
   }
 }
 
