@@ -8,9 +8,9 @@ import { Field, Mina, PrivateKey, PublicKey, AccountUpdate } from 'o1js';
 let proofsEnabled = false;
 
 describe('Square', () => {
-  let deployerAccount: PublicKey,
+  let deployerAccount: Mina.TestPublicKey,
     deployerKey: PrivateKey,
-    senderAccount: PublicKey,
+    senderAccount: Mina.TestPublicKey,
     senderKey: PrivateKey,
     zkAppAddress: PublicKey,
     zkAppPrivateKey: PrivateKey,
@@ -20,22 +20,22 @@ describe('Square', () => {
     if (proofsEnabled) await Square.compile();
   });
 
-  beforeEach(() => {
-    const Local = Mina.LocalBlockchain({ proofsEnabled });
+  beforeEach(async () => {
+    const Local = await Mina.LocalBlockchain({ proofsEnabled });
     Mina.setActiveInstance(Local);
-    ({ privateKey: deployerKey, publicKey: deployerAccount } =
-      Local.testAccounts[0]);
-    ({ privateKey: senderKey, publicKey: senderAccount } =
-      Local.testAccounts[1]);
+    [deployerAccount, senderAccount] = Local.testAccounts;
+    deployerKey = deployerAccount.key;
+    senderKey = senderAccount.key;
+
     zkAppPrivateKey = PrivateKey.random();
     zkAppAddress = zkAppPrivateKey.toPublicKey();
     zkApp = new Square(zkAppAddress);
   });
 
   async function localDeploy() {
-    const txn = await Mina.transaction(deployerAccount, () => {
+    const txn = await Mina.transaction(deployerAccount, async () => {
       AccountUpdate.fundNewAccount(deployerAccount);
-      zkApp.deploy();
+      await zkApp.deploy();
     });
     await txn.prove();
     // this tx needs .sign(), because `deploy()` adds an account update that requires signature authorization
@@ -52,7 +52,7 @@ describe('Square', () => {
     await localDeploy();
 
     // update transaction
-    const txn = await Mina.transaction(senderAccount, () => {
+    const txn = await Mina.transaction(senderAccount, async () => {
       zkApp.update(Field(4));
     });
     await txn.prove();
