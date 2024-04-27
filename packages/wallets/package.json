@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "@wallet-standard/app": "*",
-    "o1js": "0.16.*"
+    "o1js": "1.*"
   },
   "devDependencies": {
     "shx": "^0.3.4",

@@ -42,7 +42,7 @@
   "peerDependencies": {
     "@mina-wallet-adapter/core": "*",
     "@mina-wallet-adapter/wallets": "*",
-    "o1js": "0.16.*",
+    "o1js": "1.*",
     "svelte": "^4.0.0"
   },
   "devDependencies": {
